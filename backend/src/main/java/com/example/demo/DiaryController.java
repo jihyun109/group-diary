@@ -27,6 +27,7 @@ public class DiaryController {
         result.put("data", data);
         return result;
     }
+    
 
     @PostMapping("/diaries")    // 일기 생성
     public HashMap<String, String> insertDiary(@RequestBody DiaryModel diary) {
