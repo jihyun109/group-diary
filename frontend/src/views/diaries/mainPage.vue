@@ -208,7 +208,9 @@ export default {
             </div>
           </div>
 
+          <!-- 일기 리스트 -->
           <h1 v-if="isCalendar">calendar</h1>
+
           <div v-else>
             <div class="card-group mb-3" v-for="(item, idx) in diariesData" :key="idx">
               <div class="card">
