@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.team.TeamMapper">
+    <select id="selectTeams" resultType="com.example.demo.team.TeamModel">
+        SELECT id, team_name
+        FROM teams
+    </select>
+
+    <insert id="insertTeam" parameterType="com.example.demo.team.TeamModel">
+        INSERT INTO teams (id, team_name)
+        VALUES (#{id}, #{team_name});
+    </insert>
+
+    <update id="updateTeam" parameterType="com.example.demo.team.TeamModel">
+        UPDATE teams
+        SET team_name = #{team_name}
+        WHERE id = #{id};
+    </update>
+
+    <delete id="deleteTeam">
+        DELETE
+        FROM teams
+        WHERE id = #{teamId};
+    </delete>
+
+    <select id="searchTeam" resultType="com.example.demo.user.UserModel">
+        SELECT id, first_name, last_name, email
+        FROM users
+        WHERE email LIKE #{likeSearchWord};
+    </select>
+
+<!--    <insert id="requestCreateTeam" parameterType="com.example.demo.request.CreateTeamRequest">-->
+<!--        INSERT INTO teams (id, team_name)-->
+<!--        VALUES (#{team_id}, #{team_name});-->
+
+<!--        INSERT INTO members (id, user_id, team_id, status, inviter_id)-->
+<!--        VALUES (#{member_id}, #{user_id}, #{team_id}, #{status}, #{inviter_id});-->
+<!--    </insert>-->
+
+<!--    <select id="requestCurTeamName" parameterType="com.example.demo.team.TeamModel" resultType="com.example.demo.team.TeamModel">-->
+<!--        SELECT team_name-->
+<!--        FROM teams-->
+<!--        WHERE id = #{teamId}-->
+<!--    </select>-->
+</mapper>
