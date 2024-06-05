@@ -80,7 +80,7 @@ public class UserController {
 //    }
 
     // 사용자 이메일 검색
-    @GetMapping("/users/search")
+    @GetMapping("/users/search/")
     public HashMap<String, Object> userEmailSearchModel(@RequestParam(defaultValue = "succ") String searchWord) {
         String likeSearchWord = "%" + searchWord + "%";
 

@@ -27,7 +27,7 @@
     </delete>
 
     <select id="requestAllTeamDiaries" resultType="com.example.demo.response.AllTeamDiariesResponse">
-        SELECT DISTINCT d.written_date, d.diary_title, u.name, u.color, u.initial
+        SELECT DISTINCT d.id, d.written_date, d.diary_title, u.first_name, u.last_name, u.color, u.initial
         FROM members m JOIN team_diary td ON td.team_id = m.team_id
         JOIN diaries d ON d.id = td.diary_id
         JOIN users u ON u.id = d.writer_id
@@ -35,7 +35,7 @@
     </select>
 
     <select id="requestDiaryDetails" resultType="com.example.demo.response.DiaryDetailsResponse">
-        SELECT d.written_date, d.diary_title, d.details, td.team_id, t.team_name
+        SELECT d.id, d.written_date, d.diary_title, d.details, td.team_id, t.team_name
         FROM diaries d JOIN team_diary td ON d.id = td.diary_id
         JOIN teams t ON td.team_id = t.id
         WHERE d.id = #{diaryId};
