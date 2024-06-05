@@ -22,7 +22,7 @@ export default {
     }
   },
   methods: {
-    async signup() {
+    async signUp() {
       // 오류 상태 초기화
       this.errors.firstName = !this.firstName;
       this.errors.lastName = !this.lastName;
@@ -37,7 +37,7 @@ export default {
       }
 
       // 입력 데이터를 객체로 수집
-      const signupData = {
+      const signUpData = {
         first_name: this.firstName,
         last_name: this.lastName,
         email: this.emailAddress,
@@ -53,13 +53,13 @@ export default {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(signupData)
+          body: JSON.stringify(signUpData)
         });
 
         if (response.ok) {
           // 요청이 성공하면 성공 메시지 표시
           alert('회원가입이 완료되었습니다.');
-          this.$router.push("logIn");
+          this.$router.push({ path: 'logIn'});
         } else {
           // 요청이 실패하면 오류 메시지 표시
           const errorData = await response.json();
@@ -163,7 +163,7 @@ export default {
                 </div>
 
                 <div class="text-center">
-                  <button @click.prevent="signup" class="btn bg-gradient-info w-100 my-4 mb-2">Sign up</button>
+                  <button @click.prevent="signUp" class="btn bg-gradient-info w-100 my-4 mb-2">Sign up</button>
                   <!-- Button trigger modal -->
                   <button type="button" class="btn bg-btn-primary bg-gradient-light w-100 mb-2" data-bs-toggle="modal"
                     data-bs-target="#signUpCanceleModal">

@@ -1,23 +1,30 @@
 <script>
+import { mapState } from 'vuex';
+
 export default {
   components: {
   },
-  mounted() {
-    this.fetchData();
 
+  mounted() {
+    this.$store.dispatch('fetchData');
+    this.fetchData();
+    // console.log(this.diaryData);
   },
+
   data() {
     return {
-      userId: 0,
-      alarmN: 0,
+      // userId: 0,
+      color: '',
+      searchWord: '',
 
       dataList: null,
       dataTypeMap: new Map(),
-      diariesData: null,
-      teamsData: null,
+      diaryData: null,
+      teamData: null,
       membersData: null,
       usersData: null,
-      alarmData: null,
+      userSearchData: [],
+      inviteData: null,
 
       str: '',
 
@@ -27,18 +34,23 @@ export default {
       // team name 클릭하면 team page로 이동. (team 정보를 가지고서.)
     }
   },
+
+  computed: {
+    ...mapState(['userId', 'firstName', 'lastName']),
+  },
+
   methods: {
     async fetchData() {
-      // console.log(this.$store.state.userId);
-      this.userId = this.$store.state.userId;
-
+      console.log(this.firstName);
+      // console.log(this.userId);
+      
+      // this.userId = this.$store.state.userId;
       const menuList = await Promise.all([
         { type: 'diaries', url: `http://localhost:8080/diaries` },
         { type: 'teams', url: `http://localhost:8080/members/userTeamList/${this.userId}` },
         { type: 'members', url: `http://localhost:8080/members` },
         { type: 'users', url: `http://localhost:8080/users` },
-        { type: 'alarms', url: `http://localhost:8080/members/invited/${this.userId}` }
-
+        { type: 'invites', url: `http://localhost:8080/members/invited/${this.userId}` }
       ])
 
       const requests = menuList.map(async (dataReq) => {
@@ -46,29 +58,33 @@ export default {
         return res.json()
       })
 
-
       this.dataList = await Promise.all(requests)
       this.dataTypeMap = new Map(this.dataList.map((data, idx) => [menuList[idx].type, data.data]))
       // console.log(this.dataTypeMap, 'dm')
-      this.diariesData = this.dataTypeMap.get('diaries')
-      this.teamsData = this.dataTypeMap.get('teams')
+      this.diaryData = this.dataTypeMap.get('diaries')
+      this.teamData = this.dataTypeMap.get('teams')
       this.membersData = this.dataTypeMap.get('members')
       this.usersData = this.dataTypeMap.get('users')
-      this.alarmData = this.dataTypeMap.get('alarms')
+      this.inviteData = this.dataTypeMap.get('invites')
 
-      this.alarmN = this.alarmData ? this.alarmData.length : 0;
+      // console.log(this.inviteData);
+
+      // this.alarmN = this.inviteData ? this.inviteData.length : 0;
 
       // console.log(this.diariesData, this.teamsData, this.membersData, this.usersData)
     },
+
+    // 일기 리스트 보기 방식 변경
     setView(text) {
       this.dropdownText = text
       this.isCalendar = text === 'calendar'
     },
 
-    async acceptInvite(alarm) {
+    // 그룹 초대 수락
+    async requestAcceptInvite(invite) {
       // console.log(alarm)
       try {
-        const response = await fetch(`http://localhost:8080/members/${alarm.id}`, {
+        const response = await fetch(`http://localhost:8080/members/${invite.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -77,13 +93,18 @@ export default {
             user_id: this.userId,
             status: 0,
             team_id: alarm.team_id,
-            inviter_id: alarm.inviter_id
+            inviter_id: invite.inviter_id
 
           })
         });
         if (response.ok) {
-          this.alarmData = this.alarmData.filter(alarm => alarm.id !== alarm.id);
-          this.alarmN = this.alarmData.length;
+          // inviteData 업데이트
+          // const response = await fetch(`http://localhost:8080/members/invited/${this.userId}`)
+          // const resjson = await response.json();
+          // this.$store.commit("setinviteData", resjson.data);
+
+          this.inviteData = this.inviteData.filter(invite => invite.id !== invite.id);
+          this.alarmN = this.inviteData.length;
         } else {
           console.error('Error accepting invite');
         }
@@ -92,17 +113,23 @@ export default {
       }
     },
 
-    async refuseInvite(alarmId) {
+    // 그룹 초대 거절
+    async requestRefuseInvite(inviteId) {
       try {
-        const response = await fetch(`http://localhost:8080/members/${alarmId}`, {
+        const response = await fetch(`http://localhost:8080/members/${inviteId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           }
         });
         if (response.ok) {
-          this.alarmData = this.alarmData.filter(alarm => alarm.id !== alarmId);
-          this.alarmN = this.alarmData.length;
+          // inviteData 업데이트
+          // const responseInviteList = await fetch(`http://localhost:8080/members/invited/${this.userId}`)
+          // const resjson = await responseInviteList.json();
+          // this.$store.commit("setinviteData", resjson.data);
+
+          this.inviteData = this.inviteData.filter(invite => invite.id !== inviteId);
+          this.alarmN = this.inviteData.length;
         } else {
           console.error('Error accepting invite');
         }
@@ -111,16 +138,45 @@ export default {
       }
     },
 
+    // 사용자 검색
+    async searchUser() {
+      try {
+        const response = await fetch(`http://localhost:8080/users/search/?searchWord=${encodeURIComponent(this.searchWord)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (response.ok) {
+          const resjson = await response.json();
+          this.userSearchData = resjson.data;
+          console.log(this.userSearchData);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    },
+
+
     // log out
     logOut() {
       this.$store.commit('logOut');
-      console.log(this.$store.state.userId);
       this.$router.push({ path: 'logIn' });
+      console.log(this.userId);
+    },
+
+    // diary detail 페이지로 이동
+    moveToDetails(diaryId) {
+      // console.log(diaryId)
+      this.$router.push({ path: 'diaryDetail', query: { diary: diaryId } });
+    },
+
+    // 해당 team 페이지로 이동
+    moveToTeamPage(teamId) {
+      console.log(teamId);
+      this.$router.push({ path: 'teamPage', query: { team: teamId } });
     }
-
   }
-
-
 }
 </script>
 
@@ -130,10 +186,102 @@ export default {
     <div v-else>
       <div class="row">
         <div class="col-2">
-          <button type="button" class="btn bg-gradient-info">create group</button>
+          <!-- create group 버튼 -->
+          <button type="button btn-block" class="btn bg-gradient-info" data-bs-toggle="modal"
+            data-bs-target="#createGroup-form">create group</button>
 
-          <div class="list-group" v-if="teamsData">
-            <a href="/team" class="list-group-item list-group-item-action" v-for="(team, idx) in teamsData" :key="idx">
+          <!-- modal -->
+          <div class="modal fade" id="createGroup-form" tabindex="-1" role="dialog" aria-labelledby="createGroup-form"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+              <div class="modal-content">
+                <!-- 헤더 -->
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modal-title-notification">Create new group</h5>
+                  <!-- 닫기 버튼 색 바꾸기 -->
+                  <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button> -->
+                </div>
+                <!-- body -->
+                <div class="modal-body p-0">
+                  <div class="card card-plain">
+
+                    <div class="card-body">
+                      <form role="form text-left d-flex">
+                        <label>Group name</label>
+                        <div class="input-group input-group-outline mb-3">
+                          <label class="form-label">Group name</label>
+                          <input type="text" class="form-control">
+                        </div>
+
+                        <!-- <form class="d-flex" role="search"> -->
+                        <label>Add friends to this group</label>
+
+                        <!-- 버튼 클릭 -> searchWord에 해당되는 user 리스트 보이기
+                        searchData : searchWord에 해당되는 user 리스트,
+                        -->
+
+                        <div>
+                          <span
+                            class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
+                            <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png"
+                              alt="">
+                            Success
+                            <span class="vr mx-2"></span>
+                            <a href="#">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                <path
+                                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                              </svg>
+                            </a>
+                          </span>
+                        </div>
+
+                        <form @submit.prevent="searchUser">
+                          <div class="input-group input-group-outline mb-3">
+                            <div class="col-8">
+                              <input v-model="searchWord" class="form-control me-2" type="text" placeholder="Search">
+                            </div>
+                            <div class="col-4 ps-0">
+                              <button @click="searchUser" class="btn btn-outline-success ms-3"
+                                id="searchBtn">Search</button>
+                            </div>
+                          </div>
+                        </form>
+
+                        <div v-if="userSearchData.length === 0" class="list-group">
+                          <p>no such user</p>
+                        </div>
+                        <div v-else class="list-group">
+                          <a v-for="(user, idx) in userSearchData" :key="idx" @click="addGroup(team.team_id)"
+                            href="javacsript:void(0);" class="list-group-item list-group-item-action">
+                            {{ user.first_name }}
+                          </a>
+                        </div>
+
+                        <!-- </form> -->
+
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- modal footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn bg-gradient-primary">Send message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- team 목록 -->
+          <div class="list-group" v-if="teamData">
+            <a @click="moveToTeamPage(team.team_id)" href="javacsript:void(0);"
+              class="list-group-item list-group-item-action" v-for="(team, idx) in teamData" :key="idx">
               {{ team.team_name }}
             </a>
           </div>
@@ -143,42 +291,30 @@ export default {
             <div class="d-flex align-items-center">
               <div class="dropdown mx-1">
 
+                <!-- 초대 알림 -->
+                <!-- 버튼 -->
                 <button type="button" class="btn btn-info position-relative dropdown-toggle" data-bs-toggle="dropdown"
                   data-bs-auto-close="false" aria-expanded="false">
                   <span>invite alarms </span>
+                  <!-- badge -->
                   <span class="badge badge-sm badge-circle badge-danger border border-white border-2">
-                    {{ alarmN }}
+                    {{ inviteData.length }}
                   </span>
                 </button>
-
+                <!-- dropdown -->
                 <ul class="dropdown-menu">
-
                   <ul class="list-group">
-                    <li class="list-group-item" v-for="(alarm, idx) in alarmData" :key="idx">
-                      <p>invited from ' {{ alarm.first_name }} '</p>
-                      <p>group name: {{ alarm.team_name }}</p>
+                    <li class="list-group-item" v-for="(invite, idx) in inviteData" :key="idx">
+                      <p>invited from ' {{ invite.first_name }} '</p>
+                      <p>group name: {{ invite.team_name }}</p>
                       <row>
-                        <button @click="acceptInvite(alarm)" type="button" class="btn bg-gradient-info">accept</button>
-                        <button @click="refuseInvite(alarm.id)" type="button"
+                        <button @click="requestAcceptInvite(invite)" type="button"
+                          class="btn bg-gradient-info">accept</button>
+                        <button @click="requestRefuseInvite(invite.id)" type="button"
                           class="btn bg-gradient-danger">refuse</button>
                       </row>
                     </li>
                   </ul>
-
-
-                  <!-- <li class="dropdown-item" v-for="(alarm, idx) in alarmData" :key="idx">
-                    <p>invited from ' {{ alarm.inviter_id }} '</p>
-                    <p>group name: {{ alarm.team_name }}</p>
-                    <row>
-                      <button>refuse</button>
-                      <button>accept</button>
-                    </row>
-                  </li> -->
-
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="#">Separated link</a></li>
                 </ul>
 
               </div>
@@ -194,6 +330,15 @@ export default {
               </div>
               <a href="/writeDiary" class="btn btn-info mx-1">write diary</a>
 
+              <!-- userInfo -->
+              <a class="nav-link " href="https://www.creative-tim.com/presentation" target="_blank">
+                <div>
+                {{ this.lastName }}
+                {{ this.firstName }}
+              </div>
+              </a>
+
+              <!-- log out -->
               <button type="button" class="btn btn-twitter">
                 <span @click="logOut" class="btn-inner--text">log-out</span>
               </button>
@@ -209,53 +354,106 @@ export default {
           </div>
 
           <!-- 일기 리스트 -->
+          <!-- 달력 보기 방식 -->
           <h1 v-if="isCalendar">calendar</h1>
-
+          <!-- 리스트 보기 방식 -->
           <div v-else>
-            <div class="card-group mb-3" v-for="(item, idx) in diariesData" :key="idx">
-              <div class="card">
-                <div class="card-header">
-                  <div class="d-flex align-items-center">
-                    <h6>
-                      {{ item.written_date }}-{{ item.diary_title }}
-                    </h6>
-                    <button class="btn btn-link text-info ">
-                      <i class="material-icons text-lg">edit</i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body text-center">
-                  <p class="mb-0">
-                    {{ item.details }}
-                  </p>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer d-flex">
-                  {{ item.writer_id }}
-                </div>
+            <div class="card">
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                  <!-- 표 헤더 -->
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
+                      </th>
+                      <!-- <th class="text-secondary opacity-7"></th> -->
+                    </tr>
+                  </thead>
+                  <!-- 표 body -->
+                  <tbody v-for="(diary, idx) in diaryData" :key="idx">
+                    <!-- 한 행 -->
+                    <tr>
+                      <!-- author -->
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
+                          </button>
+                        </div>
+                      </td>
+                      <!-- title -->
+                      <td>
+                        <h6 class=" mb-0"><a href="javacsript:void(0);" @click="moveToDetails(diary.id)">{{
+                          diary.diary_title
+                            }}</a></h6>
+                      </td>
+                      <!-- Date -->
+                      <td class="align-middle text-center">
+                        <span class="text-secondary font-weight-normal">{{ diary.written_date }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <!-- 리스트 보기 2
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
+                      </th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <ul v-for="(diary, idx) in diaryData" :key="idx" class="list-group">
+                    <a a href="javacsript:void(0);" @click="moveToDetails" class="list-group-item">
+                      <div class="d-flex px-2 py-1">
+                        <button type="button" class="btn btn-facebook btn-icon-only rounded-circle"
+                          :class="setColor"></button>
+                        <h6 class="ms-2 mb-0"><a href="javacsript:void(0);" @click="moveToDetails">{{ diary.diary_title
+                            }}</a></h6>
+                        <span class="ms-2 text-secondary font-weight-normal">{{ diary.written_date }}</span>
+                      </div>
+                    </a>
+                  </ul> -->
+
+                  <!-- <div class="card-group mb-3" v-for="(diary, idx) in diaryData" :key="idx">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="d-flex align-items-center">
+                          <h6>
+                            {{ diary.written_date }}-{{ diary.diary_title }}
+                          </h6>
+                          <button class="btn btn-link text-info ">
+                            <i class="material-icons text-lg">edit</i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body text-center">
+                        <p class="mb-0">
+                          {{ diary.details }}
+                        </p>
+                      </div>
+                      <hr class="dark horizontal my-0">
+                      <div class="card-footer d-flex">
+                        {{ diary.writer_id }}
+                      </div>
+                    </div>
+                  </div> -->
+
+                </table>
               </div>
             </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">written_date</th>
-                  <th scope="col">writer_id</th>
-                  <th scope="col">diary_title</th>
-                  <th scope="col">details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, idx) in diariesData" :key="idx">
-                  <td>{{ item.written_date }}</td>
-                  <td>{{ item.writer_id }}</td>
-                  <td>{{ item.diary_title }}</td>
-                  <td>{{ item.details }}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
+
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.setColor {
+  background-color: var(--color, white)
+}
+</style>

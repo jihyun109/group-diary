@@ -39,6 +39,7 @@ export default {
           <form role="form" id="contact-form" method="post" autocomplete="off">
             <div class="card-body">
 
+              <!-- date picker 사용 -->
               <div class="input-group input-group-static my-3">
                 <label>Date</label>
                 <input type="date" class="form-control">

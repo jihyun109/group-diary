@@ -11,7 +11,7 @@ export default {
     }
   },
   methods: {
-    async signin() {
+    async logIn() {
       try {
         const response = await fetch('http://localhost:8080/users/logIn', {
           method: 'POST',
@@ -31,6 +31,8 @@ export default {
           alert('로그인이 완료되었습니다.');
 
           this.$store.commit('setUserId', data.data.id); 
+          this.$store.commit('setFirstName', data.data.first_name); 
+          this.$store.commit('setLastName', data.data.last_name); 
           this.$store.commit('setEmail', this.email); 
           this.$store.commit('setPassword', this.password); 
 
@@ -92,7 +94,7 @@ export default {
                 </div>
 
                 <div class="text-center">
-                  <button type="button" @click="signin" class="btn bg-gradient-info w-100 my-4 mb-2">Log in</button>
+                  <button type="button" @click="logIn" class="btn bg-gradient-info w-100 my-4 mb-2">Log in</button>
                 </div>
 
                 <div class="mt-4 text-sm text-center">

@@ -28,19 +28,19 @@ const router = createRouter({
         component: () => import('../views/teams/createTeamPage.vue')
       },
       {
-        path: '/team',
-        name: 'team',
+        path: '/teamPage',
+        name: 'teamPage',
         component: () => import('../views/teams/teamPage.vue')
-      },
-      {
-        path: '/logIn',
-        name: 'logIn',
-        component: () => import('../views/users/logInPage.vue')
       },
       {
         path: '/signUp',
         name: 'signUp',
         component: () => import('../views/users/signUpPage.vue')
+      },
+      {
+        path: '/logIn',
+        name: 'logIn',
+        component: () => import('../views/users/logInPage.vue')
       },
       { 
         path: '/userInfoEdit',
