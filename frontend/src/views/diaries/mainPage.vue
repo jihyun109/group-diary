@@ -25,6 +25,8 @@ export default {
       usersData: null,
       userSearchData: [],
       inviteData: null,
+      usersToInvite: [],
+
 
       str: '',
 
@@ -37,13 +39,19 @@ export default {
 
   computed: {
     ...mapState(['userId', 'firstName', 'lastName']),
+
+    filteredUserSearchData() {
+      // Filter out users whose id is not equal to this.userId
+      return this.userSearchData.filter(user => user.id !== this.userId && !this.usersToInvite.includes(user.id)
+      );
+    }
   },
 
   methods: {
     async fetchData() {
       console.log(this.firstName);
       // console.log(this.userId);
-      
+
       // this.userId = this.$store.state.userId;
       const menuList = await Promise.all([
         { type: 'diaries', url: `http://localhost:8080/diaries` },
@@ -175,9 +183,21 @@ export default {
     moveToTeamPage(teamId) {
       console.log(teamId);
       this.$router.push({ path: 'teamPage', query: { team: teamId } });
-    }
-  }
+    },
+
+    // 초대 그룹에 추가
+    addToInviteGroup(userId, lastName, firstName) {
+      this.usersToInvite.push(userId, lastName, firstName);
+    },
+
+    // 초대 그룹에서 삭제
+    removeFromInviteGroup(userId) {
+      this.usersToInvite = this.usersToInvite.filter(id => id != userId);
+    },
+
+  },
 }
+
 </script>
 
 <template>
@@ -191,8 +211,8 @@ export default {
             data-bs-target="#createGroup-form">create group</button>
 
           <!-- modal -->
-          <div class="modal fade" id="createGroup-form" tabindex="-1" role="dialog" aria-labelledby="createGroup-form"
-            aria-hidden="true">
+          <div class="modal fade"  id="createGroup-form" tabindex="-1" role="dialog"
+            aria-labelledby="createGroup-form" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered " role="document">
               <div class="modal-content">
                 <!-- 헤더 -->
@@ -218,11 +238,9 @@ export default {
 
                         <!-- <form class="d-flex" role="search"> -->
                         <label>Add friends to this group</label>
-
                         <!-- 버튼 클릭 -> searchWord에 해당되는 user 리스트 보이기
                         searchData : searchWord에 해당되는 user 리스트,
                         -->
-
                         <div>
                           <span
                             class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
@@ -240,6 +258,24 @@ export default {
                           </span>
                         </div>
 
+                        <div id="recipient_input_list">
+                          <span v-for="(user, idx) in usersToInvite" :key="idx"
+                            class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
+                            <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png"
+                              alt="">
+                            {{ user.lastName }} {{ user.firstName }}
+                            <span class="vr mx-2"></span>
+                            <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.id)">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                <path
+                                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                              </svg>
+                            </a>
+                          </span>
+
+                        </div>
+
                         <form @submit.prevent="searchUser">
                           <div class="input-group input-group-outline mb-3">
                             <div class="col-8">
@@ -252,18 +288,17 @@ export default {
                           </div>
                         </form>
 
-                        <div v-if="userSearchData.length === 0" class="list-group">
+                        <div v-if="filteredUserSearchData.length === 0" class="list-group">
                           <p>no such user</p>
                         </div>
                         <div v-else class="list-group">
-                          <a v-for="(user, idx) in userSearchData" :key="idx" @click="addGroup(team.team_id)"
+                          <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
+                            @click="addToInviteGroup(user.id, user.last_name, user.first_name)"
                             href="javacsript:void(0);" class="list-group-item list-group-item-action">
-                            {{ user.first_name }}
+                            {{ user.last_name }} {{ user.first_name }}
                           </a>
                         </div>
-
                         <!-- </form> -->
-
                       </form>
                     </div>
                   </div>
@@ -331,11 +366,18 @@ export default {
               <a href="/writeDiary" class="btn btn-info mx-1">write diary</a>
 
               <!-- userInfo -->
-              <a class="nav-link " href="https://www.creative-tim.com/presentation" target="_blank">
+              <a class="nav-link" href="/userInfo">
                 <div>
-                {{ this.lastName }}
-                {{ this.firstName }}
-              </div>
+                  {{ this.lastName }}
+                  {{ this.firstName }}
+                </div>
+              </a>
+              <!-- 사용해보기 -->
+              <a class="icon-link mb-1" href="/docs/5.3/getting-started/introduction/">
+                <svg class="bi" width="16" height="16">
+                  <use xlink:href="#arrow-right-circle"></use>
+                </svg>
+                Bootstrap quick start guide
               </a>
 
               <!-- log out -->

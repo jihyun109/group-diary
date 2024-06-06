@@ -1,0 +1,4 @@
+- store에 data 추가
+- 일기 리스트 list 보기 방식 기능 구현
+- userInfoPage 화면, 기능 구현
+- userInfoEditePage 화면, 기능 구현
