@@ -84,13 +84,11 @@ export default {
               <form role="form" class="text-start">
 
                 <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Email</label>
-                  <input type="email" class="form-control" v-model="email">
+                  <input placeholder="email" type="email" class="form-control" v-model="email">
                 </div>
 
                 <div class="input-group input-group-outline mb-3">
-                  <label class="form-label">Password</label>
-                  <input type="password" class="form-control" v-model="password">
+                  <input placeholder="password" type="password" class="form-control" v-model="password">
                 </div>
 
                 <div class="text-center">
