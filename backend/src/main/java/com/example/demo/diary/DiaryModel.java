@@ -1,5 +1,10 @@
 package com.example.demo.diary;
 
+import com.example.demo.team.TeamModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class DiaryModel {
 
     // 공유할 그룹
@@ -9,15 +14,26 @@ public class DiaryModel {
     String diary_title;
     String details;
 
+    List<TeamModel> sharedTeamList=new ArrayList<>();
+
     public DiaryModel() {
     }
 
-    public DiaryModel(int id, String written_date, int writer_id, String diary_title, String details) {
+    public DiaryModel(int id, String written_date, int writer_id, String diary_title, String details,List<TeamModel> sharedTeamList) {
         this.id = id;
         this.written_date = written_date;
         this.writer_id = writer_id;
         this.diary_title = diary_title;
         this.details = details;
+        this.sharedTeamList=sharedTeamList;
+    }
+
+    public List<TeamModel> getSharedTeamList() {
+        return sharedTeamList;
+    }
+
+    public void setSharedTeamList(List<TeamModel> sharedTeamList) {
+        this.sharedTeamList = sharedTeamList;
     }
 
     public int getId() {

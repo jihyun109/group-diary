@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.request.CreateTeamRequest;
+import com.example.demo.request.FindTeamIdRequestModel;
 import com.example.demo.team.TeamModel;
 import com.example.demo.team.TeamService;
 import com.example.demo.user.UserModel;
@@ -32,9 +33,7 @@ public class TeamController {
     // 팀 생성
     @PostMapping("/teams")
     public HashMap<String, String> insertTeam(@RequestBody TeamModel team) {
-
         teamService.insertTeam(team);
-
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
@@ -67,6 +66,17 @@ public class TeamController {
         String likeSearchWord = "%" + searchWord + "%";
 
         List<TeamModel> data = teamService.searchTeam(likeSearchWord);
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("result", "success");
+        result.put("data", data);
+        return result;
+    }
+
+    // 팀 id 조회
+    @GetMapping("/teams/findId")
+    public HashMap<String, Object> findTeamId(@RequestParam(defaultValue = "succ") String teamName, int creatorId) {
+        List<TeamModel> data = teamService.findTeamId(teamName, creatorId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");

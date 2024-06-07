@@ -2,6 +2,8 @@ package com.example.demo.diary;
 
 import com.example.demo.response.AllTeamDiariesResponse;
 import com.example.demo.response.DiaryDetailsResponse;
+import com.example.demo.team.TeamMapper;
+import com.example.demo.team.TeamModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +11,10 @@ import java.util.List;
 @Service
 public class DiaryService {
     private DiaryMapper diaryMapper;
+    private TeamMapper teamMapper;
 
-    public DiaryService(DiaryMapper diaryMapper) {
+    public DiaryService(DiaryMapper diaryMapper,TeamMapper teamMapper) {
+        this.teamMapper=teamMapper;
         this.diaryMapper = diaryMapper;
     }
 
@@ -41,9 +45,17 @@ public class DiaryService {
     }
 
     // 선택한 다이어리 상세 정보 요청
-    public DiaryDetailsResponse requestDiaryDetails(int diaryId) {
-        return diaryMapper.requestDiaryDetails(diaryId);
+    public DiaryModel requestDiaryDetails(int diaryId) {
+        DiaryModel diary= diaryMapper.requestDiaryDetails(diaryId);
+        diary.setSharedTeamList(teamMapper.searchTeamByDiaryId(diaryId));
+        return diary;
     }
+
+    // 일기 id 요청
+    public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId) {
+        return diaryMapper.requestDiaryId(diaryTitle, writtenDate, writerId);
+    }
+
 
 
 }

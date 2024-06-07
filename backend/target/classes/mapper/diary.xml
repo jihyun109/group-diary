@@ -34,10 +34,15 @@
         WHERE m.user_id = #{userId} AND m.status = 0;
     </select>
 
-    <select id="requestDiaryDetails" resultType="com.example.demo.response.DiaryDetailsResponse">
-        SELECT d.id, d.written_date, d.diary_title, d.details, td.team_id, t.team_name
-        FROM diaries d JOIN team_diary td ON d.id = td.diary_id
-        JOIN teams t ON td.team_id = t.id
+    <select id="requestDiaryDetails" resultType="com.example.demo.diary.DiaryModel">
+        SELECT d.id, d.written_date, d.diary_title, d.details, d.writer_id
+        FROM diaries d
         WHERE d.id = #{diaryId};
+    </select>
+
+    <select id="requestDiaryId" resultType="com.example.demo.diary.DiaryModel">
+        SELECT id
+        FROM diaries
+        WHERE diary_title = #{diaryTitle} AND written_date = #{writtenDate} AND writer_id = #{writerId}
     </select>
 </mapper>

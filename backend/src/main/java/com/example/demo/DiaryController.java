@@ -70,7 +70,18 @@ public class DiaryController {
 
     @GetMapping("/diaries/details/{diaryId}")   // 일기 상세 내용 요청
     public HashMap<String, Object> requestDiaryDetails(@PathVariable(required = true) int diaryId) {
-        DiaryDetailsResponse data = diaryService.requestDiaryDetails(diaryId);
+        DiaryModel data = diaryService.requestDiaryDetails(diaryId);
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("result", "success");
+        result.put("data", data);
+        return result;
+    }
+
+    // 다이어리 id 요청
+    @GetMapping("/diaries/findDiaryId")   // 일기 상세 내용 요청
+    public HashMap<String, Object> requestDiaryId(@RequestParam(defaultValue = "succ") String diaryTitle, String writtenDate, int writerId) {
+        List<DiaryModel> data = diaryService.requestDiaryId(diaryTitle, writtenDate, writerId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");

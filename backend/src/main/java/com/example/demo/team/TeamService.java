@@ -1,6 +1,7 @@
 package com.example.demo.team;
 
 import com.example.demo.request.CreateTeamRequest;
+import com.example.demo.request.FindTeamIdRequestModel;
 import com.example.demo.user.UserModel;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,14 @@ public class TeamService {
     // 팀 이름으로 팀 검색
     public List<TeamModel> searchTeam(String searchWord) {
         return teamMapper.searchTeam(searchWord);
+    }
+
+    public List<TeamModel> searchTeamByDiaryId(int diaryId) {
+        return teamMapper.searchTeamByDiaryId(diaryId);
+    }
+
+    public List<TeamModel> findTeamId(String teamName, int creatorId) {
+        return teamMapper.findTeamId(teamName, creatorId);
     }
 
     // 사용자가 속한 팀 만들기 요청

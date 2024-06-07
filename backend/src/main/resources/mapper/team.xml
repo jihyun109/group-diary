@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.team.TeamMapper">
     <select id="selectTeams" resultType="com.example.demo.team.TeamModel">
-        SELECT id, team_name
+        SELECT id, team_name, creator_id
         FROM teams
     </select>
 
     <insert id="insertTeam" parameterType="com.example.demo.team.TeamModel">
-        INSERT INTO teams (id, team_name)
-        VALUES (#{id}, #{team_name});
+        INSERT INTO teams (id, team_name, creator_id)
+        VALUES (#{id}, #{team_name}, #{creator_id});
     </insert>
 
     <update id="updateTeam" parameterType="com.example.demo.team.TeamModel">
@@ -27,6 +27,18 @@
         SELECT id, first_name, last_name, email
         FROM users
         WHERE email LIKE #{likeSearchWord};
+    </select>
+
+    <select id="searchTeamByDiaryId" resultType="com.example.demo.team.TeamModel">
+        SELECT t.id, t.team_name
+        FROM teams t join team_diary td on t.id=td.team_id
+        WHERE td.diary_id = #{diaryId};
+    </select>
+
+    <select id="findTeamId" resultType="com.example.demo.team.TeamModel">
+        SELECT id
+        FROM teams
+        WHERE team_name = #{teamName} AND creator_id = #{creatorId};
     </select>
 
 <!--    <insert id="requestCreateTeam" parameterType="com.example.demo.request.CreateTeamRequest">-->

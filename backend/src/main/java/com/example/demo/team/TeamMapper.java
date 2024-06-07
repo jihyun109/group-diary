@@ -1,6 +1,7 @@
 package com.example.demo.team;
 
 import com.example.demo.request.CreateTeamRequest;
+import com.example.demo.request.FindTeamIdRequestModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,10 @@ public interface TeamMapper {
     void deleteTeam(int teamId);
 
     List<TeamModel> searchTeam(String searchWord);
+    List<TeamModel> searchTeamByDiaryId(int diaryId);
+
+    // 팀 id 조회
+    List<TeamModel> findTeamId(String teamName, int creatorId);
 
     // 사용자가 속한 팀 만들기 요청
 //    void requestCreateTeam(CreateTeamRequest team);
