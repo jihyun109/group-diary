@@ -16,6 +16,7 @@ export default {
       // userId: 0,
       color: '',
       searchWord: '',
+      groupNameToCreate: '',
 
       dataList: null,
       dataTypeMap: new Map(),
@@ -27,13 +28,16 @@ export default {
       inviteData: null,
       usersToInvite: [],
 
-
       str: '',
 
-      isCalendar: true,
-      dropdownText: 'calendar',
+      isCalendar: false,
+      dropdownText: 'list',
       // 사용자가 속한 team의 이름을 받아와서 배열에 저장.
-      // team name 클릭하면 team page로 이동. (team 정보를 가지고서.)
+      // team name 클릭하면 team page로 이동. (team 정보를 가지고서.),
+
+      errors: {
+        groupNameToCreate: false
+      }
     }
   },
 
@@ -41,9 +45,9 @@ export default {
     ...mapState(['userId', 'firstName', 'lastName']),
 
     filteredUserSearchData() {
-      // Filter out users whose id is not equal to this.userId
-      return this.userSearchData.filter(user => user.id !== this.userId && !this.usersToInvite.includes(user.id)
-      );
+      const invitedUserIds = new Set(this.usersToInvite.map(user => user.userId));
+      console.log("invitedUserIds:", invitedUserIds);
+      return this.userSearchData.filter(user => user.id !== this.userId && !invitedUserIds.has(user.id));
     }
   },
 
@@ -100,7 +104,7 @@ export default {
           body: JSON.stringify({
             user_id: this.userId,
             status: 0,
-            team_id: alarm.team_id,
+            team_id: invite.team_id,
             inviter_id: invite.inviter_id
 
           })
@@ -113,6 +117,7 @@ export default {
 
           this.inviteData = this.inviteData.filter(invite => invite.id !== invite.id);
           this.alarmN = this.inviteData.length;
+          this.fetchData()
         } else {
           console.error('Error accepting invite');
         }
@@ -187,13 +192,166 @@ export default {
 
     // 초대 그룹에 추가
     addToInviteGroup(userId, lastName, firstName) {
-      this.usersToInvite.push(userId, lastName, firstName);
+      this.usersToInvite.push({ userId, lastName, firstName });
+      console.log("userToInvite[]: ", this.usersToInvite);
+
     },
 
     // 초대 그룹에서 삭제
     removeFromInviteGroup(userId) {
-      this.usersToInvite = this.usersToInvite.filter(id => id != userId);
+      console.log(userId);
+      this.usersToInvite = this.usersToInvite.filter(user => user.userId != userId);
+      console.log("userToInvite[]: ", this.usersToInvite);
     },
+
+    // usersToInvite 배열 초기화
+    resetUsersToInvite() {
+      this.usersToInvite = []
+      console.log("userToInvite[]: ", this.userToInvite);
+    },
+
+    // create team
+    async createTeam() {
+      await this.requestCreateTeam();
+      await this.inviteUsers();
+      alert('팀이 생성되었습니다.');
+      const modal = new bootstrap.Modal(document.getElementById('createGroup-form'));
+      modal.hide();
+      this.fetchData();
+    },
+
+    // 팀생성 요청 보내기
+    async requestCreateTeam() {
+      // 오류 상태 초기화
+      this.errors.groupNameToCreate = !this.groupNameToCreate;
+
+      // 오류가 있는 경우 경고 메시지 표시
+      if (this.errors.groupNameToCreate) {
+        alert('그룹 이름을 입력해 주세요');
+        return;
+      }
+
+      // // 입력 데이터를 객체로 수집
+      // const groupData = {
+      //   team_name: this.groupNameToCreate,
+      //   creator_id: this.userId
+      // };
+
+      try {
+        // 서버로 POST 요청 보내기
+        const response = await fetch('http://localhost:8080/teams', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            team_name: this.groupNameToCreate,
+            creator_id: this.userId
+          })
+        });
+
+        if (response.ok) {
+          // 요청이 성공하면 성공 메시지 표시
+          console.log('그룹 생성 완료. group name: ', this.groupNameToCreate);
+          const responseData = await response.json();
+
+        } else {
+          // 요청이 실패하면 오류 메시지 표시
+          const errorData = await response.json();
+          alert(`오류가 발생했습니다: ${errorData.message}`);
+        }
+      } catch (error) {
+        // 네트워크 오류 처리
+        alert(`네트워크 오류가 발생했습니다: ${error.message}`);
+      }
+    },
+
+    async inviteUsers() {
+      // 추가한 team id 찾기
+      const teamData = await this.requestTeamId();
+      const teamId = teamData[0].id;
+
+      // 본인 그룹에 추가
+      this.requestInviteUser(this.userId, teamId);
+
+      // 선택한 사용자들 초대.
+      for (let i = 0; i < this.usersToInvite.length; i++) {
+        let userId = this.usersToInvite[i].userId;
+        console.log('userId:', userId, ', teamId: ', teamId)
+        this.requestInviteUser(userId, teamId);
+      }
+
+    },
+
+    // 초대 요청 보내기
+    async requestInviteUser(userId, teamId) {
+      // 입력 데이터를 객체로 수집
+      const inviteData = {
+        user_id: userId,
+        team_id: teamId,
+        status: userId === this.userId ? 0 : 1,
+        inviter_id: this.userId
+      };
+
+      try {
+        // 서버로 POST 요청 보내기
+        const response = await fetch('http://localhost:8080/members/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(inviteData)
+        });
+
+        if (response.ok) {
+          // 요청이 성공하면 성공 메시지 표시
+          console.log("초대 성공: ", inviteData);
+        } else {
+          // 요청이 실패하면 오류 메시지 표시
+          const errorData = await response.json();
+          console.log(`오류가 발생했습니다: ${errorData.message}`);
+        }
+      } catch (error) {
+        // 네트워크 오류 처리
+        alert(`네트워크 오류가 발생했습니다: ${error.message}`);
+      }
+    },
+
+    async requestTeamId() {
+      // // 입력 데이터를 객체로 수집
+      // const groupData = {
+      //   groupNameToCreate: this.groupNameToCreate,
+      //   creator_id: this.userId
+      // };
+
+      try {
+        console.log('store userId: ', this.userId)
+        const response = await fetch(`http://localhost:8080/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          // body: JSON.stringify(groupData)
+        });
+
+        console.log("response: ", response)
+
+        if (response.ok) {
+          const resjson = await response.json();
+          console.log(resjson);
+          const teamId = resjson.data;
+          console.log('find team id. teamId: ', teamId);
+          return teamId;
+        } else {
+          // 요청이 실패하면 오류 메시지 표시
+          const errorData = await response.json();
+          console.log(`team not founded: ${errorData.message}`)
+        }
+      } catch (error) {
+        // 네트워크 오류 처리
+        console.log(`team not founded. 네트워크 오류가 발생했습니다: ${error.message}`);
+      }
+    }
 
   },
 }
@@ -211,8 +369,8 @@ export default {
             data-bs-target="#createGroup-form">create group</button>
 
           <!-- modal -->
-          <div class="modal fade"  id="createGroup-form" tabindex="-1" role="dialog"
-            aria-labelledby="createGroup-form" aria-hidden="true">
+          <div class="modal fade" id="createGroup-form" tabindex="-1" role="dialog" aria-labelledby="createGroup-form"
+            aria-hidden="true" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered " role="document">
               <div class="modal-content">
                 <!-- 헤더 -->
@@ -233,7 +391,8 @@ export default {
                         <label>Group name</label>
                         <div class="input-group input-group-outline mb-3">
                           <label class="form-label">Group name</label>
-                          <input type="text" class="form-control">
+                          <input v-model="groupNameToCreate" type="text" class="form-control"
+                            :class="{ 'is-invalid': errors.groupNameToCreate }">
                         </div>
 
                         <!-- <form class="d-flex" role="search"> -->
@@ -241,22 +400,6 @@ export default {
                         <!-- 버튼 클릭 -> searchWord에 해당되는 user 리스트 보이기
                         searchData : searchWord에 해당되는 user 리스트,
                         -->
-                        <div>
-                          <span
-                            class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
-                            <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png"
-                              alt="">
-                            Success
-                            <span class="vr mx-2"></span>
-                            <a href="#">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                                <path
-                                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                              </svg>
-                            </a>
-                          </span>
-                        </div>
 
                         <div id="recipient_input_list">
                           <span v-for="(user, idx) in usersToInvite" :key="idx"
@@ -265,15 +408,10 @@ export default {
                               alt="">
                             {{ user.lastName }} {{ user.firstName }}
                             <span class="vr mx-2"></span>
-                            <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.id)">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                                <path
-                                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                              </svg>
+                            <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.userId)">
+                              <span class="material-icons opacity-6 me-2 text-md">cancel</span>
                             </a>
                           </span>
-
                         </div>
 
                         <form @submit.prevent="searchUser">
@@ -306,8 +444,9 @@ export default {
 
                 <!-- modal footer -->
                 <div class="modal-footer">
-                  <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn bg-gradient-primary">Send message</button>
+                  <button @click="resetUsersToInvite" type="button" class="btn bg-gradient-secondary"
+                    data-bs-dismiss="modal">Close</button>
+                  <button @click="createTeam" type="button" class="btn bg-gradient-primary">Create</button>
                 </div>
               </div>
             </div>
@@ -359,8 +498,9 @@ export default {
                   {{ dropdownText }}
                 </button>
                 <ul class="dropdown-menu">
-                  <button class="dropdown-item" @click="setView('calendar')">calendar</button>
                   <button class="dropdown-item" @click="setView('list')">list</button>
+                  <button class="dropdown-item" @click="setView('calendar')">calendar</button>
+
                 </ul>
               </div>
               <a href="/writeDiary" class="btn btn-info mx-1">write diary</a>

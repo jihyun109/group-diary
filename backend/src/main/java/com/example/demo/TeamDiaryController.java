@@ -52,13 +52,12 @@ public class TeamDiaryController {
     }
 
     // 팀 일기 삭제 (공유 해제)
-    @DeleteMapping("/teamDiaries/{id}")
-    public HashMap<String, String> deleteTeamDiary(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
+    @DeleteMapping("/teamDiaries")
+    public HashMap<String, String> deleteTeamDiary(@RequestParam(defaultValue = "succ")  int diaryId, int teamId) {
 
-        teamDiaryService.deleteTeamDiary(id);
-
+        teamDiaryService.deleteTeamDiary(diaryId, teamId);
         HashMap<String, String> result = new HashMap<>();
-        result.put("result", succMsg);
+        result.put("result", "success");
         return result;
     }
 

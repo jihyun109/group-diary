@@ -18,10 +18,10 @@
         WHERE id = #{id};
     </update>
 
-    <delete id="deleteTeamDiary">
+    <delete id="deleteTeamDiary" parameterType="com.example.demo.teamDiary.TeamDiaryModel">
         DELETE
         FROM team_diary
-        WHERE id = #{teamDiaryId};
+        WHERE diary_id = #{diaryId} AND team_id = #{teamId};
     </delete>
 
     <select id="requestTeamDiaryList" resultType="com.example.demo.response.TeamDiaryListResponse">

@@ -31,8 +31,8 @@ public class TeamDiaryService {
     }
 
     // 팀 일기 삭제 (공유 해제)
-    public void deleteTeamDiary(int teamDiaryId) {
-        TeamDiaryMapper.deleteTeamDiary(teamDiaryId);
+    public void deleteTeamDiary(int diaryId, int teamId) {
+        TeamDiaryMapper.deleteTeamDiary(diaryId, teamId);
     }
 
     // 현재 팀에 공유된 일기 리스트 요청
