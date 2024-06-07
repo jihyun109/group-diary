@@ -34,6 +34,8 @@ export default {
         details: ''
       },
 
+      diaryId: this.$route.query.diaryId,
+
       cancelMessage: '일기 작성',
 
       teamListToShare: [],  // 일기를 공유할 팀들의 id 저장 리스트
@@ -57,10 +59,11 @@ export default {
 
     filteredTeamData() {
       if (!this.needUpdate) {
-        const teamIdToShare = new Set(this.teamListToShare.map(team => team.teamId));
+        const teamIdToShare = new Set(this.teamListToShare.map(team => team.id));
         return this.teamData.filter(team => !teamIdToShare.has(team.team_id));
       } else {
-        const teamIdToShare = new Set(this.editedTeamList.map(team => team.teamId));
+        console.log('teamData: ', this.teamData)
+        const teamIdToShare = new Set(this.editedTeamList.map(team => team.id));
         return this.teamData.filter(team => !teamIdToShare.has(team.team_id));
       }
     }
@@ -83,7 +86,8 @@ export default {
         }
         alert("일기 작성 완료");
       } else {  // 일기 수정 페이지
-
+        console.log('hi');
+        await this.requestEditedTeamList();
       }
 
     },
@@ -103,6 +107,8 @@ export default {
       this.diaryModel.writer_id = this.userId
 
       const response = await fetch(requestUrl, {
+        
+
         method: method,
         headers: {
           'Content-Type': 'application/json'
@@ -131,8 +137,9 @@ export default {
       const res = await fetch(`http://localhost:8080/diaries/details/${id}`)
       const resBody = await res.json()
       this.diaryModel = resBody.data
-      console.log(this.diaryModel)
+      console.log('diaryModel: ' ,this.diaryModel)
       this.editedTeamList = this.deepCopyAndRename(this.diaryModel.sharedTeamList);
+      console.log('editedTeamList: ', this.editedTeamList)
       // JSON.parse(JSON.stringify(this.diaryModel.sharedTeamList));
 
     },
@@ -169,24 +176,24 @@ export default {
     // 공유할 팀 리스트에 추가
     addToTeamListToShare(teamId, teamName) {
       if (!this.needUpdate) {
-        this.teamListToShare.push({ teamId, teamName });
+        this.teamListToShare.push({ id: teamId, team_name:teamName });
         console.log("teamListToShare: ", this.teamListToShare);
         console.log("filteredTeamData:", this.filteredTeamData);
       } else {
         console.log('editedTeamList: ', this.editedTeamList)
-        this.editedTeamList.push({ teamId, teamName });
+        this.editedTeamList.push({ id: teamId, team_name:teamName });
       }
     },
 
     removeFromTeamListToShare(teamId) {
       if (!this.needUpdate) {
-        this.teamListToShare = this.teamListToShare.filter(team => team.teamId != teamId);
+        this.teamListToShare = this.teamListToShare.filter(team => team.id != teamId);
         console.log("teamListToShare: ", this.teamListToShare);
         console.log("filteredTeamData:", this.filteredTeamData);
       }
       else {
         {
-          this.editedTeamList = this.editedTeamList.filter(team => team.teamId != teamId);
+          this.editedTeamList = this.editedTeamList.filter(team => team.id != teamId);
           console.log('editedTeamList: ', this.editedTeamList)
         }
       }
@@ -227,6 +234,8 @@ export default {
         diary_id: diaryId,
         team_id: teamId
       };
+
+      console.log('diaryId:',diaryId, 'teamId:', teamId)
 
       try {
         // 서버로 POST 요청 보내기
@@ -291,23 +300,55 @@ export default {
         const arr2Ids = arr2.map(obj => obj.id);
         return arr1.filter(obj => !arr2Ids.includes(obj.id));
       };
+      console.log(this.diaryModel.sharedTeamList);
+      console.log(this.editedTeamList);
 
-      this.addedTeamList = findAddedTeam(this.sharedTeamList, this.editedTeamList);
-      this.deletedTeamList = findDeletedTeamList(this.sharedTeamList, this.editedTeamList);
-      console.log('addedTeamList: ', this.addedTeamList);
-      console.log('deletedTeamList: ', this.deletedTeamList);
+
+      this.addedTeamList = findAddedTeam(this.diaryModel.sharedTeamList, this.editedTeamList);
+      this.deletedTeamList = findDeletedTeamList(this.diaryModel.sharedTeamList, this.editedTeamList);
+      console.log('1.addedTeamList: ', this.addedTeamList);
+      console.log('1.deletedTeamList: ', this.deletedTeamList);
 
       // 추가된 팀 공유 요청 보내기
-      for (let i = 0; i < this.addedTeamList; i++) {
-        this.requestShareDiary(this.$route.query.diaryId ,this.addedTeamList[i].id);
+      for (let i = 0; i < this.addedTeamList.length; i++) {
+        await this.requestShareDiary(this.diaryId ,this.addedTeamList[i].id);
+        console.log(1)
+      }
+
+      // 삭제된 팀 delete 요청 보내기
+      for (let i = 0; i < this.deletedTeamList.length; i++) {
+        await this.requestCancelShareDiary(this.deletedTeamList[i].id);
+      }
+    },
+
+    async requestCancelShareDiary(teamId) {
+      try {
+        const response = await fetch(`http://localhost:8080/teamDiaries?diaryId=${this.diaryId}&teamId=${teamId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+
+        if (response.ok) {
+          const resjson = await response.json();
+          console.log('공유 취소 성공. diaryId: ', this.diaryId, ', teamId:', teamId);
+        } else {
+          // 요청이 실패하면 오류 메시지 표시
+          const errorData = await response.json();
+          console.log(`공유 취소 실패: ${errorData.message}`)
+        }
+      } catch (error) {
+        // 네트워크 오류 처리
+        console.log(`공유 취소 실패. 네트워크 오류가 발생했습니다: ${error.message}`);
       }
     },
 
 
     deepCopyAndRename(obj) {
       const renameMap = {
-        id: 'teamId',
-        team_name: 'teamName'
+        teamId: 'id',
+        teamName: 'team_name'
       };
       if (obj === null || typeof obj !== 'object') {
         return obj;
@@ -353,9 +394,9 @@ export default {
         <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
           <h3 class="text-center">{{ needUpdate ? "update diary" :
             "write diary" }}</h3>
-          <pre>
+          <!-- <pre>
             {{ diaryModel }}
-          </pre>
+          </pre> -->
           <div class="card-body">
 
             <!-- date picker 사용 -->
@@ -400,9 +441,9 @@ export default {
                 <span v-for="(team, idx) in needUpdate ? editedTeamList : teamListToShare" :key="idx"
                   class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
                   <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt="">
-                  {{ team.teamName }}
+                  {{ team.team_name }}
                   <span class="vr mx-2"></span>
-                  <a href="javacsript:void(0);" @click="removeFromTeamListToShare(team.teamId)">
+                  <a href="javacsript:void(0);" @click="removeFromTeamListToShare(team.id)">
                     <span class="material-icons opacity-6 me-2 text-md">cancel</span>
                   </a>
                 </span>
