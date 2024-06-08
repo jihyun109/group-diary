@@ -4,27 +4,8 @@
 import { mapState } from 'vuex';
 import cancelModal from '@/components/cancelModal.vue';
 
-import { mapState } from 'vuex';
-import cancelModal from '@/components/cancelModal.vue';
-
 export default {
   mounted() {
-    if (this.needUpdate) {
-      this.fetchDiaryDetail(this.$route.query.diaryId);
-      this.requestSharedTeams();
-    };
-
-    // console.log("needUpdate: " ,this.needUpdate);
-
-    this.fetchTeamData();
-    // console.log('sharedTeamId: ', this.sharedTeamId);
-  },
-  components: {
-    cancelModal
-  },
-  props: {
-    diaryData: Object,
-
     if (this.needUpdate) {
       this.fetchDiaryDetail(this.$route.query.diaryId);
       this.requestSharedTeams();
@@ -402,7 +383,6 @@ export default {
       this.dataList = await Promise.all(requests);
       console.log(this.dataList);
     },
-    },
   }
 }
 </script>
@@ -424,42 +404,7 @@ export default {
               <label>Date</label>
               <input v-model="diaryModel.written_date" type="date" class="form-control">
             </div>
-            <!-- date picker 사용 -->
-            <div class="input-group input-group-static my-3">
-              <label>Date</label>
-              <input v-model="diaryModel.written_date" type="date" class="form-control">
-            </div>
 
-            <div class="mb-4">
-              <div class="input-group input-group-dynamic">
-                <input v-model="diaryModel.diary_title" type="text" class="form-control" placeholder="제목">
-              </div>
-            </div>
-            <div class="mb-4">
-              <!-- 일기를 공유할 팀 추가 -->
-              <!-- <div class="input-group input-group-dynamic">
-              <input type="email" class="form-control" placeholder="팀 추가">
-              <div class="d-flex justify-content-end">
-                <span class="badge badge-sm bg-gradient-info mx-1">팀팀팀 <a>x</a></span>
-                <span class="badge badge-sm bg-gradient-secondary mx-1">팀팀팀 <a>x</a></span>
-                <span class="badge badge-sm bg-gradient-info mx-1">팀팀팀 <a>x</a></span>
-                <span class="badge badge-sm bg-gradient-info mx-1">팀팀팀 <a>x</a></span>
-              </div>
-            </div> -->
-
-              <div class="dropdown">
-                <a href="#" class="btn bg-gradient-dark dropdown-toggle " data-bs-toggle="dropdown"
-                  id="navbarDropdownMenuLink2">
-                  team list
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                  <li>
-                    <a @click="addToTeamListToShare(team.team_id, team.team_name)" class="dropdown-item"
-                      v-for="(team, idx) in filteredTeamData" href="javacsript:void(0);">
-                      {{ team.team_name }}
-                    </a>
-                  </li>
-                </ul>
             <div class="mb-4">
               <div class="input-group input-group-dynamic">
                 <input v-model="diaryModel.diary_title" type="text" class="form-control" placeholder="제목">
@@ -525,30 +470,7 @@ export default {
               <button class="btn bg-gradient-secondary w-100" data-bs-toggle="modal"
                 data-bs-target="#cancelModal">cancel</button>
               <cancelModal :message="cancelMessage" />
-
             </div>
-
-
-
-            <!-- details -->
-            <div class="input-group mb-4 input-group-static">
-              <label>내용</label>
-              <textarea v-model="diaryModel.details" name="message" class="form-control" id="message"
-                rows="4"></textarea>
-            </div>
-          </div>
-
-
-          <!-- button & modal -->
-          <div class="row">
-            <div class="col-md-12">
-              <button @click="writeOrUpdateDiary" class="btn bg-gradient-dark w-100">{{ needUpdate ? "update diary" :
-                "write diary" }}</button>
-              <button class="btn bg-gradient-secondary w-100" data-bs-toggle="modal"
-                data-bs-target="#cancelModal">cancel</button>
-              <cancelModal :message="cancelMessage" />
-            </div>
-          </div>
           </div>
         </div>
       </div>
