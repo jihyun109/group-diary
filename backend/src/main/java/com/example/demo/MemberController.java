@@ -4,6 +4,7 @@ import com.example.demo.member.MemberModel;
 import com.example.demo.member.MemberService;
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
+import com.example.demo.response.TeamMembersNameResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class MemberController {
     // 팀에 속한 모든 멤버의 이름 요청
     @GetMapping("/members/{teamId}")
     public HashMap<String, Object> requestTeamMembersName(@PathVariable(required = true) int teamId) {
-        List<String> data = memberService.requestTeamMembersName(teamId);
+        List<TeamMembersNameResponse> data = memberService.requestTeamMembersName(teamId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");

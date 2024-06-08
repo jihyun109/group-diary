@@ -2,6 +2,7 @@ package com.example.demo.member;
 
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
+import com.example.demo.response.TeamMembersNameResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public interface MemberMapper {
 
     void deleteMember(int memberId);    // 멤버 삭제
 
-    List<String> requestTeamMembersName(int teamId);  // 팀의 모든 멤버 이름 요청
+    List<TeamMembersNameResponse> requestTeamMembersName(int teamId);  // 팀의 모든 멤버 이름 요청
 
     void requestInviteMember(MemberModel member);   // 팀에 멤버를 초대
 

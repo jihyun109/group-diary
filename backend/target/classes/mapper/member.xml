@@ -26,8 +26,8 @@
         WHERE id = #{memberId};
     </delete>
 
-    <select id="requestTeamMembersName" parameterType="com.example.demo.member.MemberModel" resultType="com.example.demo.member.MemberModel">
-        SELECT m.user_id, u.name
+    <select id="requestTeamMembersName"  resultType="com.example.demo.response.TeamMembersNameResponse">
+        SELECT m.user_id, concat(u.first_name,u.last_name) as name
         FROM members m JOIN users u ON m.user_id = u.id
         WHERE team_id = #{team_id};
     </select>

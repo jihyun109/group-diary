@@ -25,7 +25,7 @@
     </delete>
 
     <select id="requestTeamDiaryList" resultType="com.example.demo.response.TeamDiaryListResponse">
-        SELECT u.id, u.name, u.initial, u.color, d.written_date, d.diary_title
+        SELECT d.id, u.first_name, u.last_name, u.initial, u.color, d.written_date, d.diary_title
         FROM team_diary td JOIN diaries d
            ON td.diary_id = d.id
            JOIN users u ON d.writer_id = u.id

@@ -2,6 +2,7 @@ package com.example.demo.member;
 
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
+import com.example.demo.response.TeamMembersNameResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class MemberService {
     }
 
     // 팀의 모든 멤버 이름 요청
-    public List<String> requestTeamMembersName(int teamId) {
+    public List<TeamMembersNameResponse> requestTeamMembersName(int teamId) {
         return memberMapper.requestTeamMembersName(teamId);
     }
 
