@@ -1,8 +1,9 @@
 <script>
 import { mapState } from 'vuex';
-
+import UserProfile from '@/components/UserProfile.vue'
 export default {
   components: {
+    UserProfile
   },
 
   mounted() {
@@ -362,14 +363,76 @@ export default {
   <div>
     <p v-if="!dataList">로딩...</p>
     <div v-else>
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-2">
           <!-- create group 버튼 -->
           <button type="button btn-block" class="btn bg-gradient-info" data-bs-toggle="modal"
-            data-bs-target="#createGroup-form">create group</button>
+            data-bs-target="#createGroup-form">create group
+          </button>
+          <!-- team 목록 -->
+          <div class="list-group" v-if="teamData">
+            <a @click="moveToTeamPage(team.team_id)" href="javacsript:void(0);"
+              class="list-group-item list-group-item-action" v-for="(team, idx) in teamData" :key="idx">
+              {{ team.team_name }}
+            </a>
+          </div>
+        </div>
+        <div class="col-10">
+          <!-- 일기 리스트 -->
+          <!-- 달력 보기 방식 -->
+          <h1 v-if="isCalendar">calendar</h1>
+          <!-- 리스트 보기 방식 -->
+          <div v-else>
+            <div class="card">
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                  <!-- 표 헤더 -->
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
+                      </th>
+                      <!-- <th class="text-secondary opacity-7"></th> -->
+                    </tr>
+                  </thead>
+                  <!-- 표 body -->
+                  <tbody >
+                    <!-- 한 행 -->
+                    <tr v-for="(diary, idx) in diaryData" :key="idx">
+                      <!-- author -->
+                      <td>
+                        <!-- <UserProfile :userData="xxx" /> -->
+                        <div class="d-flex px-2 py-1">
+                          <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
+                          </button>
+                        </div>
+                      </td>
+                      <!-- title -->
+                      <td>
+                        <h6 class=" mb-0"><a href="javacsript:void(0);" @click="moveToDetails(diary.id)">{{
+                          diary.diary_title
+                            }}</a></h6>
+                      </td>
+                      <!-- Date -->
+                      <td class="align-middle text-center">
+                        <span class="text-secondary font-weight-normal">{{ diary.written_date }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
 
-          <!-- modal -->
-          <div class="modal fade" id="createGroup-form" tabindex="-1" role="dialog" aria-labelledby="createGroup-form"
+               
+
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+              <!-- modal -->
+              <div class="modal fade" id="createGroup-form" tabindex="-1" role="dialog" aria-labelledby="createGroup-form"
             aria-hidden="true" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered " role="document">
               <div class="modal-content">
@@ -451,186 +514,6 @@ export default {
               </div>
             </div>
           </div>
-
-          <!-- team 목록 -->
-          <div class="list-group" v-if="teamData">
-            <a @click="moveToTeamPage(team.team_id)" href="javacsript:void(0);"
-              class="list-group-item list-group-item-action" v-for="(team, idx) in teamData" :key="idx">
-              {{ team.team_name }}
-            </a>
-          </div>
-        </div>
-        <div class="col-10">
-          <div class="row">
-            <div class="d-flex align-items-center">
-              <div class="dropdown mx-1">
-
-                <!-- 초대 알림 -->
-                <!-- 버튼 -->
-                <button type="button" class="btn btn-info position-relative dropdown-toggle" data-bs-toggle="dropdown"
-                  data-bs-auto-close="false" aria-expanded="false">
-                  <span>invite alarms </span>
-                  <!-- badge -->
-                  <span class="badge badge-sm badge-circle badge-danger border border-white border-2">
-                    {{ inviteData.length }}
-                  </span>
-                </button>
-                <!-- dropdown -->
-                <ul class="dropdown-menu">
-                  <ul class="list-group">
-                    <li class="list-group-item" v-for="(invite, idx) in inviteData" :key="idx">
-                      <p>invited from ' {{ invite.first_name }} '</p>
-                      <p>group name: {{ invite.team_name }}</p>
-                      <row>
-                        <button @click="requestAcceptInvite(invite)" type="button"
-                          class="btn bg-gradient-info">accept</button>
-                        <button @click="requestRefuseInvite(invite.id)" type="button"
-                          class="btn bg-gradient-danger">refuse</button>
-                      </row>
-                    </li>
-                  </ul>
-                </ul>
-
-              </div>
-              <div class="btn-group mx-1">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                  data-bs-auto-close="true" aria-expanded="false">
-                  {{ dropdownText }}
-                </button>
-                <ul class="dropdown-menu">
-                  <button class="dropdown-item" @click="setView('list')">list</button>
-                  <button class="dropdown-item" @click="setView('calendar')">calendar</button>
-
-                </ul>
-              </div>
-              <a href="/writeDiary" class="btn btn-info mx-1">write diary</a>
-
-              <!-- userInfo -->
-              <a class="nav-link" href="/userInfo">
-                <div>
-                  {{ this.lastName }}
-                  {{ this.firstName }}
-                </div>
-              </a>
-              <!-- 사용해보기 -->
-              <a class="icon-link mb-1" href="/docs/5.3/getting-started/introduction/">
-                <svg class="bi" width="16" height="16">
-                  <use xlink:href="#arrow-right-circle"></use>
-                </svg>
-                Bootstrap quick start guide
-              </a>
-
-              <!-- log out -->
-              <button type="button" class="btn btn-twitter">
-                <span @click="logOut" class="btn-inner--text">log-out</span>
-              </button>
-
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-
-            </div>
-            <div class="col-6">
-            </div>
-          </div>
-
-          <!-- 일기 리스트 -->
-          <!-- 달력 보기 방식 -->
-          <h1 v-if="isCalendar">calendar</h1>
-          <!-- 리스트 보기 방식 -->
-          <div v-else>
-            <div class="card">
-              <div class="table-responsive">
-                <table class="table align-items-center mb-0">
-                  <!-- 표 헤더 -->
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
-                      </th>
-                      <!-- <th class="text-secondary opacity-7"></th> -->
-                    </tr>
-                  </thead>
-                  <!-- 표 body -->
-                  <tbody v-for="(diary, idx) in diaryData" :key="idx">
-                    <!-- 한 행 -->
-                    <tr>
-                      <!-- author -->
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
-                          </button>
-                        </div>
-                      </td>
-                      <!-- title -->
-                      <td>
-                        <h6 class=" mb-0"><a href="javacsript:void(0);" @click="moveToDetails(diary.id)">{{
-                          diary.diary_title
-                            }}</a></h6>
-                      </td>
-                      <!-- Date -->
-                      <td class="align-middle text-center">
-                        <span class="text-secondary font-weight-normal">{{ diary.written_date }}</span>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                  <!-- 리스트 보기 2
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
-                      </th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <ul v-for="(diary, idx) in diaryData" :key="idx" class="list-group">
-                    <a a href="javacsript:void(0);" @click="moveToDetails" class="list-group-item">
-                      <div class="d-flex px-2 py-1">
-                        <button type="button" class="btn btn-facebook btn-icon-only rounded-circle"
-                          :class="setColor"></button>
-                        <h6 class="ms-2 mb-0"><a href="javacsript:void(0);" @click="moveToDetails">{{ diary.diary_title
-                            }}</a></h6>
-                        <span class="ms-2 text-secondary font-weight-normal">{{ diary.written_date }}</span>
-                      </div>
-                    </a>
-                  </ul> -->
-
-                  <!-- <div class="card-group mb-3" v-for="(diary, idx) in diaryData" :key="idx">
-                    <div class="card">
-                      <div class="card-header">
-                        <div class="d-flex align-items-center">
-                          <h6>
-                            {{ diary.written_date }}-{{ diary.diary_title }}
-                          </h6>
-                          <button class="btn btn-link text-info ">
-                            <i class="material-icons text-lg">edit</i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="card-body text-center">
-                        <p class="mb-0">
-                          {{ diary.details }}
-                        </p>
-                      </div>
-                      <hr class="dark horizontal my-0">
-                      <div class="card-footer d-flex">
-                        {{ diary.writer_id }}
-                      </div>
-                    </div>
-                  </div> -->
-
-                </table>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
