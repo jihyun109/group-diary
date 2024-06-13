@@ -1,7 +1,12 @@
   <script>
   import { mapState } from 'vuex';
+import UserProfile from '@/components/UserProfile.vue'
+
 
   export default {
+    components: {
+    UserProfile
+  },
     mounted() {
       this.fetchData();
       this.$store.dispatch('fetchData');
@@ -58,10 +63,7 @@
           console.error('Error:', error);
         }
       }
-
-
     }
-
   }
 </script>
   
@@ -74,6 +76,13 @@
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
               <h3>{{ diary.diary_title }}</h3>
+              <div>
+               작성자: 
+              <!-- <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name"></UserProfile> -->
+
+                {{ diary.last_name }}
+                {{ diary.first_name }}
+              </div>
               <small>{{ formattedDate(diary) }}</small>
             </div>
             <div v-if="diary.writer_id === this.userId">
