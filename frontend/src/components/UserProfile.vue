@@ -14,21 +14,33 @@ export default {
     lastName: {
       type: String,
       default: '',
+    },
+    width: {
+      type: Number,
+      default: '50',
+    },
+    height: {
+      type: Number,
+      default: '50',
+    },
+    fontSize: {
+      type: Number,
+      default: '20',
     }
   }, 
 
   computed: {
     circleStyle() {
       return {
-        width: `50px`,
-        height: `50px`,
+        width: `${this.width}px`,
+        height: `${this.height}px`,
         backgroundColor: this.color,
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         color: 'black',
-        fontSize: `20px`,
+        fontSize: `${this.fontSize}px`,
         textAlign: 'center',
       };
     }

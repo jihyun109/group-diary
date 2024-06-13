@@ -338,6 +338,22 @@ export default {
         return " bg-info text-white"
       }
         return ""
+    },
+    lightenColor(color) {
+      // Function to lighten the color
+      // Example: lighten by 50% (increase opacity)
+      // Assuming color is in hex format, convert to rgba and adjust alpha channel
+      const rgbaColor = this.hexToRgba(color, 0.5); // 0.5 means 50% opacity
+      return rgbaColor;
+    },
+    hexToRgba(hex, opacity) {
+      // Convert hex color to rgba format with specified opacity
+      hex = hex.replace(/^#/, '');
+      const rgb = parseInt(hex, 16);
+      const r = (rgb >> 16) & 0xff;
+      const g = (rgb >> 8) & 0xff;
+      const b = rgb & 0xff;
+      return `rgba(${r},${g},${b},${opacity})`;
     }
 
   },
@@ -379,10 +395,12 @@ export default {
               {{ showMemberList ? "member hide" : "member show" }}
             </a>
             <div v-if="showMemberList" class="mb-3">
-              <span v-for="(member, idx) in teamMembersData" :key="idx"
-                class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
-                <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt="">
-                {{ member.name }}
+              <span v-for="(member, idx) in teamMembersData" :key="idx" 
+                class="d-flex badge align-items-center p-1 pe-2 text-success-emphasis  border border-success-subtle rounded-pill"
+                :style="{ backgroundColor: lightenColor(member.color), alignItems: 'center' }">
+                <UserProfile class="rounded-circle me-1" :fontSize="10" :width="24" :height="24" :color="member.color" :firstName="member.name"></UserProfile> <span>{{ member.name }}</span>
+                
+                <!-- <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt=""> -->
                 <!-- {{ user.lastName }} {{ user.firstName }} -->
 
               </span>
@@ -606,4 +624,5 @@ export default {
 .setColor {
   background-color: var(--color, white)
 }
+
 </style>
