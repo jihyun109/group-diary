@@ -89,11 +89,11 @@ export default {
 
         // this.$router.push({ name: "main" })
         this.$router.go(-1);
-
         alert("일기 작성 완료");
       } else {  // 일기 수정 페이지
-        console.log('hi');
         await this.requestEditedTeamList();
+        this.$router.go(-1);
+        alert("일기 수정 완료");
       }
 
     },
