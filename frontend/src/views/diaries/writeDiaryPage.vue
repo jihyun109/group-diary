@@ -81,7 +81,9 @@ export default {
 
         // 선택한 팀들에 일기 공유
         for (let i = 0; i < this.teamListToShare.length; i++) {
-          const teamId = this.teamListToShare[i].teamId;
+          console.log('teamListToShare: ', this.teamListToShare)
+          const teamId = this.teamListToShare[i].id;
+          console.log('teamId: ', teamId);
           await this.requestShareDiary(diaryId, teamId);
         }
         alert("일기 작성 완료");
@@ -343,7 +345,6 @@ export default {
         console.log(`공유 취소 실패. 네트워크 오류가 발생했습니다: ${error.message}`);
       }
     },
-
 
     deepCopyAndRename(obj) {
       const renameMap = {
