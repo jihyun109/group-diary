@@ -86,6 +86,10 @@ export default {
           console.log('teamId: ', teamId);
           await this.requestShareDiary(diaryId, teamId);
         }
+
+        // this.$router.push({ name: "main" })
+        this.$router.go(-1);
+
         alert("일기 작성 완료");
       } else {  // 일기 수정 페이지
         console.log('hi');
@@ -109,8 +113,6 @@ export default {
       this.diaryModel.writer_id = this.userId
 
       const response = await fetch(requestUrl, {
-        
-
         method: method,
         headers: {
           'Content-Type': 'application/json'
@@ -121,11 +123,12 @@ export default {
       if (response.ok) {
         // 요청이 성공하면 성공 메시지 표시
         console.log(`${this.needUpdate ? "수정" : "작성"} 성공: `);
-        if (this.needUpdate) {
-          this.$router.push({ name: "diaryDetail", query: { diary: this.diaryModel.id } })
-        } else {
-          this.$router.push({ name: "main" })
-        }
+        // if (this.needUpdate) {
+        //   this.$router.push({ name: "diaryDetail", query: { diary: this.diaryModel.id } })
+        // } else {
+        //   this.$router.push({ name: "main" })
+        //   // this.$router.go(-1);
+        // }
       } else {
         // 요청이 실패하면 오류 메시지 표시
         const errorData = await response.json();
@@ -139,7 +142,7 @@ export default {
       const res = await fetch(`http://localhost:8080/diaries/details/${id}`)
       const resBody = await res.json()
       this.diaryModel = resBody.data
-      console.log('diaryModel: ' ,this.diaryModel)
+      console.log('diaryModel: ', this.diaryModel)
       this.editedTeamList = this.deepCopyAndRename(this.diaryModel.sharedTeamList);
       console.log('editedTeamList: ', this.editedTeamList)
       // JSON.parse(JSON.stringify(this.diaryModel.sharedTeamList));
@@ -178,12 +181,12 @@ export default {
     // 공유할 팀 리스트에 추가
     addToTeamListToShare(teamId, teamName) {
       if (!this.needUpdate) {
-        this.teamListToShare.push({ id: teamId, team_name:teamName });
+        this.teamListToShare.push({ id: teamId, team_name: teamName });
         console.log("teamListToShare: ", this.teamListToShare);
         console.log("filteredTeamData:", this.filteredTeamData);
       } else {
         console.log('editedTeamList: ', this.editedTeamList)
-        this.editedTeamList.push({ id: teamId, team_name:teamName });
+        this.editedTeamList.push({ id: teamId, team_name: teamName });
       }
     },
 
@@ -237,7 +240,7 @@ export default {
         team_id: teamId
       };
 
-      console.log('diaryId:',diaryId, 'teamId:', teamId)
+      console.log('diaryId:', diaryId, 'teamId:', teamId)
 
       try {
         // 서버로 POST 요청 보내기
@@ -313,7 +316,7 @@ export default {
 
       // 추가된 팀 공유 요청 보내기
       for (let i = 0; i < this.addedTeamList.length; i++) {
-        await this.requestShareDiary(this.diaryId ,this.addedTeamList[i].id);
+        await this.requestShareDiary(this.diaryId, this.addedTeamList[i].id);
         console.log(1)
       }
 
