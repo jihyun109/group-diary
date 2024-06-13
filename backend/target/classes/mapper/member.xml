@@ -27,7 +27,7 @@
     </delete>
 
     <select id="requestTeamMembersName"  resultType="com.example.demo.response.TeamMembersNameResponse">
-        SELECT m.user_id, concat(u.first_name,u.last_name) as name
+        SELECT m.user_id, concat(u.first_name,u.last_name) as name, u.color
         FROM members m JOIN users u ON m.user_id = u.id
         WHERE team_id = #{team_id};
     </select>
