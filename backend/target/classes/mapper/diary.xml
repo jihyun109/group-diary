@@ -35,8 +35,8 @@
     </select>
 
     <select id="requestDiaryDetails" resultType="com.example.demo.diary.DiaryModel">
-        SELECT d.id, d.written_date, d.diary_title, d.details, d.writer_id
-        FROM diaries d
+        SELECT d.id, d.written_date, d.diary_title, d.details, d.writer_id, u.first_name, u.last_name
+        FROM diaries d JOIN users u ON d.writer_id = u.id
         WHERE d.id = #{diaryId};
     </select>
 
