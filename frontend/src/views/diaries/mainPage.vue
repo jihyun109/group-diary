@@ -59,7 +59,7 @@ export default {
 
       // this.userId = this.$store.state.userId;
       const menuList = await Promise.all([
-        { type: 'diaries', url: `http://localhost:8080/diaries` },
+        { type: 'diaries', url: `http://localhost:8080/diaries/all/${this.userId}` },
         { type: 'teams', url: `http://localhost:8080/members/userTeamList/${this.userId}` },
         { type: 'members', url: `http://localhost:8080/members` },
         { type: 'users', url: `http://localhost:8080/users` },
@@ -75,6 +75,7 @@ export default {
       this.dataTypeMap = new Map(this.dataList.map((data, idx) => [menuList[idx].type, data.data]))
       // console.log(this.dataTypeMap, 'dm')
       this.diaryData = this.dataTypeMap.get('diaries')
+      console.log(this.diaryData);
       this.teamData = this.dataTypeMap.get('teams')
       this.membersData = this.dataTypeMap.get('members')
       this.usersData = this.dataTypeMap.get('users')
@@ -420,9 +421,7 @@ export default {
                       </td>
                     </tr>
                   </tbody>
-
                
-
                 </table>
               </div>
             </div>
