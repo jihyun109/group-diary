@@ -405,8 +405,9 @@ export default {
                       <td>
                         <!-- <UserProfile :userData="xxx" /> -->
                         <div class="d-flex px-2 py-1">
-                          <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
-                          </button>
+                          <!-- <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
+                          </button> -->
+                          <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name"></UserProfile>
                         </div>
                       </td>
                       <!-- title -->

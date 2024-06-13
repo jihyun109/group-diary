@@ -1,8 +1,10 @@
 <script>
 import { mapState } from 'vuex';
+import UserProfile from '@/components/UserProfile.vue'
 
 export default {
   components: {
+    UserProfile
   },
 
   mounted() {
@@ -82,8 +84,9 @@ export default {
 
       this.dataList = await Promise.all(requests)
       this.dataTypeMap = new Map(this.dataList.map((data, idx) => [menuList[idx].type, data.data]))
-      // console.log(this.dataTypeMap, 'dm')
       this.diaryData = this.dataTypeMap.get('diaries')
+      console.log('diaryData: ',this.diaryData)
+
       this.teamData = this.dataTypeMap.get('teams')
       this.teamMembersData = this.dataTypeMap.get('teamMembers')
       this.membersData = this.dataTypeMap.get('members')
@@ -411,8 +414,10 @@ export default {
                       <!-- author -->
                       <td>
                         <div class="d-flex px-2 py-1">
-                          <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
-                          </button>
+                          <!-- <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
+                          </button> -->
+                          <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name"></UserProfile>
+
                         </div>
                       </td>
                       <!-- title -->
