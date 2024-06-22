@@ -7,7 +7,7 @@
         Friend Log
       </a>
 
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" v-if="showNavbarContent">
         <div class="d-flex align-items-center">
           <div class="dropdown mx-1 position-relative">
             <!-- 초대 알림 -->
@@ -153,6 +153,10 @@ export default {
   },
   computed: {
     ...mapState(['userId', 'firstName', 'lastName', 'color']),
+    showNavbarContent() {
+      // 현재 경로가 '/main'일 경우에만 true를 반환
+      return this.$route.path !== '/logIn' && this.$route.path !== '/signUp';
+    }
   }
 }
 </script>
