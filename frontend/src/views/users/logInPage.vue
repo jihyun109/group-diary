@@ -35,6 +35,7 @@ export default {
           this.$store.commit('setLastName', data.data.last_name); 
           this.$store.commit('setEmail', this.email); 
           this.$store.commit('setPassword', this.password); 
+          this.$store.commit('setColor', data.data.color); 
 
           this.$router.push({ path: 'main'});
         } else {

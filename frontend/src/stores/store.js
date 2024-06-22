@@ -7,6 +7,7 @@ const store = createStore({
     password: "",
     firstName: "",
     lastName: "",
+    color: "",
 
     inviteData: [],
     diaryData: [],
@@ -28,6 +29,9 @@ const store = createStore({
     setPassword(state, password) {
       state.password = password;
     },
+    setColor(state, color) {
+      state.color = color;
+    },
     logOut(state) {
       sessionStorage.clear();
       state.userId = 0; // userId 초기화
@@ -38,6 +42,7 @@ const store = createStore({
       state.inviteData = []; // inviteData 초기화
       state.diaryData = []; // diaryData 초기화
       state.teamData = []; // teamData 초기화
+      state.color = ""; // teamData 초기화
     },
     setinviteData(state, inviteData) {
       state.inviteData = inviteData;

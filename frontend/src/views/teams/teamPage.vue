@@ -582,7 +582,7 @@ export default {
                   <div id="recipient_input_list" class="d-flex mb-3">
                     <span v-for="(user, idx) in usersToInvite" :key="idx"
                       class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
-                      <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt="">
+                      <!-- <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt=""> -->
                       {{ user.lastName }} {{ user.firstName }}
                       <span class="vr mx-2"></span>
                       <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.userId)">
