@@ -116,7 +116,7 @@ export default {
     <div class="container">
       <a class="navbar-brand" href="/main" rel="tooltip" title="Designed and Coded by Creative Tim"
         data-placement="bottom">
-        지현 다이어리
+        FriendLog
       </a>
 
       <div class="container navbar-collapse  pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5">
