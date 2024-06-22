@@ -14,17 +14,17 @@
             <!-- 아이콘 -->
             <a class="nav-link position-relative cursor-pointer" data-bs-toggle="dropdown" data-bs-auto-close="false"
               aria-expanded="false">
-              <img src="../assets/img/alarm.png" style="height: 30px; margin-right: 10px;">
+              <img src="../assets/img/alarm.png" style="height: 30px; margin-right: -15px;">
 
               <!-- badge -->
               <span v-if="alarmN > 0" class="badge badge-circle border border-white border-2"
-                :style="{ backgroundColor: badgeColor, fontSize: '0.5rem', top: '10px', right: '27px', width: '23px', height: '23px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }">
+                :style="{ backgroundColor: badgeColor, fontSize: '0.5rem', top: '10px', right: '5px', width: '23px', height: '23px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }">
                 {{ alarmN }}
               </span>
             </a>
             <!-- dropdown -->
             <ul class="dropdown-menu">
-              <ul class="list-group">
+              <ul class="list-group notification-list">
                 <li class="list-group-item" v-for="(invite, idx) in inviteData" :key="idx">
                   <strong>{{ invite.first_name }}</strong> 님이 <strong>{{ invite.team_name }}</strong> 그룹에 초대했습니다.
                   <div class="d-flex justify-content-between mt-2">
@@ -46,7 +46,7 @@
             </div>
           </a>
           <!-- log out -->
-          <i type="button" @click="logOut" class="material-icons">logout</i>
+          <i type="button" @click="logOut" class="material-icons logout-icon">logout</i>
         </div>
       </div>
     </div>
@@ -58,13 +58,10 @@ import { mapState } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
 
 export default {
-  beforeCreate() {
-    // 필요한 초기화 작업을 여기에 작성합니다.
-  },
+  
   mounted() {
     this.$store.dispatch('fetchData');
     this.fetchData();
-    console.log("안녕");
   },
   watch: {
     // 페이지가 업데이트될 때마다 fetchData를 호출하여 알림 데이터를 새로 불러옵니다.
@@ -83,13 +80,16 @@ export default {
       this.inviteData = inviteDataJson.data;
       this.alarmN = this.inviteData.length;
 
-      console.log("inviteData: ", this.inviteData);
+
+      // console.log("inviteData: ", this.inviteData);
     },
+
     logOut() {
       this.$store.commit('logOut');
       this.$router.push({ path: 'logIn' });
       console.log(this.userId);
     },
+
     async requestAcceptInvite(invite) {
       try {
         const response = await fetch(`http://localhost:8080/members/${invite.id}`, {
@@ -115,6 +115,7 @@ export default {
         console.error('Error:', error);
       }
     },
+
     async requestRefuseInvite(inviteId) {
       try {
         const response = await fetch(`http://localhost:8080/members/${inviteId}`, {
@@ -134,6 +135,7 @@ export default {
       }
     },
   },
+
   data() {
     return {
       inviteData: [],
@@ -155,7 +157,7 @@ export default {
 </script>
 
 <style scoped>
-.material-icons {
+.material-icons.alarm {
   font-size: 36px;
 }
 
@@ -165,5 +167,21 @@ export default {
   right: -5px;
   font-size: 0.75rem;
   transform: translate(50%, -50%);
+}
+
+.material-icons.logout-icon {
+  font-size: 24px; /* 아이콘 크기를 작게 조정 */
+  margin-left: -5px; /* 이름과 아이콘 간격 조정 */
+  margin-right: 20px;
+}
+
+.notification-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.team-list-scroll {
+  max-height: 200px; /* 원하는 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤바 추가 */
 }
 </style>
