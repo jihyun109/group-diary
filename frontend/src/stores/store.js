@@ -56,7 +56,7 @@ const store = createStore({
   },
 
   actions: {
-    async fetchData({ commit, state }) {
+    async fetchStoreData({ commit, state }) {
       const menuList = [
         {
           type: "teams",
@@ -79,7 +79,7 @@ const store = createStore({
 
       const dataList = await Promise.all(requests);
 
-      commit("setTeamData", dataList[0].data);
+      commit("setTeamList", dataList[0].data);
       commit("setinviteData", dataList[1].data);
       commit("setDiaryData", dataList[2].data);
 

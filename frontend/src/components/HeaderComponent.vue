@@ -54,13 +54,13 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { mapState } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
 
 export default {
-  
   mounted() {
-    this.$store.dispatch('fetchData');
+    this.$store.dispatch('fetchStoreData');
     this.fetchData();
   },
   watch: {
@@ -71,6 +71,7 @@ export default {
     UserProfile
   },
   methods: {
+    ...mapActions(['fetchStoreData']),
     async fetchData() {
       console.log(this.firstName);
       const inviteDataResponse = await fetch(`http://localhost:8080/members/invited/${this.userId}`);
@@ -107,7 +108,7 @@ export default {
         if (response.ok) {
           this.inviteData = this.inviteData.filter(i => i.id !== invite.id);
           this.alarmN = this.inviteData.length;
-          this.fetchData();
+          await this.fetchStoreData();
         } else {
           console.error('Error accepting invite');
         }

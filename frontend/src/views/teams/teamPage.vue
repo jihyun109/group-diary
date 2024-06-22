@@ -8,14 +8,21 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('fetchData');
+    this.$store.dispatch('fetchStoreData');
     this.fetchData();
     // console.log(this.diaryData);
   },
   watch: {
     '$route.query.team': function (newTeam) {
       this.fetchData();
+    },
+    teamList(newTeamList) {
+      this.teamData = newTeamList;
     }
+  },
+
+  created() {
+    this.$store.dispatch('fetchStoreData');
   },
 
   data() {
@@ -53,6 +60,9 @@ export default {
 
   computed: {
     ...mapState(['userId', 'firstName', 'lastName']),
+    ...mapState({
+      teamList: state => state.teamList
+    }),
 
     filteredUserSearchData() {
       const invitedUserIds = new Set(this.usersToInvite.map(user => user.userId));

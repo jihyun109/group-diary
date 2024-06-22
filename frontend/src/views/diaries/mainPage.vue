@@ -185,7 +185,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('fetchData');
+    this.$store.dispatch('fetchStoreData');
     this.fetchData();
   },
 
@@ -214,9 +214,15 @@ export default {
     }
   },
 
+  created() {
+    this.$store.dispatch('fetchStoreData');
+  },
+
   computed: {
     ...mapState(['userId', 'firstName', 'lastName']),
-    // ...mapGetters(['teamList']),
+    ...mapState({
+      teamList: state => state.teamList
+    }),
 
     sortedDiaryData() {
       return this.diaryData.slice().sort((a, b) => new Date(b.written_date) - new Date(a.written_date));
@@ -235,6 +241,12 @@ export default {
 
     totalPages() {
       return Math.ceil(this.diaryData.length / this.itemsPerPage);
+    }
+  },
+
+  watch: {
+    teamList(newTeamList) {
+      this.teamData = newTeamList;
     }
   },
 
@@ -357,27 +369,23 @@ export default {
     },
 
     async createTeam() {
-  await this.requestCreateTeam();
-  await this.inviteUsers();
-  alert('팀이 생성되었습니다.');
-  this.groupNameToCreate = '';
-  this.searchWord = '';
-  this.userSearchData = [];
-  this.usersToInvite = [];
-  
-  // 모달 닫기
-  const modalElement = document.getElementById('createGroup-form');
-  const modal = bootstrap.Modal.getInstance(modalElement); // Bootstrap 5 method
-  if (modal) {
-    modal.hide();
-  }
-  
-  this.fetchData();
-}
+      await this.requestCreateTeam();
+      await this.inviteUsers();
+      alert('팀이 생성되었습니다.');
+      this.groupNameToCreate = '';
+      this.searchWord = '';
+      this.userSearchData = [];
+      this.usersToInvite = [];
 
+      // 모달 닫기
+      const modalElement = document.getElementById('createGroup-form');
+      const modal = bootstrap.Modal.getInstance(modalElement); // Bootstrap 5 method
+      if (modal) {
+        modal.hide();
+      }
 
-
-    ,
+      this.fetchData();
+    },
 
     async requestCreateTeam() {
       this.errors.groupNameToCreate = !this.groupNameToCreate;
@@ -547,7 +555,9 @@ body {
 }
 
 .team-list-scroll {
-  max-height: 400px; /* 원하는 높이 설정 */
-  overflow-y: auto; /* 세로 스크롤바 추가 */
+  max-height: 400px;
+  /* 원하는 높이 설정 */
+  overflow-y: auto;
+  /* 세로 스크롤바 추가 */
 }
 </style>
