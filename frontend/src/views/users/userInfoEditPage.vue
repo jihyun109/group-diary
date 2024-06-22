@@ -96,6 +96,11 @@ export default {
           // 요청이 성공하면 성공 메시지 표시
           alert('회원 정보가 수정되었습니다.');
           window.history.back();
+          this.$store.commit('setFirstName', this.firstName); 
+          this.$store.commit('setLastName', this.lastName); 
+          this.$store.commit('setEmail', this.emailAddress); 
+          this.$store.commit('setPassword', this.password); 
+          this.$store.commit('setColor', this.color); 
         } else {
           // 요청이 실패하면 오류 메시지 표시
           const errorData = await response.json();

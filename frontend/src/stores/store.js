@@ -11,7 +11,7 @@ const store = createStore({
 
     inviteData: [],
     diaryData: [],
-    teamData: [],
+    teamList: [],
   },
   mutations: {
     setUserId(state, userId) {
@@ -47,8 +47,8 @@ const store = createStore({
     setinviteData(state, inviteData) {
       state.inviteData = inviteData;
     },
-    setTeamData(state, teamData) {
-      state.teamData = teamData;
+    setTeamList(state, teamList) {
+      state.teamList = teamList;
     },
     setDiaryData(state, diaryData) {
       state.diaryData = diaryData;
@@ -87,6 +87,13 @@ const store = createStore({
       //   commit(`set${menuList[idx].type.charAt(0).toUpperCase() + menuList[idx].type.slice(1)}Data`, data.data);
       // });
     },
+
+    // updateTeamList({ commit }, teamList) {
+    //   commit('setTeamList', teamList);
+    // },
+    // getters: {
+    //   teamList: state => state.teamList
+    // }
   },
 
   plugins: [
