@@ -1,12 +1,12 @@
   <script>
   import { mapState } from 'vuex';
-import UserProfile from '@/components/UserProfile.vue'
+  import UserProfile from '@/components/UserProfile.vue'
 
 
   export default {
     components: {
-    UserProfile
-  },
+      UserProfile
+    },
     mounted() {
       this.fetchData();
       this.$store.dispatch('fetchData');
@@ -40,7 +40,7 @@ import UserProfile from '@/components/UserProfile.vue'
         return '';
       },
       editDiary() {
-        console.log(this.diary,"detail")
+        console.log(this.diary, "detail")
         this.$router.push({ name: 'editDiary', query: { diaryId: this.diary.id } })
 
       },
@@ -73,30 +73,40 @@ import UserProfile from '@/components/UserProfile.vue'
     <div v-else>
       <div class="container mt-5">
         <div v-if="diary" class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <div>
-              <h3>{{ diary.diary_title }}</h3>
-              <div>
-               작성자: 
-              <!-- <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name"></UserProfile> -->
+          <div class="card-header">
+            <div class="text-center">
+              <h1>{{ diary.diary_title }}</h1>
+            </div>
+          </div>
 
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                작성자:
                 {{ diary.last_name }}
                 {{ diary.first_name }}
+                <br>
+                {{ formattedDate(diary) }}
               </div>
-              <small>{{ formattedDate(diary) }}</small>
             </div>
-            <div v-if="diary.writer_id === this.userId">
-              <button class="btn btn-primary btn-sm" @click="editDiary">수정</button>
-              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
+            <div class="card mt-4">
+              <div class="card-body">
+                {{ diary.details }}
+              </div>
             </div>
           </div>
-          <div class="card-body">
-            <p>{{ diary.details }}</p>
-          </div>
+
           <div class="card-footer">
+            <div v-if="diary.writer_id === this.userId" class="d-flex justify-content-end me-2">
+              <button class="btn btn-primary me-1" @click="editDiary">수정</button>
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
+            </div>
           </div>
+
         </div>
       </div>
+
+
     </div>
 
     <!-- 삭제  -->
@@ -119,3 +129,12 @@ import UserProfile from '@/components/UserProfile.vue'
       </div>
     </div>
   </template>
+
+<style scoped>
+.card-body {
+  width: 700px;
+  /* 원하는 너비로 설정 */
+  margin: 0 auto;
+  /* 가운데 정렬 */
+}
+</style>
