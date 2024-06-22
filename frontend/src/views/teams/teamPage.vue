@@ -163,7 +163,11 @@ export default {
 
     // usersToInvite 배열 초기화
     resetUsersToInvite() {
-      this.usersToInvite = []
+      this.usersToInvite = [];
+      this.groupNameToCreate = '';
+      this.searchWord = '';
+      this.userSearchData = [];
+      this.usersToInvite = [];
       console.log("userToInvite[]: ", this.userToInvite);
     },
 
@@ -172,19 +176,34 @@ export default {
       await this.requestCreateTeam();
       await this.inviteUsers();
       alert('팀이 생성되었습니다.');
-      const modal = new bootstrap.Modal(document.getElementById('createGroup-form'));
+      this.groupNameToCreate = '';
+      this.searchWord = '';
+      this.userSearchData = [];
+      this.usersToInvite = [];
+      const modalElement = document.getElementById('createGroup-form');
+      const modal = bootstrap.Modal.getInstance(modalElement);
       modal.hide();
       this.fetchData();
     },
 
     async inviteToTeam() {
-      try {
-        await this.inviteUsers();
-        alert('팀에 초대되었습니다.');
-      } catch (err) {
-        console.log("팀 초대에 실패했습니다 ", err)
-      }
+      // usersToInvite ${this.$route.query.team}
+      // try {
+      //   await this.inviteUsers();
+      //   alert('팀에 초대되었습니다.');
+      // } catch (err) {
+      //   console.log("팀 초대에 실패했습니다 ", err)
+      // }
 
+      for (let i = 0; i <this.usersToInvite.length; i++) {
+        let userId = this.usersToInvite[i].userId;
+        await this.requestInviteUser(userId, this.$route.query.team);
+      }
+      alert('팀에 초대되었습니다.');
+      const modalElement = document.getElementById('inviteUser-form');
+  const modal = bootstrap.Modal.getInstance(modalElement);
+  modal.hide();
+      
     },
 
     // 팀생성 요청 보내기
@@ -365,14 +384,14 @@ export default {
   <div>
     <p v-if="!dataList">로딩...</p>
     <div v-else>
-      <div class="row">
-        <div class="col-2">
+      <div class="row mt-3">
+        <div class="col-2 ms-3">
           <!-- create group 버튼 -->
           <button type="button btn-block" class="btn bg-gradient-info" data-bs-toggle="modal"
             data-bs-target="#createGroup-form">create group</button>
 
           <!-- team 목록 -->
-          <div class="list-group" v-if="teamData">
+          <div class="list-group team-list-scroll" v-if="teamData">
             <a @click="moveToTeamPage(team.team_id)" href="javacsript:void(0);"
               :class='`list-group-item list-group-item-action ${teamActiveStyle(team.team_id)}`'
               v-for="(team, idx) in teamData" :key="idx">
@@ -382,29 +401,28 @@ export default {
         </div>
 
         <!-- 화면 왼쪽 -->
-        <div class="col-10">
-          <div class="row">
+        <div class="col-8 me-3 ms-5">
+          <div class="row mt-3">
             <div class="d-flex align-items-center">
               <h1>
                 {{ selectedTeam.team_name }}
               </h1>
-              <button class="btn btn-outline-success ms-3" data-bs-toggle="modal" data-bs-target="#inviteUser-form"
-                id="searchBtn">멤버 추가</button>
-              <a href="/writeDiary" class="btn btn-outline-info mx-1">일기 쓰기</a>
+              <!-- <button class="btn btn-outline-success ms-5" data-bs-toggle="modal" data-bs-target="#inviteUser-form"
+                id="searchBtn">멤버 추가</button> -->
+              <button class="btn ms-5" data-bs-toggle="modal" data-bs-target="#inviteUser-form" id="searchBtn"
+                style="background-color: #e3ede6;">멤버 추가</button>
+
+              <!-- <a href="/writeDiary" class="btn btn-outline-info mx-1">일기 쓰기</a> -->
             </div>
-            <a href="javascript:void(0);" @click="toggleShowMemberList(idx)" class="text-primary">
+            <a href="javascript:void(0);" @click="toggleShowMemberList(idx)" class="text-primary ms-3">
               {{ showMemberList ? "member hide" : "member show" }}
             </a>
-            <div v-if="showMemberList" class="mb-3">
+            <div v-if="showMemberList" class="mb-3 ms-3 mt-2">
               <span v-for="(member, idx) in teamMembersData" :key="idx"
-                class="d-inline-flex badge align-items-center p-1 pe-2 text-success-emphasis border border-success-subtle rounded-pill"
+                class="ms-1 d-inline-flex badge align-items-center p-1 pe-2 text-success-emphasis border border-success-subtle rounded-pill"
                 :style="{ backgroundColor: lightenColor(member.color), alignItems: 'center' }">
                 <UserProfile class="rounded-circle me-1" :fontSize="10" :width="24" :height="24" :color="member.color"
                   :firstName="member.name"></UserProfile> <span>{{ member.name }}</span>
-
-                <!-- <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt=""> -->
-                <!-- {{ user.lastName }} {{ user.firstName }} -->
-
               </span>
             </div>
           </div>
@@ -414,47 +432,80 @@ export default {
           <h1 v-if="isCalendar">calendar</h1>
           <!-- 리스트 보기 방식 -->
           <div v-else>
-            <div class="card">
-              <div class="table-responsive">
-                <table class="table align-items-center mb-0">
-                  <!-- 표 헤더 -->
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
-                      </th>
-                      <!-- <th class="text-secondary opacity-7"></th> -->
-                    </tr>
-                  </thead>
-                  <!-- 표 body -->
-                  <tbody v-for="(diary, idx) in diaryData" :key="idx">
-                    <!-- 한 행 -->
-                    <tr>
-                      <!-- author -->
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <!-- <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
+            <div class="card rounded-card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <div class="d-flex align-items-center justify-content-between" style="margin: 10px 0;">
+                    <h4 class="font-weight-bold" style="margin-left: 30px;">Diaries</h4>
+                    <a href="/writeDiary" style="margin: 10px 30px -10px 10px;">
+                      <img src="../../assets/img/write.png" style="height: 30px; margin-right: 10px;">
+                      <strong>Write diary</strong>
+                    </a>
+                  </div>
+
+                  <table class="table align-items-center mb-0 table-background rounded-table">
+                    <!-- 표 헤더 -->
+
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
+                        </th>
+                        <!-- <th class="text-secondary opacity-7"></th> -->
+                      </tr>
+                    </thead>
+                    <!-- 표 body -->
+                    <tbody v-for="(diary, idx) in diaryData" :key="idx">
+                      <!-- 한 행 -->
+                      <tr>
+                        <!-- author -->
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <!-- <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
                           </button> -->
-                          <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name">
-                          </UserProfile>
+                            <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name">
+                            </UserProfile>
 
-                        </div>
-                      </td>
-                      <!-- title -->
-                      <td>
-                        <h6 class=" mb-0"><a href="javacsript:void(0);" @click="moveToDetails(diary.id)">{{
-                          diary.diary_title
-                            }}</a></h6>
-                      </td>
-                      <!-- Date -->
-                      <td class="align-middle text-center">
-                        <span class="text-secondary font-weight-normal">{{ diary.written_date }}</span>
-                      </td>
-                    </tr>
-                  </tbody>
+                          </div>
+                        </td>
+                        <!-- title -->
+                        <td>
+                          <h6 class=" mb-0"><a href="javacsript:void(0);" @click="moveToDetails(diary.id)">{{
+                            diary.diary_title
+                              }}</a></h6>
+                        </td>
+                        <!-- Date -->
+                        <td class="align-middle text-center">
+                          <span class="text-secondary font-weight-normal">{{ diary.written_date }}</span>
+                        </td>
+                      </tr>
+                    </tbody>
 
-                </table>
+                  </table>
+
+                  <!-- Pagination -->
+                  <nav class="mt-4" aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                      <li :class="['page-item', { disabled: currentPage === 1 }]">
+                        <a class="page-link" href="javascript:;" @click="changePage(currentPage - 1)" tabindex="-1">
+                          <i class="fa fa-angle-left"></i>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                      </li>
+                      <li v-for="page in totalPages" :key="page"
+                        :class="['page-item', { active: page === currentPage }]">
+                        <a class="page-link" href="javascript:;" @click="changePage(page)">{{ page }}</a>
+                      </li>
+                      <li :class="['page-item', { disabled: currentPage === totalPages }]">
+                        <a class="page-link" href="javascript:;" @click="changePage(currentPage + 1)">
+                          <i class="fa fa-angle-right"></i>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>
@@ -470,36 +521,26 @@ export default {
           <!-- 헤더 -->
           <div class="modal-header">
             <h5 class="modal-title" @click="initUsersToInvite" id="modal-title-notification">Create new group</h5>
-            <!-- 닫기 버튼 색 바꾸기 -->
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button> -->
           </div>
           <!-- body -->
           <div class="modal-body p-0">
             <div class="card card-plain">
-
               <div class="card-body">
                 <form role="form text-left d-flex">
+
                   <label>Group name</label>
                   <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Group name</label>
-                    <input v-model="groupNameToCreate" type="text" class="form-control"
+                    <input v-model="groupNameToCreate" placeholder="Group Name" type="text" class="form-control"
                       :class="{ 'is-invalid': errors.groupNameToCreate }">
                   </div>
 
-                  <!-- <form class="d-flex" role="search"> -->
                   <label>Add friends to this group</label>
-                  <!-- 버튼 클릭 -> searchWord에 해당되는 user 리스트 보이기
-                        searchData : searchWord에 해당되는 user 리스트,
-                        -->
 
                   <div id="recipient_input_list">
                     <span v-for="(user, idx) in usersToInvite" :key="idx"
-                      class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
-                      <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt="">
-                      {{ user.lastName }} {{ user.firstName }}
+                      class="
+                      me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center">
+                      <span style="margin-left: 10px;">{{ user.lastName }} {{ user.firstName }}</span>
                       <span class="vr mx-2"></span>
                       <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.userId)">
                         <span class="material-icons opacity-6 me-2 text-md">cancel</span>
@@ -508,7 +549,7 @@ export default {
                   </div>
 
                   <form @submit.prevent="searchUser">
-                    <div class="input-group input-group-outline mb-3">
+                    <div class="input-group input-group-outline mb-3 mt-2">
                       <div class="col-8">
                         <input v-model="searchWord" class="form-control me-2" type="text" placeholder="Search">
                       </div>
@@ -516,19 +557,18 @@ export default {
                         <button @click="searchUser" class="btn btn-outline-success ms-3" id="searchBtn">Search</button>
                       </div>
                     </div>
-                  </form>
 
-                  <div v-if="filteredUserSearchData.length === 0" class="list-group">
-                    <p>no such user</p>
-                  </div>
-                  <div v-else class="list-group">
-                    <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
-                      @click="addToInviteGroup(user.id, user.last_name, user.first_name)" href="javacsript:void(0);"
-                      class="list-group-item list-group-item-action">
-                      {{ user.last_name }} {{ user.first_name }}
-                    </a>
-                  </div>
-                  <!-- </form> -->
+                    <div v-if="filteredUserSearchData.length === 0" class="list-group">
+                      <p>no such user</p>
+                    </div>
+                    <div v-else class="list-group">
+                      <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
+                        @click="addToInviteGroup(user.id, user.last_name, user.first_name)" href="javacsript:void(0);"
+                        class="list-group-item list-group-item-action">
+                        {{ user.last_name }} {{ user.first_name }}
+                      </a>
+                    </div>
+                  </form>
                 </form>
               </div>
             </div>
@@ -543,6 +583,8 @@ export default {
         </div>
       </div>
     </div>
+
+
     <!--inviteUser modal -->
     <div class="modal fade" id="inviteUser-form" tabindex="-1" role="dialog" aria-labelledby="inviteUser-form"
       aria-hidden="true" data-bs-backdrop="static">
@@ -551,11 +593,6 @@ export default {
           <!-- 헤더 -->
           <div class="modal-header">
             <h5 class="modal-title" @click="initUsersToInvite" id="modal-title-notification">멤버 추가</h5>
-            <!-- 닫기 버튼 색 바꾸기 -->
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button> -->
           </div>
           <!-- body -->
           <div class="modal-body p-0">
@@ -564,11 +601,7 @@ export default {
               <div class="card-body">
                 <form role="form text-left d-flex">
 
-                  <!-- <form class="d-flex" role="search"> -->
                   <label>Add friends to this group</label>
-                  <!-- 버튼 클릭 -> searchWord에 해당되는 user 리스트 보이기
-                        searchData : searchWord에 해당되는 user 리스트,
-                        -->
                   <form @submit.prevent="searchUser">
                     <div class="input-group input-group-outline">
                       <div class="col-8">
@@ -579,10 +612,10 @@ export default {
                       </div>
                     </div>
                   </form>
+
                   <div id="recipient_input_list" class="d-flex mb-3">
                     <span v-for="(user, idx) in usersToInvite" :key="idx"
                       class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
-                      <!-- <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt=""> -->
                       {{ user.lastName }} {{ user.firstName }}
                       <span class="vr mx-2"></span>
                       <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.userId)">
@@ -622,5 +655,10 @@ export default {
 <style>
 .setColor {
   background-color: var(--color, white)
+}
+
+.team-list-scroll {
+  max-height: 400px; /* 원하는 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤바 추가 */
 }
 </style>

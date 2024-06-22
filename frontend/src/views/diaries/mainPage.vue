@@ -3,18 +3,18 @@
     <p v-if="!dataList">로딩...</p>
     <div v-else>
       <div class="row mt-3">
-        <div class="col-2 ms-3">
+        <div class="col-2 ms-3" style="margin: 10px 0;">
           <!-- create group 버튼 -->
           <button type="button" class="btn bg-gradient-info btn-block" data-bs-toggle="modal"
             data-bs-target="#createGroup-form">create group
           </button>
           <!-- team 목록 -->
-          <div class="list-group mt-2" v-if="teamData">
+          <ul class="list-group mt-2 team-list-scroll" v-if="teamData">
             <a @click="moveToTeamPage(team.team_id)" href="javascript:void(0);"
               class="list-group-item list-group-item-action" v-for="(team, idx) in teamData" :key="idx">
               {{ team.team_name }}
             </a>
-          </div>
+          </ul>
         </div>
 
         <div class="col-8 me-3">
@@ -27,22 +27,25 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <div class="d-flex align-items-center justify-content-between" style="margin: 10px 0;">
-                    <h2 class="font-weight-bold" style="margin-left: 30px;">Diaries</h2>
-                    <a href="javascript:void(0);" @click="moveToWriteDiaryPage()" style="margin: 10px 30px -10px 10px;">
+                    <h4 class="font-weight-bold" style="margin-left: 30px;">Diaries</h4>
+                    <a href="/writeDiary" style="margin: 10px 30px -10px 10px;">
                       <img src="../../assets/img/write.png" style="height: 30px; margin-right: 10px;">
                       <strong>Write diary</strong>
                     </a>
                   </div>
 
-                  <table class="table align-items-center mb-0 table-background rounded-table"
-                    style="background-color: #ede9e3;">
+                  <table class="table align-items-center mb-0 table-background rounded-table">
                     <!-- 표 헤더 -->
                     <thead>
                       <tr>
                         <th class="author-column text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                           Author</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
+                        <th
+                          class="title-column text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                          Title</th>
+                        <th
+                          class="date-column text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                          Date
                         </th>
                       </tr>
                     </thead>
@@ -59,12 +62,12 @@
                         </td>
                         <!-- title -->
                         <td>
-                          <h6 class="mb-0">
+                          <h6 class="mb-0 title-column">
                             <a href="javascript:void(0);" @click="moveToDetails(diary.id)">{{ diary.diary_title }}</a>
                           </h6>
                         </td>
                         <!-- Date -->
-                        <td class="align-middle text-center">
+                        <td class="date-column align-middle text-center">
                           <span class="text-secondary font-weight-normal">{{ diary.written_date }}</span>
                         </td>
                       </tr>
@@ -110,6 +113,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="modal-title-notification">Create new group</h5>
           </div>
+
           <!-- body -->
           <div class="modal-body p-0">
             <div class="card card-plain rounded-card">
@@ -117,24 +121,25 @@
                 <form role="form text-left d-flex">
                   <label>Group name</label>
                   <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Group name</label>
                     <input v-model="groupNameToCreate" type="text" class="form-control"
-                      :class="{ 'is-invalid': errors.groupNameToCreate }">
+                      :class="{ 'is-invalid': errors.groupNameToCreate }" placeholder="Group Name">
                   </div>
+
                   <label>Add friends to this group</label>
                   <div id="recipient_input_list">
                     <span v-for="(user, idx) in usersToInvite" :key="idx"
-                      class="badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
-                      <img class="rounded-circle me-1" width="24" height="24" src="https://github.com/mdo.png" alt="">
-                      {{ user.lastName }} {{ user.firstName }}
+                      class="
+                      me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center">
+                      <span style="margin-left: 10px;">{{ user.lastName }} {{ user.firstName }}</span>
                       <span class="vr mx-2"></span>
-                      <a href="javascript:void(0);" @click="removeFromInviteGroup(user.userId)">
+                      <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.userId)">
                         <span class="material-icons opacity-6 me-2 text-md">cancel</span>
                       </a>
                     </span>
                   </div>
+
                   <form @submit.prevent="searchUser">
-                    <div class="input-group input-group-outline mb-3">
+                    <div class="input-group input-group-outline mb-3 mt-2">
                       <div class="col-8">
                         <input v-model="searchWord" class="form-control me-2" type="text" placeholder="Search">
                       </div>
@@ -171,6 +176,7 @@
 
 <script>
 import { mapState } from 'vuex';
+// import { mapGetters } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
 
 export default {
@@ -210,6 +216,7 @@ export default {
 
   computed: {
     ...mapState(['userId', 'firstName', 'lastName']),
+    // ...mapGetters(['teamList']),
 
     sortedDiaryData() {
       return this.diaryData.slice().sort((a, b) => new Date(b.written_date) - new Date(a.written_date));
@@ -333,10 +340,6 @@ export default {
       this.$router.push({ path: 'teamPage', query: { team: teamId } });
     },
 
-    moveToWriteDiaryPage() {
-      this.$router.push({ path: 'writeDiary' });
-    },
-
     addToInviteGroup(userId, lastName, firstName) {
       this.usersToInvite.push({ userId, lastName, firstName });
     },
@@ -346,17 +349,35 @@ export default {
     },
 
     resetUsersToInvite() {
-      this.usersToInvite = []
+      this.usersToInvite = [];
+      this.groupNameToCreate = '';
+      this.searchWord = '';
+      this.userSearchData = [];
+      this.usersToInvite = [];
     },
 
     async createTeam() {
-      await this.requestCreateTeam();
-      await this.inviteUsers();
-      alert('팀이 생성되었습니다.');
-      const modal = new bootstrap.Modal(document.getElementById('createGroup-form'));
-      modal.hide();
-      this.fetchData();
-    },
+  await this.requestCreateTeam();
+  await this.inviteUsers();
+  alert('팀이 생성되었습니다.');
+  this.groupNameToCreate = '';
+  this.searchWord = '';
+  this.userSearchData = [];
+  this.usersToInvite = [];
+  
+  // 모달 닫기
+  const modalElement = document.getElementById('createGroup-form');
+  const modal = bootstrap.Modal.getInstance(modalElement); // Bootstrap 5 method
+  if (modal) {
+    modal.hide();
+  }
+  
+  this.fetchData();
+}
+
+
+
+    ,
 
     async requestCreateTeam() {
       this.errors.groupNameToCreate = !this.groupNameToCreate;
@@ -462,22 +483,40 @@ export default {
 
 <style>
 body {
-  background-color: #ede9e3;
+  background-color: #afbda4;
 }
 
 .author-column {
-  width: 100px;
+  width: 50px;
   /* author 열의 가로 폭 줄이기 */
 }
 
+.title-column {
+  width: 100px;
+  /* title 열의 가로 폭 줄이기 */
+}
+
+.date-column {
+  width: 150px;
+  /* date 열의 가로 폭 줄이기 */
+}
+
 .card {
-  max-width: 1000px;
+  max-width: 800px;
   /* 일기 리스트의 폭 줄이기 */
   margin: 0 auto;
   /* 가운데 정렬 */
-  margin-top: 20px;
+  margin-top: 50px;
   /* 카드 위에 공백 추가 */
 }
+
+.table-responsive {
+  max-width: 800px;
+  /* 테이블의 폭을 줄이기 */
+  margin: 0 auto;
+  /* 가운데 정렬 */
+}
+
 
 .mt-4 {
   margin-top: 1rem !important;
@@ -493,14 +532,22 @@ body {
   border-spacing: 0;
   border-radius: 15px;
   overflow: hidden;
-  padding-left: 15px;  /* 좌측 여백 추가 */
-  padding-right: 15px; /* 우측 여백 추가 */
+  padding-left: 15px;
+  /* 좌측 여백 추가 */
+  padding-right: 15px;
+  /* 우측 여백 추가 */
 }
 
 .table-background {
-  background-color: #ede9e3;
-  padding-left: 15px;  /* 좌측 여백 추가 */
-  padding-right: 15px; /* 우측 여백 추가 */
+  /* background-color: #f7f4f0; */
+  padding-left: 15px;
+  /* 좌측 여백 추가 */
+  padding-right: 15px;
+  /* 우측 여백 추가 */
 }
 
+.team-list-scroll {
+  max-height: 400px; /* 원하는 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤바 추가 */
+}
 </style>
