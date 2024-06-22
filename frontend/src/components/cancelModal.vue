@@ -29,8 +29,9 @@ export default {
                     {{ message }} 을 취소하시겠습니까?
                 </div>
                 <div class="modal-footer justify-content-between">
+                  <a class="btn btn-primary bg-gradient-info mb-0" @click="goBack" role="button">Yes</a>
                     <button type="button" class="btn bg-gradient-dark mb-0" data-bs-dismiss="modal">Close</button>
-                    <a class="btn btn-primary bg-gradient-info mb-0" @click="goBack" role="button">Yes</a>
+                    
                 </div>
             </div>
         </div>
