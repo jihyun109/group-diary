@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <p v-if="!dataList">로딩...</p>
     <div v-else>
       <div class="row mt-3">
         <div class="col-2 ms-3" style="margin: 10px 0;">
           <!-- create group 버튼 -->
-          <button type="button" class="btn bg-gradient-info btn-block" data-bs-toggle="modal"
-            data-bs-target="#createGroup-form">create group
+          <button type="button" class="btn btn-block" data-bs-toggle="modal" data-bs-target="#createGroup-form"
+            style="background-color: #E1DACC;">create group
           </button>
           <!-- team 목록 -->
           <ul class="list-group mt-2 team-list-scroll" v-if="teamData">
@@ -178,6 +178,7 @@
 import { mapState } from 'vuex';
 // import { mapGetters } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
+import '../../assets/styles.css';
 
 export default {
   components: {
@@ -482,8 +483,9 @@ export default {
 
     changePage(page) {
       if (page > 0 && page <= this.totalPages) {
-        this.currentPage = page;
-      }
+      this.currentPage = page;
+      this.fetchData();
+    }
     }
   }
 }
@@ -525,7 +527,6 @@ body {
   /* 가운데 정렬 */
 }
 
-
 .mt-4 {
   margin-top: 1rem !important;
   /* nav를 일기 리스트에서 더 아래로 위치시키기 */
@@ -559,5 +560,12 @@ body {
   /* 원하는 높이 설정 */
   overflow-y: auto;
   /* 세로 스크롤바 추가 */
+}
+
+/* 활성화된 페이지 항목 색상 변경 */
+.pagination .page-item.active .page-link {
+  background-color: #E1DACC; /* 원하는 배경색 */
+  border-color: #E1DACC; /* 원하는 테두리 색 */
+  color: #ffffff; /* 텍스트 색 */
 }
 </style>

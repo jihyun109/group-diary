@@ -1,6 +1,7 @@
 <script>
 import { mapState } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
+import '../../assets/styles.css';
 
 export default {
   components: {
@@ -54,24 +55,50 @@ export default {
         groupNameToCreate: false
       },
       clickedUserLastName: '',
-      clickedUserFirstName: ''
+      clickedUserFirstName: '',
+      currentPage: 1,
+      itemsPerPage: 7,
     }
   },
 
   computed: {
     ...mapState(['userId', 'firstName', 'lastName']),
     ...mapState({
-      teamList: state => state.teamList
+      teamList: state => state.teamList,
+
     }),
 
     filteredUserSearchData() {
       const invitedUserIds = new Set(this.usersToInvite.map(user => user.userId));
       console.log("invitedUserIds:", invitedUserIds);
       return this.userSearchData.filter(user => user.id !== this.userId && !invitedUserIds.has(user.id));
+    },
+
+    sortedDiaryData() {
+      return this.diaryData.slice().sort((a, b) => new Date(b.written_date) - new Date(a.written_date));
+    },
+
+
+    paginatedDiaries() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.sortedDiaryData.slice(start, end);
+    },
+
+    totalPages() {
+      return Math.ceil(this.diaryData.length / this.itemsPerPage);
     }
+
+
   },
 
   methods: {
+    changePage(page) {
+    if (page > 0 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.fetchData();
+    }
+  },
     async fetchData() {
       console.log(this.firstName);
       // console.log(this.userId);
@@ -205,15 +232,15 @@ export default {
       //   console.log("팀 초대에 실패했습니다 ", err)
       // }
 
-      for (let i = 0; i <this.usersToInvite.length; i++) {
+      for (let i = 0; i < this.usersToInvite.length; i++) {
         let userId = this.usersToInvite[i].userId;
         await this.requestInviteUser(userId, this.$route.query.team);
       }
       alert('팀에 초대되었습니다.');
       const modalElement = document.getElementById('inviteUser-form');
-  const modal = bootstrap.Modal.getInstance(modalElement);
-  modal.hide();
-      
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+
     },
 
     // 팀생성 요청 보내기
@@ -384,21 +411,23 @@ export default {
       const b = rgb & 0xff;
       return `rgba(${r},${g},${b},${opacity})`;
     }
-
   },
+
+  
 }
 
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <p v-if="!dataList">로딩...</p>
     <div v-else>
       <div class="row mt-3">
         <div class="col-2 ms-3">
           <!-- create group 버튼 -->
-          <button type="button btn-block" class="btn bg-gradient-info" data-bs-toggle="modal"
-            data-bs-target="#createGroup-form">create group</button>
+          <button type="button" class="btn btn-block" data-bs-toggle="modal" data-bs-target="#createGroup-form"
+            style="background-color: #E1DACC;">create group
+          </button>
 
           <!-- team 목록 -->
           <div class="list-group team-list-scroll" v-if="teamData">
@@ -466,7 +495,7 @@ export default {
                       </tr>
                     </thead>
                     <!-- 표 body -->
-                    <tbody v-for="(diary, idx) in diaryData" :key="idx">
+                    <tbody v-for="(diary, idx) in paginatedDiaries" :key="idx">
                       <!-- 한 행 -->
                       <tr>
                         <!-- author -->
@@ -491,7 +520,6 @@ export default {
                         </td>
                       </tr>
                     </tbody>
-
                   </table>
 
                   <!-- Pagination -->
@@ -515,6 +543,7 @@ export default {
                       </li>
                     </ul>
                   </nav>
+
                 </div>
               </div>
             </div>
@@ -668,7 +697,32 @@ export default {
 }
 
 .team-list-scroll {
-  max-height: 400px; /* 원하는 높이 설정 */
-  overflow-y: auto; /* 세로 스크롤바 추가 */
+  max-height: 400px;
+  /* 원하는 높이 설정 */
+  overflow-y: auto;
+  /* 세로 스크롤바 추가 */
+}
+
+.card {
+  max-width: 800px;
+  /* 일기 리스트의 폭 줄이기 */
+  margin: 0 auto;
+  /* 가운데 정렬 */
+  margin-top: 50px;
+  /* 카드 위에 공백 추가 */
+}
+
+.table-responsive {
+  max-width: 800px;
+  /* 테이블의 폭을 줄이기 */
+  margin: 0 auto;
+  /* 가운데 정렬 */
+}
+
+/* 활성화된 페이지 항목 색상 변경 */
+.pagination .page-item.active .page-link {
+  background-color: #E1DACC; /* 원하는 배경색 */
+  border-color: #E1DACC; /* 원하는 테두리 색 */
+  color: #ffffff; /* 텍스트 색 */
 }
 </style>

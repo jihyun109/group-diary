@@ -1,6 +1,7 @@
   <script>
   import { mapState } from 'vuex';
   import UserProfile from '@/components/UserProfile.vue'
+  import '../../assets/styles.css?v=1.0';
 
 
   export default {
@@ -98,11 +99,10 @@
 
           <div class="card-footer">
             <div v-if="diary.writer_id === this.userId" class="d-flex justify-content-end me-2">
-              <button class="btn btn-primary me-1" @click="editDiary">수정</button>
-              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
+              <button class="btn  me-2" @click="editDiary" style="background-color: #638589; color: #ffffff;">수정</button>
+              <button class="btn " data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #d1c5ab;" >삭제</button>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -122,8 +122,9 @@
             일기를 삭제하시겠습니까?
           </div>
           <div class="modal-footer justify-content-between">
-            <button type="button" class="btn bg-gradient-dark mb-0" data-bs-dismiss="modal">Close</button>
-            <a class="btn btn-primary bg-gradient-info mb-0" @click="requestDeleteDiary" role="button">Yes</a>
+            <a class="btn  mb-0" @click="requestDeleteDiary" role="button" style="background-color: #638589; color: #ffffff;">Yes</a>
+            <button type="button" class="btn  mb-0" data-bs-dismiss="modal" style="background-color: #d1c5ab;">Close</button>
+
           </div>
         </div>
       </div>

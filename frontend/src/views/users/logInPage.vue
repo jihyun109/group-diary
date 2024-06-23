@@ -118,13 +118,5 @@ export default {
       </div>
     </footer>
   </div>
-  <div>
-    <p v-if="!dataList">로딩...</p>
-    <div v-else>
-      <div v-for="(diary, index) in dataList" :key="index">
-        <h2>Data {{ index + 1 }}</h2>
-        <pre>{{ diary }}</pre>
-      </div>
-    </div>
-  </div>
+  
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
+  <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent">
+    <div class="container d-flex align-items-center justify-content-between">
       <a class="navbar-brand d-flex align-items-center" href="/main" rel="tooltip"
         title="Designed and Coded by Creative Tim" data-placement="bottom">
         <img src="../assets/img/일기 로고.jpg" style="height: 30px; margin-right: 10px;">
@@ -29,9 +29,9 @@
                   <strong>{{ invite.first_name }}</strong> 님이 <strong>{{ invite.team_name }}</strong> 그룹에 초대했습니다.
                   <div class="d-flex justify-content-between mt-2">
                     <button @click="requestAcceptInvite(invite)" type="button"
-                      class="btn bg-gradient-info">accept</button>
+                      class="btn me-2"  style="background-color: #638589; color: #ffffff;">accept</button>
                     <button @click="requestRefuseInvite(invite.id)" type="button"
-                      class="btn bg-gradient-danger">refuse</button>
+                      class="btn" style="background-color: #d1c5ab;">refuse</button>
                   </div>
                 </li>
               </ul>
