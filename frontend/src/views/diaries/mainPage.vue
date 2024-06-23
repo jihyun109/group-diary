@@ -1,15 +1,16 @@
 <template>
+  <div class="card" style="max-width: 1250px; height: 800px; background-color: #aeba94;">
   <div class="container">
     <p v-if="!dataList">로딩...</p>
     <div v-else>
       <div class="row mt-3">
-        <div class="col-2 ms-3" style="margin: 10px 0;">
+        <div class="col-2 ms-3 mt-6" style="margin: 10px 0;">
           <!-- create group 버튼 -->
           <button type="button" class="btn btn-block" data-bs-toggle="modal" data-bs-target="#createGroup-form"
-            style="background-color: #E1DACC;">create group
+            style="background-color: #e0d4be;">create group
           </button>
           <!-- team 목록 -->
-          <ul class="list-group mt-2 team-list-scroll" v-if="teamData">
+          <ul class="list-group team-list-scroll" v-if="teamData">
             <a @click="moveToTeamPage(team.team_id)" href="javascript:void(0);"
               class="list-group-item list-group-item-action" v-for="(team, idx) in teamData" :key="idx">
               {{ team.team_name }}
@@ -116,7 +117,7 @@
 
           <!-- body -->
           <div class="modal-body p-0">
-            <div class="card card-plain rounded-card">
+            <div class="card card-plain">
               <div class="card-body">
                 <form role="form text-left d-flex">
                   <label>Group name</label>
@@ -173,6 +174,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -517,8 +519,7 @@ body {
   /* 일기 리스트의 폭 줄이기 */
   margin: 0 auto;
   /* 가운데 정렬 */
-  margin-top: 50px;
-  /* 카드 위에 공백 추가 */
+  
 }
 
 .table-responsive {
@@ -535,6 +536,8 @@ body {
 
 .rounded-card {
   border-radius: 15px;
+  margin-top: 50px;
+  /* 카드 위에 공백 추가 */
 }
 
 .rounded-table {
@@ -565,8 +568,8 @@ body {
 
 /* 활성화된 페이지 항목 색상 변경 */
 .pagination .page-item.active .page-link {
-  background-color: #E1DACC; /* 원하는 배경색 */
-  border-color: #E1DACC; /* 원하는 테두리 색 */
+  background-color: #e0d4be; /* 원하는 배경색 */
+  border-color: #e0d4be; /* 원하는 테두리 색 */
   color: #ffffff; /* 텍스트 색 */
 }
 </style>

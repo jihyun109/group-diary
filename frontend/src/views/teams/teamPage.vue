@@ -412,18 +412,16 @@ export default {
       return `rgba(${r},${g},${b},${opacity})`;
     }
   },
-
-
 }
-
 </script>
 
 <template>
+  <div class="card" style="max-width: 1250px; height: 800px; background-color: #aeba94;">
   <div class="container">
     <p v-if="!dataList">로딩...</p>
     <div v-else>
       <div class="row mt-3">
-        <div class="col-2 ms-3">
+        <div class="col-2 ms-3 mt-6">
           <!-- create group 버튼 -->
           <button type="button" class="btn btn-block" data-bs-toggle="modal" data-bs-target="#createGroup-form"
             style="background-color: #E1DACC;">create group
@@ -446,19 +444,12 @@ export default {
               <h1>
                 {{ selectedTeam.team_name }}
               </h1>
-              <!-- <button class="btn btn-outline-success ms-5" data-bs-toggle="modal" data-bs-target="#inviteUser-form"
-                id="searchBtn">멤버 추가</button> -->
               <button class="btn ms-5" data-bs-toggle="modal" data-bs-target="#inviteUser-form" id="searchBtn"
-                style="background-color: #e3ede6;">멤버 추가</button>
-
-              <!-- <a href="/writeDiary" class="btn btn-outline-info mx-1">일기 쓰기</a> -->
+                style="background-color: #e3ede6;">멤버 초대</button>
             </div>
 
             <div class="d-flex align-items-center ms-3 mt-2">
-              <!-- <a href="javascript:void(0);" @click="toggleShowMemberList(idx)" class="text-primary ms-3">
-              {{ showMemberList ? "member hide" : "member show" }}
-            </a> -->
-              <button @click="toggleShowMemberList(idx)" class="btn ms-3" style="background-color: #638589; color: #ffffff;">
+              <button @click="toggleShowMemberList(idx)" class="btn ms-1" style="background-color: #638589; color: #ffffff;">
                 {{ showMemberList ? "member hide" : "member show" }}
               </button>
 
@@ -491,14 +482,12 @@ export default {
 
                   <table class="table align-items-center mb-0 table-background rounded-table">
                     <!-- 표 헤더 -->
-
                     <thead>
                       <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date
                         </th>
-                        <!-- <th class="text-secondary opacity-7"></th> -->
                       </tr>
                     </thead>
                     <!-- 표 body -->
@@ -508,11 +497,8 @@ export default {
                         <!-- author -->
                         <td>
                           <div class="d-flex px-2 py-1">
-                            <!-- <button type="button" class="btn btn-facebook btn-icon-only rounded-circle" :class="setColor">
-                          </button> -->
                             <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name">
                             </UserProfile>
-
                           </div>
                         </td>
                         <!-- title -->
@@ -701,6 +687,7 @@ export default {
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style>
@@ -715,7 +702,7 @@ export default {
   /* 세로 스크롤바 추가 */
 }
 
-.card {
+.rounded-card {
   max-width: 800px;
   /* 일기 리스트의 폭 줄이기 */
   margin: 0 auto;

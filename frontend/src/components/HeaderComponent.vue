@@ -12,7 +12,7 @@
           <div class="dropdown mx-1 position-relative">
             <!-- 초대 알림 -->
             <!-- 아이콘 -->
-            <a class="nav-link position-relative cursor-pointer" data-bs-toggle="dropdown" data-bs-auto-close="false"
+            <a class="nav-link position-relative cursor-pointer me-2" data-bs-toggle="dropdown" data-bs-auto-close="false"
               aria-expanded="false">
               <img src="../assets/img/alarm.png" style="height: 30px; margin-right: -15px;">
 
@@ -38,10 +38,10 @@
             </ul>
           </div>
           <!-- userInfo -->
-          <a class="nav-link d-flex align-items-center" href="/userInfo">
+          <a class="nav-link d-flex align-items-center me-2" href="/userInfo">
             <UserProfile class="rounded-circle me-2" :fontSize="15" :width="45" :height="45" :color="this.color"
               :firstName="this.firstName"></UserProfile>
-            <div>
+            <div style="font-size: medium; color: #423031;">
               <strong>{{ this.lastName }} {{ this.firstName }}</strong>
             </div>
           </a>
