@@ -1,7 +1,7 @@
 <script>
 export default {
   mounted() {
-    this.fetchData()
+    this.fetchData();
   },
   data() {
     return {
@@ -59,7 +59,7 @@ export default {
         if (response.ok) {
           // 요청이 성공하면 성공 메시지 표시
           alert('회원가입이 완료되었습니다.');
-          this.$router.push({ path: 'logIn'});
+          this.$router.push({ path: '/logIn' });
         } else {
           // 요청이 실패하면 오류 메시지 표시
           const errorData = await response.json();
@@ -70,29 +70,28 @@ export default {
         alert(`네트워크 오류가 발생했습니다: ${error.message}`);
       }
     },
-  },
 
-  async fetchData() {
-    const urls = [
-      `http://localhost:8080/users`
-    ];
+    async fetchData() {
+      const urls = [
+        `http://localhost:8080/users`
+      ];
 
-    const requests = urls.map(async url => {
-      const res = await fetch(url);
-      return res.json();
-    });
+      const requests = urls.map(async url => {
+        const res = await fetch(url);
+        return res.json();
+      });
 
-    this.dataList = await Promise.all(requests);
-    console.log(this.dataList);
+      this.dataList = await Promise.all(requests);
+      console.log(this.dataList);
+    }
   }
 }
-
 </script>
 
 <template>
-  <div class="page-header align-items-start min-vh-100" style="background-image: url('../src/assets/img/bg9.jpg');"
-    loading="lazy">
-    <span class="mask bg-gradient-dark opacity-6"></span>
+  <div class="page-header align-items-start min-vh-100" style="background-image: url('../src/assets/img/LogInBG.jpg');"
+  loading="lazy">
+    <span class="mask opacity-6"></span>
     <div class="container my-auto">
       <div class="row">
         <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -163,10 +162,10 @@ export default {
                 </div>
 
                 <div class="text-center">
-                  <button @click.prevent="signUp" class="btn bg-gradient-info w-100 my-4 mb-2">Sign up</button>
+                  <button @click.prevent="signUp" class="btn w-100 my-4 mb-2" style="background-color: #728462; color: #ffffff">Sign up</button>
                   <!-- Button trigger modal -->
-                  <button type="button" class="btn bg-btn-primary bg-gradient-light w-100 mb-2" data-bs-toggle="modal"
-                    data-bs-target="#signUpCanceleModal">
+                  <button type="button" class="btn w-100 mb-2" data-bs-toggle="modal"
+                    data-bs-target="#signUpCanceleModal" style="background-color: #ece5d3;">
                     Cancel
                   </button>
                 </div>
@@ -184,8 +183,8 @@ export default {
                         회원가입을 취소하시겠습니까?
                       </div>
                       <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn bg-gradient-dark mb-0" data-bs-dismiss="modal">Close</button>
-                        <a class="btn btn-primary bg-gradient-info mb-0" href="/logIn" role="button">Yes</a>
+                        <a class="btn mb-0" href="/logIn" role="button" style="background-color: #638589; color: #ffffff;">Yes</a>
+                        <button type="button" class="btn mb-0" data-bs-dismiss="modal" style="background-color: #d1c5ab;">Close</button>
                       </div>
                     </div>
                   </div>
@@ -199,15 +198,7 @@ export default {
     </div>
   </div>
 
-  <div>
-    <p v-if="!dataList">로딩...</p>
-    <div v-else>
-      <div v-for="(diary, index) in dataList" :key="index">
-        <h2>Data {{ index + 1 }}</h2>
-        <pre>{{ diary }}</pre>
-      </div>
-    </div>
-  </div>
+  
 </template>
 
 <style>
@@ -224,5 +215,13 @@ export default {
 #favcolor::-webkit-color-swatch {
   border-radius: 30px;
   border: none;
+}
+
+body {
+    background-color: #afbda4 !important;
+  }
+
+.card {
+  margin-top: 30px;
 }
 </style>

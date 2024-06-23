@@ -22,7 +22,7 @@ export default {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="canceleModalLabel">회원가입 취소</h5>
+                    <h5 class="modal-title" id="canceleModalLabel">{{message}} 취소</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: #638589; color: #ffffff;"></button>
                 </div>
                 <div class="modal-body">

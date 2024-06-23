@@ -67,17 +67,16 @@ export default {
 </script>
 
 <template>
-  <div class="page-header align-items-start min-vh-100"
-    style="background-image: url('https://st2.depositphotos.com/6815698/12236/i/950/depositphotos_122365410-stock-photo-clear-sea-water-background.jpg');"
-    loading="lazy">
-    <span class="mask bg-gradient-dark opacity-6"></span>
+  <div class="page-header align-items-start min-vh-100" style="background-image: url('../src/assets/img/LogInBG.jpg');"
+  loading="lazy">
+    <span class="opacity-6"></span>
     <div class="container my-auto">
       <div class="row">
         <div class="col-lg-4 col-md-8 col-12 mx-auto">
           <div class="card z-index-0 fadeIn3 fadeInBottom">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
-                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Log in</h4>
+              <div class="shadow-info border-radius-lg py-3 pe-1" style="background-color: #4f684e;">
+                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0" >Log in</h4>
               </div>
             </div>
 
@@ -93,7 +92,7 @@ export default {
                 </div>
 
                 <div class="text-center">
-                  <button type="button" @click="logIn" class="btn bg-gradient-info w-100 my-4 mb-2">Log in</button>
+                  <button type="button" @click="logIn" class="btn w-100 my-4 mb-2" style="background-color: #728462; color: #ffffff">Log in</button>
                 </div>
 
                 <div class="mt-4 text-sm text-center">
@@ -118,5 +117,15 @@ export default {
       </div>
     </footer>
   </div>
-  
+
 </template>
+
+<style>
+body {
+    background-color: #afbda4 !important;
+  }
+
+.card {
+  margin-top: 0px;
+}
+</style>

@@ -3,15 +3,19 @@
 <script>
 import { mapState } from "vuex";
 import cancelModal from "@/components/cancelModal.vue";
+import '../../assets/styles.css?v=1.0';
 
 export default {
+  beforeMount() {
+    console.log('beforeMount: needUpdate:', this.needUpdate);
+  },
   mounted() {
+    console.log('needUpdate:',this.needUpdate);
+    this.updateNeedUpdate();
     if (this.needUpdate) {
       this.fetchDiaryDetail(this.$route.query.diaryId);
       this.requestSharedTeams();
     }
-
-    // console.log("needUpdate: " ,this.needUpdate);
 
     this.fetchTeamData();
     // console.log('sharedTeamId: ', this.sharedTeamId);
@@ -43,17 +47,20 @@ export default {
       editedTeamList: [], // 수정된 팀 리스트
       addedTeamList: [],
       deletedTeamList: [],
+      needUpdate: false
     };
   },
 
   computed: {
     ...mapState(["userId", "firstName", "lastName"]),
-    needUpdate() {
-      return !!this.$route.query.diaryId;
-      // if (this.$route.query.diaryId) {
-      //   return true
-      // }
-    },
+    // needUpdate() {
+    //   const update = !!this.$route.query.diaryId;
+    //   console.log("needUpdate: ", update);
+    //   return update
+    //   // if (this.$route.query.diaryId) {
+    //   //   return true
+    //   // }
+    // },
 
     filteredTeamData() {
       if (!this.needUpdate) {
@@ -72,6 +79,10 @@ export default {
   },
 
   methods: {
+    updateNeedUpdate() {
+      this.needUpdate = !!this.$route.query.diaryId;
+      console.log("needUpdate:", this.needUpdate);
+    },
     async writeOrUpdateDiary() {
       await this.requestPostOrUpdateDiary();
 
@@ -111,6 +122,8 @@ export default {
         method = "POST";
       }
 
+      console.log("diaryModel: ", this.diaryModel);
+
       this.diaryModel.writer_id = this.userId;
 
       const response = await fetch(requestUrl, {
@@ -123,7 +136,7 @@ export default {
 
       if (response.ok) {
         // 요청이 성공하면 성공 메시지 표시
-        console.log(`${this.needUpdate ? "수정" : "작성"} 성공: `);
+        console.log(`${this.needUpdate ? "수정" : "작성"} 성공 `);
         // if (this.needUpdate) {
         //   this.$router.push({ name: "diaryDetail", query: { diary: this.diaryModel.id } })
         // } else {
@@ -133,7 +146,7 @@ export default {
       } else {
         // 요청이 실패하면 오류 메시지 표시
         const errorData = await response.json();
-        alert(`오류가 발생했습니다: ${errorData.message}`);
+        console.log(`오류가 발생했습니다: ${errorData.message}`);
       }
     },
 
@@ -433,13 +446,10 @@ export default {
   <section>
     <div class="container py-4">
       <div class="row">
-        <h3 class="text-center">
+        <h2 class="text-center">
           {{ needUpdate ? "edite diary" : "write diary" }}
-        </h3>
+        </h2>
 
-        <!-- <pre>
-            {{ diaryModel }}
-          </pre> -->
         <div class="card">
           <div class="card-body">
             <!-- date picker 사용 -->
@@ -456,7 +466,7 @@ export default {
             </div>
             <div class="mb-4">
               <div class="dropdown">
-                <a href="#" class="btn bg-gradient-dark dropdown-toggle" data-bs-toggle="dropdown"
+                <a href="#" class="btn dropdown-toggle" style="background-color: #5d6443;color: #ffffff;"  data-bs-toggle="dropdown"
                   id="navbarDropdownMenuLink2">
                   team list
                 </a>
@@ -472,21 +482,22 @@ export default {
               </div>
 
               <div id="recipient_input_list">
-                <span v-for="(team, idx) in needUpdate ? editedTeamList : teamListToShare" :key="idx"
+                <span v-for="(team, idx) in needUpdate
+                  ? editedTeamList
+                  : teamListToShare" :key="idx"
                   class="me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center">
-                  <span style="margin-left: 10px;">{{ team.team_name }}</span>
+                  <span style="margin-left: 10px">{{ team.team_name }}</span>
                   <span class="vr mx-2"></span>
                   <a href="javacsript:void(0);" @click="removeFromTeamListToShare(team.id)">
                     <span class="material-icons opacity-6 me-2 text-md">cancel</span>
                   </a>
                 </span>
-
               </div>
             </div>
 
             <!-- details -->
             <div class="input-group mb-4 input-group-static">
-              <label>내용</label>
+              <label>Details</label>
               <textarea v-model="diaryModel.details" name="message" class="form-control" id="message"
                 rows="4"></textarea>
             </div>
@@ -495,10 +506,10 @@ export default {
           <div class="card-footer">
             <!-- button & modal -->
             <div class="d-flex justify-content-end">
-              <button @click="writeOrUpdateDiary" class="btn bg-gradient-dark me-2">
+              <button @click="writeOrUpdateDiary" class="btn  me-2" style="background-color: #638589; color: #ffffff;">
                 {{ needUpdate ? "edite" : "write diary" }}
               </button>
-              <button class="btn bg-gradient-secondary" data-bs-toggle="modal" data-bs-target="#cancelModal">
+              <button class="btn " data-bs-toggle="modal" data-bs-target="#cancelModal" style="background-color: #d1c5ab;">
                 cancel
               </button>
               <cancelModal :message="cancelMessage" />
@@ -517,9 +528,18 @@ export default {
       </div>
     </div>
   </div>
+
+  
 </template>
 
-<style scoped>
+<style>
+@import '../../assets/styles.css?v=1.0';
+
+.card {
+  width: 700px;
+  margin: 0 auto;
+ 
+}
 .card-body {
   width: 700px;
   /* 원하는 너비로 설정 */

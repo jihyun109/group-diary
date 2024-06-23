@@ -144,7 +144,7 @@
                         <input v-model="searchWord" class="form-control me-2" type="text" placeholder="Search">
                       </div>
                       <div class="col-4 ps-0">
-                        <button @click="searchUser" class="btn btn-outline-success ms-3" id="searchBtn">Search</button>
+                        <button @click="searchUser" class="btn ms-3" style="background-color: #4f684e; color: #ffffff;" id="searchBtn">Search</button>
                       </div>
                     </div>
                   </form>
@@ -164,9 +164,10 @@
           </div>
           <!-- modal footer -->
           <div class="modal-footer">
-            <button @click="resetUsersToInvite" type="button" class="btn bg-gradient-secondary"
-              data-bs-dismiss="modal">Close</button>
-            <button @click="createTeam" type="button" class="btn bg-gradient-primary">Create</button>
+            
+            <button @click="createTeam" type="button" class="btn"  style="background-color: #718e71; color: #ffffff;">Create</button>
+            <button @click="resetUsersToInvite" type="button" class="btn"
+              data-bs-dismiss="modal"  style="background-color: #e5d9c4; color: #000000;">Close</button>
           </div>
         </div>
       </div>
@@ -528,7 +529,7 @@ body {
 }
 
 .mt-4 {
-  margin-top: 1rem !important;
+  margin-top: 1rem;
   /* nav를 일기 리스트에서 더 아래로 위치시키기 */
 }
 

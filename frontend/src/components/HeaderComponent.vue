@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent">
+  <nav v-if="showNavbarContent" class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent">
     <div class="container d-flex align-items-center justify-content-between">
       <a class="navbar-brand d-flex align-items-center" href="/main" rel="tooltip"
         title="Designed and Coded by Creative Tim" data-placement="bottom">
@@ -52,6 +52,7 @@
     </div>
   </nav>
 </template>
+
 
 <script>
 import { mapActions } from 'vuex';
@@ -154,9 +155,9 @@ export default {
   computed: {
     ...mapState(['userId', 'firstName', 'lastName', 'color']),
     showNavbarContent() {
-      // 현재 경로가 '/main'일 경우에만 true를 반환
-      return this.$route.path !== '/logIn' && this.$route.path !== '/signUp';
-    }
+    const hidePaths = ['/logIn', '/signUp'];
+    return !hidePaths.includes(this.$route.path);
+  }
   }
 }
 </script>

@@ -94,11 +94,11 @@ export default {
 
   methods: {
     changePage(page) {
-    if (page > 0 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.fetchData();
-    }
-  },
+      if (page > 0 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.fetchData();
+      }
+    },
     async fetchData() {
       console.log(this.firstName);
       // console.log(this.userId);
@@ -413,7 +413,7 @@ export default {
     }
   },
 
-  
+
 }
 
 </script>
@@ -453,16 +453,23 @@ export default {
 
               <!-- <a href="/writeDiary" class="btn btn-outline-info mx-1">일기 쓰기</a> -->
             </div>
-            <a href="javascript:void(0);" @click="toggleShowMemberList(idx)" class="text-primary ms-3">
+
+            <div class="d-flex align-items-center ms-3 mt-2">
+              <!-- <a href="javascript:void(0);" @click="toggleShowMemberList(idx)" class="text-primary ms-3">
               {{ showMemberList ? "member hide" : "member show" }}
-            </a>
-            <div v-if="showMemberList" class="mb-3 ms-3 mt-2">
-              <span v-for="(member, idx) in teamMembersData" :key="idx"
-                class="ms-1 d-inline-flex badge align-items-center p-1 pe-2 text-success-emphasis border border-success-subtle rounded-pill"
-                :style="{ backgroundColor: lightenColor(member.color), alignItems: 'center' }">
-                <UserProfile class="rounded-circle me-1" :fontSize="10" :width="24" :height="24" :color="member.color"
-                  :firstName="member.name"></UserProfile> <span>{{ member.name }}</span>
-              </span>
+            </a> -->
+              <button @click="toggleShowMemberList(idx)" class="btn ms-3" style="background-color: #638589; color: #ffffff;">
+                {{ showMemberList ? "member hide" : "member show" }}
+              </button>
+
+              <div v-if="showMemberList" class="mb-3 ms-3 mt-2">
+                <span v-for="(member, idx) in teamMembersData" :key="idx"
+                  class="ms-1 d-inline-flex badge align-items-center p-1 pe-2 text-success-emphasis border border-success-subtle rounded-pill"
+                  :style="{ backgroundColor: lightenColor(member.color), alignItems: 'center' }">
+                  <UserProfile class="rounded-circle me-1" :fontSize="10" :width="24" :height="24" :color="member.color"
+                    :firstName="member.name"></UserProfile> <span>{{ member.name }}</span>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -471,7 +478,7 @@ export default {
           <h1 v-if="isCalendar">calendar</h1>
           <!-- 리스트 보기 방식 -->
           <div v-else>
-            <div class="card rounded-card">
+            <div class="card rounded-card mt-2">
               <div class="card-body">
                 <div class="table-responsive">
                   <div class="d-flex align-items-center justify-content-between" style="margin: 10px 0;">
@@ -593,7 +600,8 @@ export default {
                         <input v-model="searchWord" class="form-control me-2" type="text" placeholder="Search">
                       </div>
                       <div class="col-4 ps-0">
-                        <button @click="searchUser" class="btn btn-outline-success ms-3" id="searchBtn">Search</button>
+                        <button @click="searchUser" class="btn ms-3" style="background-color: #4f684e; color: #ffffff;"
+                          id="searchBtn">Search</button>
                       </div>
                     </div>
 
@@ -615,9 +623,10 @@ export default {
 
           <!-- modal footer -->
           <div class="modal-footer">
-            <button @click="resetUsersToInvite" type="button" class="btn bg-gradient-secondary"
-              data-bs-dismiss="modal">Close</button>
-            <button @click="createTeam" type="button" class="btn bg-gradient-primary">Create</button>
+            <button @click="createTeam" type="button" class="btn"
+              style="background-color: #718e71; color: #ffffff;">Create</button>
+            <button @click="resetUsersToInvite" type="button" class="btn " data-bs-dismiss="modal"
+              style="background-color: #e5d9c4; color: #000000;">Close</button>
           </div>
         </div>
       </div>
@@ -647,7 +656,8 @@ export default {
                         <input v-model="searchWord" class="form-control me-2" type="text" placeholder="Search">
                       </div>
                       <div class="col-4 ps-0">
-                        <button @click="searchUser" class="btn btn-outline-success ms-3" id="searchBtn">Search</button>
+                        <button @click="searchUser" class="btn ms-3" style="background-color: #4f684e; color: #ffffff;"
+                          id="searchBtn">Search</button>
                       </div>
                     </div>
                   </form>
@@ -681,9 +691,11 @@ export default {
 
           <!-- modal footer -->
           <div class="modal-footer">
-            <button @click="resetUsersToInvite" type="button" class="btn bg-gradient-secondary"
-              data-bs-dismiss="modal">Close</button>
-            <button @click="inviteToTeam" type="button" class="btn bg-gradient-primary">멤버 초대</button>
+            <button @click="inviteToTeam" type="button" class="btn "
+              style="background-color: #718e71; color: #ffffff;">invite</button>
+
+            <button @click="resetUsersToInvite" type="button" class="btn " data-bs-dismiss="modal"
+              style="background-color: #e5d9c4; color: #000000;">Close</button>
           </div>
         </div>
       </div>
@@ -721,8 +733,13 @@ export default {
 
 /* 활성화된 페이지 항목 색상 변경 */
 .pagination .page-item.active .page-link {
-  background-color: #E1DACC; /* 원하는 배경색 */
-  border-color: #E1DACC; /* 원하는 테두리 색 */
-  color: #ffffff; /* 텍스트 색 */
+  background-color: #E1DACC;
+  /* 원하는 배경색 */
+  border-color: #E1DACC;
+  /* 원하는 테두리 색 */
+  color: #ffffff;
+  /* 텍스트 색 */
 }
+
+
 </style>
