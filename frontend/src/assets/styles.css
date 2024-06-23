@@ -1,0 +1,12 @@
+body {
+    background-color: #afbda4 !important;
+  }
+
+  .card {
+    max-width: 800px;
+    /* 일기 리스트의 폭 줄이기 */
+    margin: 0 auto;
+    /* 가운데 정렬 */
+    margin-top: 50px;
+    /* 카드 위에 공백 추가 */
+  }
