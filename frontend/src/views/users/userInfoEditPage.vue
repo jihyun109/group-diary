@@ -13,14 +13,14 @@ export default {
       lastName: '',
       emailAddress: '',
       password: '',
-      initial: '',
+      // initial: '',
       color: '',
       errors: {
         firstName: false,
         lastName: false,
         emailAddress: false,
         password: false,
-        initial: false,
+        // initial: false,
       }
     }
   },
@@ -52,7 +52,7 @@ export default {
         this.lastName = this.userData.last_name;
         this.emailAddress = this.userData.email;
         this.password = this.userData.password;
-        this.initial = this.userData.initial;
+        // this.initial = this.userData.initial;
         this.color = this.userData.color;
       }
     },
@@ -64,10 +64,10 @@ export default {
       this.errors.lastName = !this.lastName;
       this.errors.emailAddress = !this.emailAddress;
       this.errors.password = !this.password;
-      this.errors.initial = !this.initial;
+      // this.errors.initial = !this.initial;
 
       // 오류가 있는 경우 경고 메시지 표시
-      if (this.errors.firstName || this.errors.lastName || this.errors.emailAddress || this.errors.password || this.errors.initial) {
+      if (this.errors.firstName || this.errors.lastName || this.errors.emailAddress || this.errors.password ) {
         alert('모든 필드를 입력해 주세요.');
         return;
       }
@@ -78,7 +78,7 @@ export default {
         last_name: this.lastName,
         email: this.emailAddress,
         password: this.password,
-        initial: this.initial,
+        // initial: this.initial,
         color: this.color
       };
 
@@ -116,9 +116,9 @@ export default {
 </script>
 
 <template>
-<div class="page-header align-items-start min-vh-100" style="background-image: url('../src/assets/img/bg9.jpg');"
-    loading="lazy">
-    <span class="mask bg-gradient-dark opacity-6"></span>
+<div class="page-header align-items-start min-vh-100" style="background-image: url('../src/assets/img/LogInBG.jpg');"
+loading="lazy">
+    <span class="mask opacity-6"></span>
     <div class="container my-auto">
       <div class="row">
         <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -167,14 +167,14 @@ export default {
                   </div>
                 </div>
 
-                <div class="row">
+                <!-- <div class="row">
                   <div class="input-group input-group-outline mb-4" :class="{ 'is-invalid': errors.firstName }">
                     <div style="display: flex; flex-direction: column; width: 100%;">
                       <label>Initial</label>
                       <input v-model="initial" class="form-control" placeholder="eg. JH" type="text">
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="row">
                   <div class="col-md-12">
@@ -189,7 +189,7 @@ export default {
                 </div>
 
                 <div class="text-center">
-                  <button @click.prevent="requestEditeUserInfo" class="btn bg-gradient-info w-100 my-4 mb-2">Save</button>
+                  <button @click.prevent="requestEditeUserInfo" class="btn w-100 my-4 mb-2" style="background-color: #4f684e; color: #ffff">Save</button>
                   <!-- Button trigger modal -->
                   <button type="button" class="btn bg-btn-primary bg-gradient-light w-100 mb-2" data-bs-toggle="modal"
                     data-bs-target="#editeCanceleModal">
@@ -210,8 +210,9 @@ export default {
                         회원 정보 수정을 취소하시겠습니까?
                       </div>
                       <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn bg-gradient-dark mb-0" data-bs-dismiss="modal">Close</button>
-                        <a class="btn btn-primary bg-gradient-info mb-0" href="userInfo" role="button">Yes</a>
+                        <a class="btn btn-primary mb-0" href="userInfo" role="button" style="background-color: #638589; color: #ffffff;">Yes</a>
+                        <button type="button" class="btn mb-0" data-bs-dismiss="modal" style="background-color: #d1c5ab;">Close</button>
+
                       </div>
                     </div>
                   </div>
@@ -226,15 +227,6 @@ export default {
   </div>
 
 
-    <div>
-        <p v-if="!dataList">로딩...</p>
-        <div v-else>
-            <div v-for="(diary, index) in dataList" :key="index">
-                <h2>Data {{ index + 1 }}</h2>
-                <pre>{{  diary }}</pre>
-            </div>
-        </div>
-    </div>
 </template>
 
 <style>

@@ -10,14 +10,14 @@ export default {
       lastName: '',
       emailAddress: '',
       password: '',
-      initial: '',
+      // initial: '',
       color: '',
       errors: {
         firstName: false,
         lastName: false,
         emailAddress: false,
         password: false,
-        initial: false,
+        // initial: false,
       }
     }
   },
@@ -28,10 +28,10 @@ export default {
       this.errors.lastName = !this.lastName;
       this.errors.emailAddress = !this.emailAddress;
       this.errors.password = !this.password;
-      this.errors.initial = !this.initial;
+      // this.errors.initial = !this.initial;
 
       // 오류가 있는 경우 경고 메시지 표시
-      if (this.errors.firstName || this.errors.lastName || this.errors.emailAddress || this.errors.password || this.errors.initial) {
+      if (this.errors.firstName || this.errors.lastName || this.errors.emailAddress || this.errors.password ) {
         alert('모든 필드를 입력해 주세요.');
         return;
       }
@@ -42,7 +42,7 @@ export default {
         last_name: this.lastName,
         email: this.emailAddress,
         password: this.password,
-        initial: this.initial,
+        // initial: this.initial,
         color: this.color
       };
 
@@ -140,14 +140,14 @@ export default {
                   </div>
                 </div>
 
-                <div class="row">
+                <!-- <div class="row">
                   <div class="input-group input-group-outline mb-4" :class="{ 'is-invalid': errors.firstName }">
                     <div style="display: flex; flex-direction: column; width: 100%;">
                       <label>Initial</label>
                       <input v-model="initial" class="form-control" placeholder="eg. JH" type="text">
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="row">
                   <div class="col-md-12">
