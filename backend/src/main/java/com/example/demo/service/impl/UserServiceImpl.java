@@ -1,37 +1,42 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.dto.response.LogInRequest;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.entity.UserModel;
+import com.example.demo.service.inter.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
-    public UserService(UserMapper userMapper){
+    public UserServiceImpl(UserMapper userMapper){
         this.userMapper = userMapper;
     }
 
     // 모든 사용자 정보 조회
+    @Override
     public List<UserModel> getUsers() {
         return userMapper.selectUsers();
     }
 
     // 사용자 생성
+    @Override
     public void insertUser(UserModel user) {
         userMapper.insertUser(user);
     }
 
     // 사용자 정보 수정
+    @Override
     public void updateUser(int userId, UserModel user) {
         user.setId(userId);
         userMapper.updateUser(user);
     }
 
     // 사용자 삭제
+    @Override
     public void deleteUser(int userId) {
         userMapper.deleteUser(userId);
     }
@@ -47,10 +52,12 @@ public class UserService {
 //    }
 
     // 사용자 이메일 검색
+    @Override
     public List<UserModel> userEmailSearchModel(String searchWord) {
         return userMapper.userEmailSearchModel(searchWord);
     }
 
+    @Override
     public UserModel logIn(LogInRequest user) {
         return userMapper.logIn(user);
     }
