@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.user.UserMapper">
-    <select id="selectUsers" resultType="com.example.demo.user.UserModel">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <select id="selectUsers" resultType="com.example.demo.entity.UserModel">
         SELECT id, first_name, last_name, initial, color, password, email
         FROM users
     </select>
 
-    <insert id="insertUser" parameterType="com.example.demo.user.UserModel">
+    <insert id="insertUser" parameterType="com.example.demo.entity.UserModel">
         INSERT INTO users (id, first_name, last_name, initial, color, password, email)
         VALUES (#{id}, #{first_name}, #{last_name}, #{initial}, #{color}, #{password}, #{email});
     </insert>
 
-    <update id="updateUser" parameterType="com.example.demo.user.UserModel">
+    <update id="updateUser" parameterType="com.example.demo.entity.UserModel">
         UPDATE users
         SET first_name = #{first_name},
             last_name = #{last_name},
@@ -28,25 +28,25 @@
         WHERE id = #{userId};
     </delete>
 
-<!--    <select id="requestUserName" resultType="com.example.demo.user.UserModel">-->
+<!--    <select id="requestUserName" resultType="com.example.demo.entity.UserModel">-->
 <!--        SELECT name-->
 <!--        FROM users-->
 <!--        WHERE id = #{userId}-->
 <!--    </select>-->
 
-<!--    <select id="requestUserInfo" resultType="com.example.demo.user.UserModel">-->
+<!--    <select id="requestUserInfo" resultType="com.example.demo.entity.UserModel">-->
 <!--        SELECT id, name, initial, color, password, email-->
 <!--        FROM users-->
 <!--        WHERE id = #{userId}-->
 <!--    </select>-->
 
-    <select id="userEmailSearchModel" resultType="com.example.demo.user.UserModel">
+    <select id="userEmailSearchModel" resultType="com.example.demo.entity.UserModel">
         SELECT id, first_name, last_name, email
         FROM users
         WHERE email LIKE #{likeSearchWord};
     </select>
 
-    <select id="logIn" parameterType="com.example.demo.request.LogInRequest" resultType="com.example.demo.user.UserModel">
+    <select id="logIn" parameterType="com.example.demo.dto.response.LogInRequest" resultType="com.example.demo.entity.UserModel">
         SELECT id, first_name, last_name, color
         FROM users
         WHERE email = #{email} AND password = #{password};

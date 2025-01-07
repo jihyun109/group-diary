@@ -1,6 +1,6 @@
 package com.example.demo.diary;
 
-import com.example.demo.team.TeamModel;
+import com.example.demo.entity.TeamModel;
 
 import java.util.ArrayList;
 import java.util.List;

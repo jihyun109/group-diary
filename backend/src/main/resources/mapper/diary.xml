@@ -26,7 +26,7 @@
         WHERE id = #{diaryId};
     </delete>
 
-    <select id="requestAllTeamDiaries" resultType="com.example.demo.response.AllTeamDiariesResponse">
+    <select id="requestAllTeamDiaries" resultType="com.example.demo.dto.request.AllTeamDiariesResponse">
         SELECT DISTINCT d.id, d.written_date, d.diary_title, u.first_name, u.last_name, u.color, u.initial
         FROM members m JOIN team_diary td ON td.team_id = m.team_id
         JOIN diaries d ON d.id = td.diary_id

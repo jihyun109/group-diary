@@ -1,9 +1,7 @@
 package com.example.demo.diary;
 
-import com.example.demo.response.AllTeamDiariesResponse;
-import com.example.demo.response.DiaryDetailsResponse;
-import com.example.demo.team.TeamMapper;
-import com.example.demo.team.TeamModel;
+import com.example.demo.dto.request.AllTeamDiariesResponse;
+import com.example.demo.mapper.TeamMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
