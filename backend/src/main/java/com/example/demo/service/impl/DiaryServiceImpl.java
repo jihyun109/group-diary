@@ -1,17 +1,19 @@
-package com.example.demo.diary;
+package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.AllTeamDiariesResponse;
+import com.example.demo.entity.DiaryModel;
+import com.example.demo.mapper.DiaryMapper;
 import com.example.demo.mapper.TeamMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class DiaryService {
+public class DiaryServiceImpl {
     private DiaryMapper diaryMapper;
     private TeamMapper teamMapper;
 
-    public DiaryService(DiaryMapper diaryMapper,TeamMapper teamMapper) {
+    public DiaryServiceImpl(DiaryMapper diaryMapper, TeamMapper teamMapper) {
         this.teamMapper=teamMapper;
         this.diaryMapper = diaryMapper;
     }

@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.diary.DiaryModel;
-import com.example.demo.diary.DiaryService;
+import com.example.demo.entity.DiaryModel;
 import com.example.demo.dto.request.AllTeamDiariesResponse;
+import com.example.demo.service.inter.DiaryService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
