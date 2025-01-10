@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.response.LogInRequest;
 import com.example.demo.entity.UserModel;
-import com.example.demo.service.impl.UserServiceImpl;
+import com.example.demo.service.inter.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -10,16 +10,16 @@ import java.util.List;
 
 @RestController
 public class UserController {
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
-    public UserController(UserServiceImpl userService) {
-        this.userServiceImpl = userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     // 모든 사용자 정보 조회
     @GetMapping("/users")
     public HashMap<String, Object> getUsers() {
-        List<UserModel> data = userServiceImpl.getUsers();
+        List<UserModel> data = userService.getUsers();
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -30,7 +30,7 @@ public class UserController {
     // 사용자 생성
     @PostMapping("/users")
     public HashMap<String, String> insertUser(@RequestBody UserModel user) {
-        userServiceImpl.insertUser(user);
+        userService.insertUser(user);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
@@ -40,7 +40,7 @@ public class UserController {
     // 사용자 정보 수정
     @PutMapping("/users/{id}")
     public HashMap<String, String> updateUser(@RequestBody UserModel userData, @PathVariable(required = true) int id) {
-        userServiceImpl.updateUser(id, userData);
+        userService.updateUser(id, userData);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
@@ -50,7 +50,7 @@ public class UserController {
     // 사용자 삭제
     @DeleteMapping("/users/{id}")
     public HashMap<String, String> deleteUser(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
-        userServiceImpl.deleteUser(id);
+        userService.deleteUser(id);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", succMsg);
@@ -83,7 +83,7 @@ public class UserController {
     public HashMap<String, Object> userEmailSearchModel(@RequestParam(defaultValue = "succ") String searchWord) {
         String likeSearchWord = "%" + searchWord + "%";
 
-        List<UserModel> data = userServiceImpl.userEmailSearchModel(likeSearchWord);
+        List<UserModel> data = userService.userEmailSearchModel(likeSearchWord);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -94,7 +94,7 @@ public class UserController {
     // login
     @PostMapping("/users/logIn")
     public HashMap<String, Object> logIn(@RequestBody LogInRequest user) {
-        UserModel userId = userServiceImpl.logIn(user);
+        UserModel userId = userService.logIn(user);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
