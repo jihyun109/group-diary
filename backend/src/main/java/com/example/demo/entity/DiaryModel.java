@@ -1,4 +1,4 @@
-package com.example.demo.diary;
+package com.example.demo.entity;
 
 import com.example.demo.entity.TeamModel;
 

@@ -1,19 +1,19 @@
-package com.example.demo.service.impl;
+package com.example.demo.legacy.mapperImpl;
 
 import com.example.demo.dto.request.SharedTeamsResponse;
 import com.example.demo.dto.request.TeamDiaryListResponse;
-import com.example.demo.entity.TeamDiaryModel;
 import com.example.demo.mapper.TeamDiaryMapper;
+import com.example.demo.entity.TeamDiaryModel;
 import com.example.demo.service.inter.TeamDiaryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TeamDiaryServiceImpl implements TeamDiaryService {
+public class TeamDiaryServiceMapperImpl implements TeamDiaryService {
     private com.example.demo.mapper.TeamDiaryMapper TeamDiaryMapper;
 
-    public TeamDiaryServiceImpl(TeamDiaryMapper TeamDiaryMapper){
+    public TeamDiaryServiceMapperImpl(TeamDiaryMapper TeamDiaryMapper){
         this.TeamDiaryMapper = TeamDiaryMapper;
     }
 

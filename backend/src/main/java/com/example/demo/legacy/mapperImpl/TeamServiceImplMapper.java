@@ -1,17 +1,17 @@
-package com.example.demo.service.impl;
+package com.example.demo.legacy.mapperImpl;
 
-import com.example.demo.entity.TeamModel;
 import com.example.demo.mapper.TeamMapper;
+import com.example.demo.entity.TeamModel;
 import com.example.demo.service.inter.TeamService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TeamServiceImpl implements TeamService {
+public class TeamServiceImplMapper implements TeamService {
     private TeamMapper teamMapper;
 
-    public TeamServiceImpl(TeamMapper teamMapper){
+    public TeamServiceImplMapper(TeamMapper teamMapper){
         this.teamMapper = teamMapper;
     }
 

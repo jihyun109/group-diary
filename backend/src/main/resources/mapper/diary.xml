@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.diary.DiaryMapper">
-    <select id="selectDiaries" resultType="com.example.demo.diary.DiaryModel">
+<mapper namespace="com.example.demo.mapper.DiaryMapper">
+    <select id="selectDiaries" resultType="com.example.demo.entity.DiaryModel">
         SELECT id, written_date, writer_id, diary_title, details
         FROM diaries
     </select>
 
-    <insert id="insertDiary" parameterType="com.example.demo.diary.DiaryModel">
+    <insert id="insertDiary" parameterType="com.example.demo.entity.DiaryModel">
         INSERT INTO diaries (id, written_date, writer_id,diary_title, details)
         VALUES (#{id}, #{written_date}, #{writer_id}, #{diary_title}, #{details});
     </insert>
 
-    <update id="updateDiary" parameterType="com.example.demo.diary.DiaryModel">
+    <update id="updateDiary" parameterType="com.example.demo.entity.DiaryModel">
         UPDATE diaries
         SET written_date = #{written_date},
             diary_title = #{diary_title},
@@ -34,13 +34,13 @@
         WHERE m.user_id = #{userId} AND m.status = 0;
     </select>
 
-    <select id="requestDiaryDetails" resultType="com.example.demo.diary.DiaryModel">
+    <select id="requestDiaryDetails" resultType="com.example.demo.entity.DiaryModel">
         SELECT d.id, d.written_date, d.diary_title, d.details, d.writer_id, u.first_name, u.last_name
         FROM diaries d JOIN users u ON d.writer_id = u.id
         WHERE d.id = #{diaryId};
     </select>
 
-    <select id="requestDiaryId" resultType="com.example.demo.diary.DiaryModel">
+    <select id="requestDiaryId" resultType="com.example.demo.entity.DiaryModel">
         SELECT id
         FROM diaries
         WHERE diary_title = #{diaryTitle} AND written_date = #{writtenDate} AND writer_id = #{writerId}

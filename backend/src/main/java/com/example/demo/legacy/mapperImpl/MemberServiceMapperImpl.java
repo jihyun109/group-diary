@@ -1,20 +1,20 @@
-package com.example.demo.service.impl;
+package com.example.demo.legacy.mapperImpl;
 
+import com.example.demo.mapper.MemberMapper;
+import com.example.demo.entity.MemberModel;
+import com.example.demo.dto.response.TeamRequest;
 import com.example.demo.dto.request.InvitedListResponse;
 import com.example.demo.dto.request.TeamMembersNameResponse;
-import com.example.demo.dto.response.TeamRequest;
-import com.example.demo.entity.MemberModel;
-import com.example.demo.mapper.MemberMapper;
 import com.example.demo.service.inter.MemberService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceMapperImpl implements MemberService {
     private MemberMapper memberMapper;
 
-    private MemberServiceImpl(MemberMapper memberMapper) {
+    private MemberServiceMapperImpl(MemberMapper memberMapper) {
         this.memberMapper = memberMapper;
     }
 

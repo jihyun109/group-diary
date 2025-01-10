@@ -1,18 +1,18 @@
-package com.example.demo.service.impl;
+package com.example.demo.legacy.mapperImpl;
 
 import com.example.demo.dto.response.LogInRequest;
-import com.example.demo.entity.UserModel;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.entity.UserModel;
 import com.example.demo.service.inter.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceMapperImpl implements UserService {
     private UserMapper userMapper;
 
-    public UserServiceImpl(UserMapper userMapper){
+    public UserServiceMapperImpl(UserMapper userMapper){
         this.userMapper = userMapper;
     }
 
