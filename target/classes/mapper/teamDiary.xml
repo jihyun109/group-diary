@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.TeamDiaryMapper">
+    <select id="selectTeamDiaries" resultType="com.example.demo.entity.TeamDiaryEntity">
+        SELECT id, diary_id, team_id
+        FROM team_diary;
+    </select>
+
+    <insert id="insertTeamDiary" parameterType="com.example.demo.entity.TeamDiaryEntity">
+        INSERT INTO team_diary (id, diary_id, team_id)
+        VALUES (#{id}, #{diary_id}, #{team_id});
+    </insert>
+
+    <update id="updateTeamDiary" parameterType="com.example.demo.entity.TeamDiaryEntity">
+        UPDATE team_diary
+        SET diary_id = #{diary_id},
+            team_id = #{team_id}
+        WHERE id = #{id};
+    </update>
+
+    <delete id="deleteTeamDiary" parameterType="com.example.demo.entity.TeamDiaryEntity">
+        DELETE
+        FROM team_diary
+        WHERE diary_id = #{diaryId} AND team_id = #{teamId};
+    </delete>
+
+    <select id="requestTeamDiaryList" resultType="com.example.demo.dto.request.TeamDiaryListResponse">
+        SELECT d.id, u.first_name, u.last_name, u.initial, u.color, d.written_date, d.diary_title
+        FROM team_diary td JOIN diaries d
+           ON td.diary_id = d.id
+           JOIN users u ON d.writer_id = u.id
+        WHERE td.team_id = #{teamId};
+    </select>
+
+    <select id="requestSharedTeams" resultType="com.example.demo.dto.request.SharedTeamsResponse">
+        SELECT td.team_id, t.team_name
+        FROM team_diary td JOIN teams t
+            ON td.team_id = t.id
+        WHERE td.diary_id = #{diaryId};
+    </select>
+</mapper>
