@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DiaryMapper">
+    <select id="selectDiaries" resultType="com.example.demo.entity.DiaryEntity">
+        SELECT id, written_date, writer_id, diary_title, details
+        FROM diaries
+    </select>
+
+    <insert id="insertDiary" parameterType="com.example.demo.entity.DiaryEntity">
+        INSERT INTO diaries (id, written_date, writer_id,diary_title, details)
+        VALUES (#{id}, #{written_date}, #{writer_id}, #{diary_title}, #{details});
+    </insert>
+
+    <update id="updateDiary" parameterType="com.example.demo.entity.DiaryEntity">
+        UPDATE diaries
+        SET written_date = #{written_date},
+            diary_title = #{diary_title},
+            writer_id = #{writer_id},
+            details = #{details}
+        WHERE id = #{id};
+    </update>
+
+    <delete id="deleteDiary">
+        DELETE
+        FROM diaries
+        WHERE id = #{diaryId};
+    </delete>
+
+    <select id="requestAllTeamDiaries" resultType="com.example.demo.dto.request.AllTeamDiariesResponse">
+        SELECT DISTINCT d.id, d.written_date, d.diary_title, u.first_name, u.last_name, u.color, u.initial
+        FROM members m JOIN team_diary td ON td.team_id = m.team_id
+        JOIN diaries d ON d.id = td.diary_id
+        JOIN users u ON u.id = d.writer_id
+        WHERE m.user_id = #{userId} AND m.status = 0;
+    </select>
+
+    <select id="requestDiaryDetails" resultType="com.example.demo.entity.DiaryEntity">
+        SELECT d.id, d.written_date, d.diary_title, d.details, d.writer_id, u.first_name, u.last_name
+        FROM diaries d JOIN users u ON d.writer_id = u.id
+        WHERE d.id = #{diaryId};
+    </select>
+
+    <select id="requestDiaryId" resultType="com.example.demo.entity.DiaryEntity">
+        SELECT id
+        FROM diaries
+        WHERE diary_title = #{diaryTitle} AND written_date = #{writtenDate} AND writer_id = #{writerId}
+    </select>
+</mapper>
