@@ -1,4 +1,4 @@
-package com.example.demo.dto.response;
+package com.example.demo.dto.request;
 
 public class LogInRequest {
    String email;

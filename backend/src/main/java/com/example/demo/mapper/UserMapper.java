@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.UserModel;
-import com.example.demo.dto.response.LogInRequest;
+import com.example.demo.dto.request.LogInRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

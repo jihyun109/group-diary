@@ -1,7 +1,7 @@
 package com.example.demo.service.inter;
 
-import com.example.demo.dto.request.SharedTeamsResponse;
-import com.example.demo.dto.request.TeamDiaryListResponse;
+import com.example.demo.dto.response.SharedTeamsResponse;
+import com.example.demo.dto.response.TeamDiaryListResponse;
 import com.example.demo.entity.TeamDiaryModel;
 
 import java.util.List;

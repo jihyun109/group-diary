@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.DiaryModel;
-import com.example.demo.dto.request.AllTeamDiariesResponse;
+import com.example.demo.dto.response.AllTeamDiariesResponse;
 import com.example.demo.service.inter.DiaryService;
 import org.springframework.web.bind.annotation.*;
 

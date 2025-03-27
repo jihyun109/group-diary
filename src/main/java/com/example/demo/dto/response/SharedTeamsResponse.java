@@ -1,13 +1,13 @@
-package com.example.demo.dto.request;
+package com.example.demo.dto.response;
 
-public class UserTeamListResponse {
+public class SharedTeamsResponse {
     int team_id;
     String team_name;
 
-    public UserTeamListResponse() {
+    public SharedTeamsResponse() {
     }
 
-    public UserTeamListResponse(int team_id, String team_name) {
+    public SharedTeamsResponse(int team_id, String team_name) {
         this.team_id = team_id;
         this.team_name = team_name;
     }
@@ -16,12 +16,12 @@ public class UserTeamListResponse {
         return team_id;
     }
 
-    public String getTeam_name() {
-        return team_name;
-    }
-
     public void setTeam_id(int team_id) {
         this.team_id = team_id;
+    }
+
+    public String getTeam_name() {
+        return team_name;
     }
 
     public void setTeam_name(String team_name) {

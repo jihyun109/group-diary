@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.TeamDiaryModel;
-import com.example.demo.dto.request.SharedTeamsResponse;
-import com.example.demo.dto.request.TeamDiaryListResponse;
+import com.example.demo.dto.response.SharedTeamsResponse;
+import com.example.demo.dto.response.TeamDiaryListResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

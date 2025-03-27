@@ -1,6 +1,6 @@
 package com.example.demo.service.inter;
 
-import com.example.demo.dto.response.LogInRequest;
+import com.example.demo.dto.request.LogInRequest;
 import com.example.demo.entity.UserEntity;
 
 import java.util.List;

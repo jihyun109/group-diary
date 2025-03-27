@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.request.InvitedListResponse;
-import com.example.demo.dto.request.TeamMembersNameResponse;
-import com.example.demo.dto.response.TeamRequest;
+import com.example.demo.dto.response.InvitedListResponse;
+import com.example.demo.dto.response.TeamMembersNameResponse;
+import com.example.demo.dto.request.TeamRequest;
 import com.example.demo.entity.MemberModel;
 import com.example.demo.mapper.MemberMapper;
 import com.example.demo.service.inter.MemberService;

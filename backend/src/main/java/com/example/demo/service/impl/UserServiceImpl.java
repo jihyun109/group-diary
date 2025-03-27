@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.response.LogInRequest;
+import com.example.demo.dto.request.LogInRequest;
 import com.example.demo.entity.UserModel;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.inter.UserService;

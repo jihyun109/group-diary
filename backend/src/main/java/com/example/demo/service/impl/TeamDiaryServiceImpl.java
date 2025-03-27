@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.request.SharedTeamsResponse;
-import com.example.demo.dto.request.TeamDiaryListResponse;
+import com.example.demo.dto.response.SharedTeamsResponse;
+import com.example.demo.dto.response.TeamDiaryListResponse;
 import com.example.demo.entity.TeamDiaryModel;
 import com.example.demo.mapper.TeamDiaryMapper;
 import com.example.demo.service.inter.TeamDiaryService;

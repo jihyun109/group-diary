@@ -1,4 +1,4 @@
-package com.example.demo.dto.response;
+package com.example.demo.dto.request;
 
 public class CreateTeamRequest {
    String team_name;

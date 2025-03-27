@@ -1,6 +1,6 @@
 package com.example.demo.service.inter;
 
-import com.example.demo.dto.request.AllTeamDiariesResponse;
+import com.example.demo.dto.response.AllTeamDiariesResponse;
 import com.example.demo.entity.DiaryModel;
 
 import java.util.List;

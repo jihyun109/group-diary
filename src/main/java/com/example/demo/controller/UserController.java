@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.response.LogInRequest;
+import com.example.demo.dto.request.LogInRequest;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.service.inter.UserService;
 import org.springframework.web.bind.annotation.*;

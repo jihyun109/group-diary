@@ -24,7 +24,7 @@
         WHERE diary_id = #{diaryId} AND team_id = #{teamId};
     </delete>
 
-    <select id="requestTeamDiaryList" resultType="com.example.demo.dto.request.TeamDiaryListResponse">
+    <select id="requestTeamDiaryList" resultType="com.example.demo.dto.response.TeamDiaryListResponse">
         SELECT d.id, u.first_name, u.last_name, u.initial, u.color, d.written_date, d.diary_title
         FROM team_diary td JOIN diaries d
            ON td.diary_id = d.id
@@ -32,7 +32,7 @@
         WHERE td.team_id = #{teamId};
     </select>
 
-    <select id="requestSharedTeams" resultType="com.example.demo.dto.request.SharedTeamsResponse">
+    <select id="requestSharedTeams" resultType="com.example.demo.dto.response.SharedTeamsResponse">
         SELECT td.team_id, t.team_name
         FROM team_diary td JOIN teams t
             ON td.team_id = t.id

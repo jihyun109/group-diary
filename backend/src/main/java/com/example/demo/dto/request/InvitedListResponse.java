@@ -1,4 +1,4 @@
-package com.example.demo.dto.request;
+package com.example.demo.dto.response;
 
 public class InvitedListResponse {
     // m.team_id, t.team_name, m.inviter_id, u.name, m.status

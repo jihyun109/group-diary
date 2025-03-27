@@ -2,15 +2,16 @@ package com.example.demo.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class DiaryEntity {
     @Id
     private int id;
@@ -21,17 +22,6 @@ public class DiaryEntity {
     private String first_name;
     private String last_name;
 //    List<TeamEntity> sharedTeamList=new ArrayList<>();
-
-    public DiaryEntity(int id, String written_date, int writer_id, String diary_title, String details, String first_name, String last_name, List<TeamEntity> sharedTeamList) {
-        this.id = id;
-        this.written_date = written_date;
-        this.writer_id = writer_id;
-        this.diary_title = diary_title;
-        this.details = details;
-        this.first_name = first_name;
-        this.last_name = last_name;
-//        this.sharedTeamList = sharedTeamList;
-    }
 
     public int getId() {
         return id;

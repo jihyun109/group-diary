@@ -1,4 +1,4 @@
-package com.example.demo.dto.response;
+package com.example.demo.dto.request;
 
 import com.example.demo.entity.MemberEntity;
 import com.example.demo.entity.TeamEntity;

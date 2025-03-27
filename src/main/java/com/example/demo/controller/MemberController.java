@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.MemberEntity;
-import com.example.demo.dto.response.TeamRequest;
-import com.example.demo.dto.request.InvitedListResponse;
-import com.example.demo.dto.request.TeamMembersNameResponse;
+import com.example.demo.dto.request.TeamRequest;
+import com.example.demo.dto.response.InvitedListResponse;
+import com.example.demo.dto.response.TeamMembersNameResponse;
 import com.example.demo.service.inter.MemberService;
 import org.springframework.web.bind.annotation.*;
 
