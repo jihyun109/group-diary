@@ -1,26 +1,25 @@
 package com.example.demo.service.inter;
 
+import com.example.demo.dto.request.MemberInviteRequest;
+import com.example.demo.dto.request.MemberUpdateRequest;
 import com.example.demo.dto.response.InvitedListResponse;
-import com.example.demo.dto.response.TeamMembersNameResponse;
+import com.example.demo.dto.response.MemberListResponse;
 import com.example.demo.dto.request.TeamRequest;
-import com.example.demo.entity.MemberEntity;
 
 import java.util.List;
 
 public interface MemberService {
-    List<MemberEntity> getMembers();
+    List<MemberListResponse> getMembers();
 
-    void insertMember(MemberEntity member);
+    void inviteMember(MemberInviteRequest member);
 
-    void updateMember(int memberId, MemberEntity member);
+    void updateMember(long memberId, MemberUpdateRequest member);
 
-    void deleteMember(int memberId);
+    void deleteMember(long memberId);
 
-    List<TeamMembersNameResponse> requestTeamMembersName(int teamId);
+    List<String> requestTeamMembersName(long teamId);
 
-    void requestInviteMember(int teamId, MemberEntity member);
+    List<InvitedListResponse> requestInvitedList(long userId);
 
-    List<InvitedListResponse> requestInvitedList(int userId);
-
-    List<TeamRequest> requestUserTeamList(int userId);
+    List<TeamRequest> requestUserTeamList(long userId);
 }

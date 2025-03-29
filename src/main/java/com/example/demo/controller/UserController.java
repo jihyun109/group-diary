@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
+// TODO: 사용자 인증 적용 후 사용자 id 받아오는 것 변경
 @RestController
 public class UserController {
     private UserService userService;

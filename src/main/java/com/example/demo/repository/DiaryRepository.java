@@ -15,8 +15,8 @@ public interface DiaryRepository extends JpaRepository<DiaryEntity, Long> {
                 WHERE d.id IN (
                     SELECT td.diary_id FROM TeamDiaryEntity td
                     WHERE td.team_id IN (
-                        SELECT m.team_id FROM MemberEntity m
-                        WHERE m.user_id = :userId
+                        SELECT m.team.id FROM TeamMemberEntity m
+                        WHERE m.user.id = :userId
                     )
                 )
             """)

@@ -4,7 +4,6 @@ import com.example.demo.dto.request.DiaryCreateRequest;
 import com.example.demo.dto.request.DiaryUpdateRequest;
 import com.example.demo.dto.response.DiaryDetailResponse;
 import com.example.demo.dto.response.DiaryListResponse;
-import com.example.demo.entity.DiaryEntity;
 import com.example.demo.dto.response.AllTeamDiariesResponse;
 import com.example.demo.service.inter.DiaryService;
 import org.springframework.web.bind.annotation.*;
@@ -89,6 +88,4 @@ public class DiaryController {
         result.put("data", data);
         return result;
     }
-
-
 }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.MemberMapper">
-    <select id="selectMembers" resultType="com.example.demo.entity.MemberEntity">
+    <select id="selectMembers" resultType="com.example.demo.entity.GroupMemberEntity">
         SELECT id, user_id, team_id, status, inviter_id
         FROM members
     </select>
 
-    <insert id="insertMember" parameterType="com.example.demo.entity.MemberEntity">
+    <insert id="insertMember" parameterType="com.example.demo.entity.GroupMemberEntity">
         INSERT INTO members (id, user_id, team_id, status, inviter_id)
         VALUES (#{id}, #{user_id}, #{team_id}, #{status}, #{inviter_id});
     </insert>
 
-    <update id="updateMember" parameterType="com.example.demo.entity.MemberEntity">
+    <update id="updateMember" parameterType="com.example.demo.entity.GroupMemberEntity">
         UPDATE members
         SET user_id = #{user_id},
             team_id = #{team_id},
@@ -32,7 +32,7 @@
         WHERE team_id = #{team_id} AND m.status=0;
     </select>
 
-    <insert id="requestInviteMember" parameterType="com.example.demo.entity.MemberEntity">
+    <insert id="requestInviteMember" parameterType="com.example.demo.entity.GroupMemberEntity">
         INSERT INTO members (id, user_id, team_id, status, inviter_id)
         VALUES (#{id}, #{user_id}, #{team_id}, #{status}, #{inviter_id});
     </insert>
