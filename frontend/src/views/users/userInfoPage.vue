@@ -1,4 +1,5 @@
 <script>
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   mounted() {
     this.fetchUserInfoData()
@@ -21,7 +22,7 @@ export default {
     async fetchUserInfoData() {
       this.userId = this.$store.state.userId;
       const urls = [
-        `http://localhost:8080/users`
+        `${BASE_URL}/users`
       ];
 
       const requests = urls.map(async url => {

@@ -58,6 +58,7 @@
 import { mapActions } from 'vuex';
 import { mapState } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   mounted() {
@@ -75,7 +76,7 @@ export default {
     ...mapActions(['fetchStoreData']),
     async fetchData() {
       console.log(this.firstName);
-      const inviteDataResponse = await fetch(`http://localhost:8080/members/invited/${this.userId}`);
+      const inviteDataResponse = await fetch(`${BASE_URL}/members/invited/${this.userId}`);
       console.log("at header", inviteDataResponse);
 
       const inviteDataJson = await inviteDataResponse.json();
@@ -94,7 +95,7 @@ export default {
 
     async requestAcceptInvite(invite) {
       try {
-        const response = await fetch(`http://localhost:8080/members/${invite.id}`, {
+        const response = await fetch(`${BASE_URL}/members/${invite.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -120,7 +121,7 @@ export default {
 
     async requestRefuseInvite(inviteId) {
       try {
-        const response = await fetch(`http://localhost:8080/members/${inviteId}`, {
+        const response = await fetch(`${BASE_URL}/members/${inviteId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'

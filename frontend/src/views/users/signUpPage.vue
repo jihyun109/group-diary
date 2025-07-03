@@ -1,4 +1,5 @@
 <script>
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   mounted() {
     this.fetchData();
@@ -48,7 +49,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch('http://localhost:8080/users', {
+        const response = await fetch('${BASE_URL}/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -73,7 +74,7 @@ export default {
 
     async fetchData() {
       const urls = [
-        `http://localhost:8080/users`
+        `${BASE_URL}/users`
       ];
 
       const requests = urls.map(async url => {

@@ -4,6 +4,7 @@
 import { mapState } from "vuex";
 import cancelModal from "@/components/cancelModal.vue";
 import '../../assets/styles.css?v=1.0';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   beforeMount() {
@@ -113,7 +114,7 @@ export default {
 
     async requestPostOrUpdateDiary() {
       // 일기 post or put
-      var requestUrl = "http://localhost:8080/diaries";
+      var requestUrl = "${BASE_URL}/diaries";
       var method = "";
       if (this.needUpdate) {
         requestUrl += `/edit/${this.diaryModel.id}`;
@@ -152,7 +153,7 @@ export default {
 
     async fetchDiaryDetail(id) {
       this.diary = null;
-      const res = await fetch(`http://localhost:8080/diaries/details/${id}`);
+      const res = await fetch(`${BASE_URL}/diaries/details/${id}`);
       const resBody = await res.json();
       this.diaryModel = resBody.data;
       console.log("diaryModel: ", this.diaryModel);
@@ -178,7 +179,7 @@ export default {
     async fetchTeamData() {
       try {
         const response = await fetch(
-          `http://localhost:8080/members/userTeamList/${this.userId}`,
+          `${BASE_URL}/members/userTeamList/${this.userId}`,
           {
             method: "GET",
             headers: {
@@ -232,7 +233,7 @@ export default {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/diaries/findDiaryId?diaryTitle=${encodeURIComponent(
+          `${BASE_URL}/diaries/findDiaryId?diaryTitle=${encodeURIComponent(
             this.diaryModel.diary_title
           )}&writtenDate=${this.diaryModel.written_date}&writerId=${this.userId
           }`,
@@ -275,7 +276,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch("http://localhost:8080/teamDiaries/", {
+        const response = await fetch("${BASE_URL}/teamDiaries/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -300,7 +301,7 @@ export default {
     async requestSharedTeams() {
       try {
         const response = await fetch(
-          `http://localhost:8080/teamDiaries/sharedTeams/${this.diaryModel.id}`,
+          `${BASE_URL}/teamDiaries/sharedTeams/${this.diaryModel.id}`,
           {
             method: "GET",
             headers: {
@@ -370,7 +371,7 @@ export default {
     async requestCancelShareDiary(teamId) {
       try {
         const response = await fetch(
-          `http://localhost:8080/teamDiaries?diaryId=${this.diaryId}&teamId=${teamId}`,
+          `${BASE_URL}/teamDiaries?diaryId=${this.diaryId}&teamId=${teamId}`,
           {
             method: "DELETE",
             headers: {
@@ -425,9 +426,9 @@ export default {
 
     async fetchData() {
       const urls = [
-        `http://localhost:8080/diaries`,
-        `http://localhost:8080/teams`,
-        `http://localhost:8080/members`,
+        `${BASE_URL}/diaries`,
+        `${BASE_URL}/teams`,
+        `${BASE_URL}/members`,
       ];
 
       const requests = urls.map(async (url) => {

@@ -1,4 +1,5 @@
 <script>
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   mounted() {
     this.fetchData()
@@ -11,8 +12,8 @@ export default {
   methods: {
     async fetchData() {
         const urls = [
-        `http://localhost:8080/teams`,
-        `http://localhost:8080/members`
+        `${BASE_URL}/teams`,
+        `${BASE_URL}/members`
         ];
 
         const requests = urls.map(async url => {

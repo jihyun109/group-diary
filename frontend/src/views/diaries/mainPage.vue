@@ -182,6 +182,7 @@ import { mapState } from 'vuex';
 // import { mapGetters } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
 import '../../assets/styles.css';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   components: {
@@ -257,11 +258,11 @@ export default {
   methods: {
     async fetchData() {
       const menuList = await Promise.all([
-        { type: 'diaries', url: `http://localhost:8080/diaries/all/${this.userId}` },
-        { type: 'teams', url: `http://localhost:8080/members/userTeamList/${this.userId}` },
-        { type: 'members', url: `http://localhost:8080/members` },
-        { type: 'users', url: `http://localhost:8080/users` },
-        { type: 'invites', url: `http://localhost:8080/members/invited/${this.userId}` }
+        { type: 'diaries', url: `${BASE_URL}/diaries/all/${this.userId}` },
+        { type: 'teams', url: `${BASE_URL}/members/userTeamList/${this.userId}` },
+        { type: 'members', url: `${BASE_URL}/members` },
+        { type: 'users', url: `${BASE_URL}/users` },
+        { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` }
       ])
 
       const requests = menuList.map(async (dataReq) => {
@@ -285,7 +286,7 @@ export default {
 
     async requestAcceptInvite(invite) {
       try {
-        const response = await fetch(`http://localhost:8080/members/${invite.id}`, {
+        const response = await fetch(`${BASE_URL}/members/${invite.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -310,7 +311,7 @@ export default {
 
     async requestRefuseInvite(inviteId) {
       try {
-        const response = await fetch(`http://localhost:8080/members/${inviteId}`, {
+        const response = await fetch(`${BASE_URL}/members/${inviteId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -328,7 +329,7 @@ export default {
 
     async searchUser() {
       try {
-        const response = await fetch(`http://localhost:8080/users/search/?searchWord=${encodeURIComponent(this.searchWord)}`, {
+        const response = await fetch(`${BASE_URL}/users/search/?searchWord=${encodeURIComponent(this.searchWord)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -400,7 +401,7 @@ export default {
       }
 
       try {
-        const response = await fetch('http://localhost:8080/teams', {
+        const response = await fetch('${BASE_URL}/teams', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -443,7 +444,7 @@ export default {
       };
 
       try {
-        const response = await fetch('http://localhost:8080/members/', {
+        const response = await fetch('${BASE_URL}/members/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -464,7 +465,7 @@ export default {
 
     async requestTeamId() {
       try {
-        const response = await fetch(`http://localhost:8080/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`, {
+        const response = await fetch(`${BASE_URL}/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

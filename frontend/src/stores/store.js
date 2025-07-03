@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const store = createStore({
   state: {
@@ -60,15 +61,15 @@ const store = createStore({
       const menuList = [
         {
           type: "teams",
-          url: `http://localhost:8080/members/userTeamList/${state.userId}`,
+          url: `${BASE_URL}/members/userTeamList/${state.userId}`,
         },
         {
           type: "alarms",
-          url: `http://localhost:8080/members/invited/${state.userId}`,
+          url: `${BASE_URL}/members/invited/${state.userId}`,
         },
         {
           type: "diaries",
-          url: `http://localhost:8080/diaries/all/${state.userId}`,
+          url: `${BASE_URL}/diaries/all/${state.userId}`,
         },
       ];
 

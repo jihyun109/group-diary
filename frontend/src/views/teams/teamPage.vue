@@ -2,6 +2,7 @@
 import { mapState } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
 import '../../assets/styles.css';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   components: {
@@ -106,12 +107,12 @@ export default {
       console.log('team: ', this.$route.query.team)
       // this.userId = this.$store.state.userId;
       const menuList = await Promise.all([
-        { type: 'diaries', url: `http://localhost:8080/teamDiaries/diaryList/${this.$route.query.team}` },
-        { type: 'teams', url: `http://localhost:8080/members/userTeamList/${this.userId}` },
-        { type: 'teamMembers', url: `http://localhost:8080/members/${this.$route.query.team}` },
-        { type: 'members', url: `http://localhost:8080/members` },
-        { type: 'users', url: `http://localhost:8080/users` },
-        { type: 'invites', url: `http://localhost:8080/members/invited/${this.userId}` }
+        { type: 'diaries', url: `${BASE_URL}/teamDiaries/diaryList/${this.$route.query.team}` },
+        { type: 'teams', url: `${BASE_URL}/members/userTeamList/${this.userId}` },
+        { type: 'teamMembers', url: `${BASE_URL}/members/${this.$route.query.team}` },
+        { type: 'members', url: `${BASE_URL}/members` },
+        { type: 'users', url: `${BASE_URL}/users` },
+        { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` }
       ])
 
       const requests = menuList.map(async (dataReq) => {
@@ -148,7 +149,7 @@ export default {
     // 사용자 검색
     async searchUser() {
       try {
-        const response = await fetch(`http://localhost:8080/users/search/?searchWord=${encodeURIComponent(this.searchWord)}`, {
+        const response = await fetch(`${BASE_URL}/users/search/?searchWord=${encodeURIComponent(this.searchWord)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -262,7 +263,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch('http://localhost:8080/teams', {
+        const response = await fetch('${BASE_URL}/teams', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -318,7 +319,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch('http://localhost:8080/members/', {
+        const response = await fetch('${BASE_URL}/members/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -349,7 +350,7 @@ export default {
 
       try {
         console.log('store userId: ', this.userId)
-        const response = await fetch(`http://localhost:8080/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`, {
+        const response = await fetch(`${BASE_URL}/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

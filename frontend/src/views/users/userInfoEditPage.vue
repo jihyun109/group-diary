@@ -1,4 +1,5 @@
 <script>
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   mounted() {
     this.fetchUserInfoData()
@@ -28,7 +29,7 @@ export default {
     async fetchUserInfoData() {
       this.userId = this.$store.state.userId;
         const urls = [
-        `http://localhost:8080/users`
+        `${BASE_URL}/users`
         ];
 
         const requests = urls.map(async url => {
@@ -84,7 +85,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch(`http://localhost:8080/users/${this.userId}`, {
+        const response = await fetch(`${BASE_URL}/users/${this.userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'

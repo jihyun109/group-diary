@@ -54,6 +54,7 @@
 import { mapState } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
 import '../../assets/styles.css?v=1.0';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   components: {
@@ -74,7 +75,7 @@ export default {
   methods: {
     async fetchData() {
       this.diary = null
-      const res = await fetch(`http://localhost:8080/diaries/details/${this.$route.query.diary}`)
+      const res = await fetch(`${BASE_URL}/diaries/details/${this.$route.query.diary}`)
       const resBody = await res.json()
       this.diary = resBody.data
       console.log(this.diary)
@@ -92,7 +93,7 @@ export default {
     },
     async requestDeleteDiary() {
       try {
-        const response = await fetch(`http://localhost:8080/diaries/${this.$route.query.diary}`, {
+        const response = await fetch(`${BASE_URL}/diaries/${this.$route.query.diary}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
