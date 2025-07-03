@@ -78,6 +78,6 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no "$SERVER_USER@$SERVER_HOST" <<'EOF'
           docker pull $DOCKER_USER/group-diary-frontend:latest
-          docker pull $DOCKER_USER/group-diary-frontend-backend:latest
+          docker pull $DOCKER_USER/group-diary-backend:latest
           docker compose -f ~/compose/docker-compose.yml up -d
           EOF
