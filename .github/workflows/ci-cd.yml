@@ -2,7 +2,7 @@ name: CI/CD Monorepo Vue + Spring Boot
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -71,9 +71,10 @@ jobs:
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Pull images & restart containers
-        env: { SERVER_USER: ${{ secrets.SERVER_USER }},
-               SERVER_HOST: ${{ secrets.SERVER_HOST }},
-               DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}}
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }},
+          SERVER_HOST: ${{ secrets.SERVER_HOST }},
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
         run: |
           ssh -o StrictHostKeyChecking=no "$SERVER_USER@$SERVER_HOST" <<'EOF'
           docker pull $DOCKER_USER/group-diary-frontend:latest
