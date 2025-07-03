@@ -72,8 +72,8 @@ jobs:
 
       - name: Pull images & restart containers
         env:
-          SERVER_USER: ${{ secrets.SERVER_USER }},
-          SERVER_HOST: ${{ secrets.SERVER_HOST }},
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
           DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
         run: |
           ssh -o StrictHostKeyChecking=no "$SERVER_USER@$SERVER_HOST" <<'EOF'
