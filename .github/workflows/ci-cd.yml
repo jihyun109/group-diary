@@ -70,6 +70,13 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Create deploy directory on EC2
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+          "mkdir -p /home/ubuntu/group-diary"
+
+
       - name: Upload docker-compose.yml to EC2
         run: |
           scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
