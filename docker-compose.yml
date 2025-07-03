@@ -1,8 +1,6 @@
 services:
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: jihyun923/group-diary-frontend:latest
     container_name: frontend
     ports:
       - "80:80"
@@ -11,9 +9,7 @@ services:
       - backend
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: jihyun923/group-diary-backend:latest
     container_name: backend
     ports:
       - "8080:8080"
