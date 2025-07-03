@@ -90,7 +90,7 @@ jobs:
 
         run: |
           echo "Tag = $DOCKER_USER/group-diary-frontend:latest"
-          ssh -o StrictHostKeyChecking=no "$SERVER_USER@$SERVER_HOST" <<'EOF'
+          ssh -o StrictHostKeyChecking=no "$SERVER_USER@$SERVER_HOST" <<EOF
           docker pull $DOCKER_USER/group-diary-frontend:latest
           docker pull $DOCKER_USER/group-diary-backend:latest
           docker compose -f ~/group-diary/docker-compose.yml up -d
