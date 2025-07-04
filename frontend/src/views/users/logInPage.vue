@@ -14,7 +14,7 @@ export default {
   methods: {
     async logIn() {
       try {
-        const response = await fetch('${BASE_URL}/users/logIn', {
+        const response = await fetch(`${BASE_URL}/users/logIn`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
