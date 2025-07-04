@@ -76,11 +76,22 @@ jobs:
           ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
           "mkdir -p /home/ubuntu/group-diary"
 
-
       - name: Upload docker-compose.yml to EC2
         run: |
           scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
           ./docker-compose.yml ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/group-diary/
+
+      - name: Create .env file from secrets
+        run: |
+          echo "DB_URL=${{ secrets.DB_URL }}" > .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
+      - name: Upload .env to EC2
+        run: |
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+          .env ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/group-diary/
+
 
       - name: Pull images & restart containers
         env:
