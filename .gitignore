@@ -43,3 +43,7 @@ build/
 out/
 !gradle/wrapper/gradle-wrapper.properties
 !gradle/wrapper/gradle-wrapper.jar
+
+*.class
+/build/
+/out/
