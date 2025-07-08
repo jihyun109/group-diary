@@ -33,9 +33,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build backend
+      - name: Build backend with Gradle
         working-directory: ./backend
-        run: mvn clean package -DskipTests
+        run: ./gradlew clean build -x test
 
       # ----------- DOCKER -----------
       - name: Set up Docker Buildx
