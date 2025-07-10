@@ -47,7 +47,7 @@
     </select>
 
     <select id="logIn" parameterType="com.example.demo.request.LogInRequest" resultType="com.example.demo.entity.UserEntity">
-        SELECT id, firstName, lastName, color
+        SELECT id, first_name AS firstName, last_name AS lastName, color
         FROM users
         WHERE email = #{email} AND password = #{password};
     </select>
