@@ -1,47 +1,44 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.4.7'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-targetCompatibility = '11'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-
-    // Spring Web
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    // MyBatis (중복 버전 제거하고 가장 안정적인 2.1.2만 사용)
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
-
-    // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-    // MySQL / MariaDB 드라이버 (둘 다 있던 경우 보통 하나만 선택)
-    implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.6.0'
-
-    // Spring Boot DevTools
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-
-    // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 
-    // 테스트
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
