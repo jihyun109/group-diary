@@ -46,8 +46,8 @@
         WHERE email LIKE #{likeSearchWord};
     </select>
 
-    <select id="logIn" parameterType="com.example.demo.request.LogInRequest" resultType="com.example.demo.user.UserModel">
-        SELECT id, first_name, last_name, color
+    <select id="logIn" parameterType="com.example.demo.request.LogInRequest" resultType="com.example.demo.entity.UserEntity">
+        SELECT id, firstName, lastName, color
         FROM users
         WHERE email = #{email} AND password = #{password};
     </select>
