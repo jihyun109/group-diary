@@ -1,26 +1,23 @@
 package com.example.demo;
 
+import com.example.demo.entity.UserEntity;
 import com.example.demo.request.LogInRequest;
-import com.example.demo.teamDiary.TeamDiaryModel;
-import com.example.demo.user.UserModel;
-import com.example.demo.user.UserService;
+import com.example.demo.user.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
-    private UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserServiceImpl userService;
 
     // 모든 사용자 정보 조회
     @GetMapping("/users")
     public HashMap<String, Object> getUsers() {
-        List<UserModel> data = userService.getUsers();
+        List<UserEntity> data = userService.getUsers();
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -30,7 +27,7 @@ public class UserController {
 
     // 사용자 생성
     @PostMapping("/users")
-    public HashMap<String, String> insertUser(@RequestBody UserModel user) {
+    public HashMap<String, String> insertUser(@RequestBody UserEntity user) {
         userService.insertUser(user);
 
         HashMap<String, String> result = new HashMap<>();
@@ -40,7 +37,7 @@ public class UserController {
 
     // 사용자 정보 수정
     @PutMapping("/users/{id}")
-    public HashMap<String, String> updateUser(@RequestBody UserModel userData, @PathVariable(required = true) int id) {
+    public HashMap<String, String> updateUser(@RequestBody UserEntity userData, @PathVariable(required = true) int id) {
         userService.updateUser(id, userData);
 
         HashMap<String, String> result = new HashMap<>();
@@ -84,7 +81,7 @@ public class UserController {
     public HashMap<String, Object> userEmailSearchModel(@RequestParam(defaultValue = "succ") String searchWord) {
         String likeSearchWord = "%" + searchWord + "%";
 
-        List<UserModel> data = userService.userEmailSearchModel(likeSearchWord);
+        List<UserEntity> data = userService.userEmailSearchModel(likeSearchWord);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -95,7 +92,7 @@ public class UserController {
     // login
     @PostMapping("/users/logIn")
     public HashMap<String, Object> logIn(@RequestBody LogInRequest user) {
-        UserModel userId = userService.logIn(user);
+        UserEntity userId = userService.logIn(user);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
