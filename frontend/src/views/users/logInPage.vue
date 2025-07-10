@@ -32,8 +32,8 @@ export default {
           alert('로그인이 완료되었습니다.');
 
           this.$store.commit('setUserId', data.data.id); 
-          this.$store.commit('setFirstName', data.data.first_name); 
-          this.$store.commit('setLastName', data.data.last_name); 
+          this.$store.commit('setFirstName', data.data.firstName); 
+          this.$store.commit('setLastName', data.data.lastName); 
           this.$store.commit('setEmail', this.email); 
           this.$store.commit('setPassword', this.password); 
           this.$store.commit('setColor', data.data.color); 
