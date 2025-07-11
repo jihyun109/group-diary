@@ -5,6 +5,7 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.user.UserMapper;
+import com.example.demo.user.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // 사용자 정보 수정
-    public void updateUser(int userId, UserEntity user) {
+    public void updateUser(int userId, UserModel user) {
         user.setId(userId);
         userMapper.updateUser(user);
     }
