@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.LoginResponseDTO;
-import com.example.demo.entity.UserEntity;
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.user.UserMapper;
@@ -18,12 +17,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     // 모든 사용자 정보 조회
-    public List<UserEntity> getUsers() {
+    public List<UserModel> getUsers() {
         return userMapper.selectUsers();
     }
 
     // 사용자 생성
-    public void insertUser(UserEntity user) {
+    public void insertUser(UserModel user) {
         userMapper.insertUser(user);
     }
 
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // 사용자 이메일 검색
-    public List<UserEntity> userEmailSearchModel(String searchWord) {
+    public List<UserModel> userEmailSearchModel(String searchWord) {
         return userMapper.userEmailSearchModel(searchWord);
     }
 

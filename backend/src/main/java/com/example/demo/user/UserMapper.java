@@ -1,6 +1,5 @@
 package com.example.demo.user;
 
-import com.example.demo.entity.UserEntity;
 import com.example.demo.dto.LogInRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -12,10 +11,10 @@ import java.util.List;
 public interface UserMapper {
 
     // 모든 사용자 정보 조회
-    List<UserEntity> selectUsers();
+    List<UserModel> selectUsers();
 
     // 사용자 생성
-    void insertUser(UserEntity user);
+    void insertUser(UserModel user);
 
     // 사용자 정보 수정
     void updateUser(UserModel user);
@@ -24,9 +23,9 @@ public interface UserMapper {
     void deleteUser(int userId);
 
     // 사용자 이메일 검색
-    List<UserEntity> userEmailSearchModel(String searchWord);
+    List<UserModel> userEmailSearchModel(String searchWord);
 
     // 로그인 (성공 -> userId 반환)
-    UserEntity logIn(LogInRequestDTO user);
+    UserModel logIn(LogInRequestDTO user);
 
 }
