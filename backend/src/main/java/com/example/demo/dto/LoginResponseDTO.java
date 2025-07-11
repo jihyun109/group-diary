@@ -17,6 +17,7 @@ public class LoginResponseDTO {
 
     public static LoginResponseDTO from(UserEntity userEntity) {
         return LoginResponseDTO.builder()
+                .id(userEntity.getId())
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
                 .initial(userEntity.getInitial())
