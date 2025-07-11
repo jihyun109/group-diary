@@ -3,6 +3,7 @@ package com.example.demo.user;
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.dto.UserUpdateRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,4 +30,5 @@ public interface UserMapper {
     // 로그인 (성공 -> userId 반환)
     UserModel logIn(LogInRequestDTO user);
 
+    UserModel getUser(@Param("userId") long userId);
 }

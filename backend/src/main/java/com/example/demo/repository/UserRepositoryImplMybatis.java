@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.dto.LoginResponseDTO;
+import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.dto.UserUpdateRequestDTO;
 import com.example.demo.user.UserMapper;
 import com.example.demo.user.UserModel;
@@ -30,5 +31,11 @@ public class UserRepositoryImplMybatis implements UserRepository {
     @Override
     public List<UserModel> getUsers() {
         return userMapper.selectUsers();
+    }
+
+    @Override
+    public UserResponseDTO getUser(long userId) {
+        UserModel userModel = userMapper.getUser(userId);
+        return UserResponseDTO.from(userModel);
     }
 }

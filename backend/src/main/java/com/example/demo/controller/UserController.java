@@ -3,10 +3,12 @@ package com.example.demo.controller;
 import com.example.demo.dto.LoginResponseDTO;
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.dto.UserUpdateRequestDTO;
+import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
 import com.example.demo.user.UserModel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -27,6 +29,12 @@ public class UserController {
         result.put("result", "success");
         result.put("data", data);
         return result;
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable long userId) {
+        UserResponseDTO userResponseDTO = userService.getUser(userId);
+        return ResponseEntity.ok(userResponseDTO);
     }
 
     // 사용자 생성
