@@ -1,7 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.entity.UserEntity;
-import com.example.demo.request.LogInRequest;
+import com.example.demo.dto.LogInRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +27,6 @@ public interface UserMapper {
     List<UserEntity> userEmailSearchModel(String searchWord);
 
     // 로그인 (성공 -> userId 반환)
-    UserEntity logIn(LogInRequest user);
+    UserEntity logIn(LogInRequestDTO user);
 
 }

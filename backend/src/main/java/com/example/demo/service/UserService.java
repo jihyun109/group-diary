@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.LoginResponseDTO;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.request.LogInRequest;
+import com.example.demo.dto.LogInRequestDTO;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ public interface UserService {
     void updateUser(int userId, UserEntity user);
     void deleteUser(int userId);
     List<UserEntity> userEmailSearchModel(String searchWord);
-    UserEntity logIn(LogInRequest user);
+    LoginResponseDTO logIn(LogInRequestDTO user);
 }
