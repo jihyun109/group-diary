@@ -1,7 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.dto.LoginResponseDTO;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.request.LogInRequest;
+import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -93,8 +94,8 @@ public class UserController {
 
     // login
     @PostMapping("/users/logIn")
-    public HashMap<String, Object> logIn(@RequestBody LogInRequest user) {
-        UserEntity userId = userServiceImpl.logIn(user);
+    public HashMap<String, Object> logIn(@RequestBody LogInRequestDTO user) {
+        LoginResponseDTO userId = userServiceImpl.logIn(user);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");

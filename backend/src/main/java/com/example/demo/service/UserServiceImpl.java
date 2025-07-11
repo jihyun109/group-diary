@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.LoginResponseDTO;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.request.LogInRequest;
+import com.example.demo.dto.LogInRequestDTO;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
+    private final UserRepository userRepository;
 
     // 모든 사용자 정보 조회
     public List<UserEntity> getUsers() {
@@ -39,7 +42,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.userEmailSearchModel(searchWord);
     }
 
-    public UserEntity logIn(LogInRequest user) {
-        return userMapper.logIn(user);
+    public LoginResponseDTO logIn(LogInRequestDTO user) {
+        return userRepository.login(user);
     }
 }
