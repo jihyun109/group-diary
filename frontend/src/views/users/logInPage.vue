@@ -30,6 +30,7 @@ export default {
 
         if (data && data.result === 'success'&& data.data.id) {
           alert('로그인이 완료되었습니다.');
+          console.log(data);
 
           this.$store.commit('setUserId', data.data.id); 
           this.$store.commit('setFirstName', data.data.firstName); 
