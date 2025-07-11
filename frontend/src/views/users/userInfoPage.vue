@@ -22,7 +22,7 @@ export default {
     async fetchUserInfoData() {
       this.userId = this.$store.state.userId;
       const urls = [
-        `${BASE_URL}/users`
+        `${BASE_URL}/users?userId=${userId}`
       ];
 
       const requests = urls.map(async url => {
@@ -31,9 +31,13 @@ export default {
       });
 
       const responses = await Promise.all(requests);
-      this.userDataList = responses.flatMap(response => response.data);
+      this.userData = responses.json();
 
-      this.getUserDataById()
+      this.firstName = this.userData.firstName;
+      this.lastName = this.userData.lastName;
+      this.emailAddress = this.userData.email;
+      this.password = this.userData.password;
+      this.color = this.userData.color;
     },
 
     getUserDataById() {
