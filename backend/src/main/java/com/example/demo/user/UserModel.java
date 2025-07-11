@@ -1,5 +1,10 @@
 package com.example.demo.user;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserModel {
     int id;
     String firstName;
@@ -21,60 +26,5 @@ public class UserModel {
         this.password = password;
         this.email = email;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getInitial() {
-        return initial;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setInitial(String initial) {
-        this.initial = initial;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    
 }
