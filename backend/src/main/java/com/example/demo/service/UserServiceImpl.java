@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     // 모든 사용자 정보 조회
     public List<UserModel> getUsers() {
-        return userMapper.selectUsers();
+        return userRepository.getUsers();
     }
 
     // 사용자 생성
