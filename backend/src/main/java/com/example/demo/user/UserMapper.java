@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.dto.LogInRequestDTO;
+import com.example.demo.dto.UserUpdateRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ public interface UserMapper {
     void insertUser(UserModel user);
 
     // 사용자 정보 수정
-    void updateUser(UserModel user);
+    void updateUser(UserUpdateRequestDTO user);
 
     // 사용자 삭제
     void deleteUser(int userId);
