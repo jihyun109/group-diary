@@ -8,6 +8,8 @@ import com.example.demo.user.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class UserRepositoryImplMybatis implements UserRepository {
@@ -23,5 +25,10 @@ public class UserRepositoryImplMybatis implements UserRepository {
     @Override
     public void updateUser(UserUpdateRequestDTO userUpdateRequestDTO) {
         userMapper.updateUser(userUpdateRequestDTO);
+    }
+
+    @Override
+    public List<UserModel> getUsers() {
+        return userMapper.selectUsers();
     }
 }
