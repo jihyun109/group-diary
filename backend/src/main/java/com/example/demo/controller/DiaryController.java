@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import com.example.demo.diary.DiaryModel;
 import com.example.demo.diary.DiaryService;

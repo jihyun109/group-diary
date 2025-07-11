@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.UserEntity;
+import com.example.demo.user.UserModel;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,7 +15,7 @@ public class LoginResponseDTO {
     private String password;
     private String email;
 
-    public static LoginResponseDTO from(UserEntity userEntity) {
+    public static LoginResponseDTO from(UserModel userEntity) {
         return LoginResponseDTO.builder()
                 .id(userEntity.getId())
                 .firstName(userEntity.getFirstName())

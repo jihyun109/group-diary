@@ -1,7 +1,6 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import com.example.demo.dto.LoginResponseDTO;
-import com.example.demo.entity.UserEntity;
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
@@ -21,7 +20,7 @@ public class UserController {
     // 모든 사용자 정보 조회
     @GetMapping("/users")
     public HashMap<String, Object> getUsers() {
-        List<UserEntity> data = userServiceImpl.getUsers();
+        List<UserModel> data = userServiceImpl.getUsers();
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -31,7 +30,7 @@ public class UserController {
 
     // 사용자 생성
     @PostMapping("/users")
-    public HashMap<String, String> insertUser(@RequestBody UserEntity user) {
+    public HashMap<String, String> insertUser(@RequestBody UserModel user) {
         userServiceImpl.insertUser(user);
 
         HashMap<String, String> result = new HashMap<>();
@@ -85,7 +84,7 @@ public class UserController {
     public HashMap<String, Object> userEmailSearchModel(@RequestParam(defaultValue = "succ") String searchWord) {
         String likeSearchWord = "%" + searchWord + "%";
 
-        List<UserEntity> data = userServiceImpl.userEmailSearchModel(likeSearchWord);
+        List<UserModel> data = userServiceImpl.userEmailSearchModel(likeSearchWord);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
