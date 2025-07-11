@@ -11,14 +11,14 @@
         VALUES (#{id}, #{first_name}, #{last_name}, #{initial}, #{color}, #{password}, #{email});
     </insert>
 
-    <update id="updateUser" parameterType="com.example.demo.user.UserModel">
+    <update id="updateUser" parameterType="com.example.demo.dto.UserUpdateRequestDTO">
         UPDATE users
         SET first_name = #{firstName},
-            last_name = #{lastName},
-            initial = #{initial},
-            color = #{color},
-            password = #{password},
-            email = #{email}
+            last_name  = #{lastName},
+            initial    = #{initial},
+            color      = #{color},
+            password   = #{password},
+            email      = #{email}
         WHERE id = #{id};
     </update>
 
@@ -28,17 +28,17 @@
         WHERE id = #{userId};
     </delete>
 
-<!--    <select id="requestUserName" resultType="com.example.demo.user.UserModel">-->
-<!--        SELECT name-->
-<!--        FROM users-->
-<!--        WHERE id = #{userId}-->
-<!--    </select>-->
+    <!--    <select id="requestUserName" resultType="com.example.demo.user.UserModel">-->
+    <!--        SELECT name-->
+    <!--        FROM users-->
+    <!--        WHERE id = #{userId}-->
+    <!--    </select>-->
 
-<!--    <select id="requestUserInfo" resultType="com.example.demo.user.UserModel">-->
-<!--        SELECT id, name, initial, color, password, email-->
-<!--        FROM users-->
-<!--        WHERE id = #{userId}-->
-<!--    </select>-->
+    <!--    <select id="requestUserInfo" resultType="com.example.demo.user.UserModel">-->
+    <!--        SELECT id, name, initial, color, password, email-->
+    <!--        FROM users-->
+    <!--        WHERE id = #{userId}-->
+    <!--    </select>-->
 
     <select id="userEmailSearchModel" resultType="com.example.demo.user.UserModel">
         SELECT id, first_name, last_name, email
@@ -46,15 +46,17 @@
         WHERE email LIKE #{likeSearchWord};
     </select>
 
-    <select id="logIn" parameterType="com.example.demo.dto.LogInRequestDTO" resultType="com.example.demo.user.UserModel">
+    <select id="logIn" parameterType="com.example.demo.dto.LogInRequestDTO"
+            resultType="com.example.demo.user.UserModel">
         SELECT id, first_name AS firstName, last_name AS lastName, color
         FROM users
-        WHERE email = #{email} AND password = #{password};
+        WHERE email = #{email}
+          AND password = #{password};
     </select>
 
 </mapper>
 
-<!--    #{'%+searchWord+'%'}    -->
+        <!--    #{'%+searchWord+'%'}    -->
 
 
 

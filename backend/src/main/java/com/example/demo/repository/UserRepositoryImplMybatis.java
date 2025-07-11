@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.dto.LoginResponseDTO;
+import com.example.demo.dto.UserUpdateRequestDTO;
 import com.example.demo.user.UserMapper;
 import com.example.demo.user.UserModel;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,10 @@ public class UserRepositoryImplMybatis implements UserRepository {
         UserModel userModel = userMapper.logIn(logInRequestDTO);
 
         return LoginResponseDTO.from(userModel);
+    }
+
+    @Override
+    public void updateUser(UserUpdateRequestDTO userUpdateRequestDTO) {
+        userMapper.updateUser(userUpdateRequestDTO);
     }
 }

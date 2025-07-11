@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.LoginResponseDTO;
 import com.example.demo.dto.LogInRequestDTO;
+import com.example.demo.dto.UserUpdateRequestDTO;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.user.UserMapper;
 import com.example.demo.user.UserModel;
@@ -27,9 +28,9 @@ public class UserServiceImpl implements UserService {
     }
 
     // 사용자 정보 수정
-    public void updateUser(int userId, UserModel user) {
+    public void updateUser(int userId, UserUpdateRequestDTO user) {
         user.setId(userId);
-        userMapper.updateUser(user);
+        userRepository.updateUser(user);
     }
 
     // 사용자 삭제
