@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import com.example.demo.member.MemberModel;
 import com.example.demo.member.MemberService;
