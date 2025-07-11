@@ -5,6 +5,7 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
+import com.example.demo.user.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class UserController {
 
     // 사용자 정보 수정
     @PutMapping("/users/{id}")
-    public HashMap<String, String> updateUser(@RequestBody UserEntity userData, @PathVariable(required = true) int id) {
+    public HashMap<String, String> updateUser(@RequestBody UserModel userData, @PathVariable(required = true) int id) {
         userServiceImpl.updateUser(id, userData);
 
         HashMap<String, String> result = new HashMap<>();
