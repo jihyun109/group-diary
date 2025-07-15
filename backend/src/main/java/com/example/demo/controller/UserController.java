@@ -104,7 +104,7 @@ public class UserController {
     // login
     @PostMapping("/users/logIn")
     public HashMap<String, Object> logIn(@RequestBody LogInRequestDTO user) {
-        LoginResponseDTO userId = userServiceImpl.logIn(user);
+        LoginResponseDTO userId = userService.logIn(user);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
