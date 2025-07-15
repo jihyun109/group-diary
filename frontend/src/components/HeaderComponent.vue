@@ -75,16 +75,11 @@ export default {
   methods: {
     ...mapActions(['fetchStoreData']),
     async fetchData() {
-      console.log(this.firstName);
       const inviteDataResponse = await fetch(`${BASE_URL}/members/invited/${this.userId}`);
-      console.log("at header", inviteDataResponse);
 
       const inviteDataJson = await inviteDataResponse.json();
       this.inviteData = inviteDataJson.data;
       this.alarmN = this.inviteData.length;
-
-
-      // console.log("inviteData: ", this.inviteData);
     },
 
     logOut() {
