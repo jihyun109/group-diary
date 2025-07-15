@@ -26,11 +26,9 @@ export default {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data);
 
         if (data && data.result === 'success'&& data.data.id) {
           alert('로그인이 완료되었습니다.');
-          console.log(JSON.stringify(data, null, 2));
 
           this.$store.commit('setUserId', data.data.id); 
           this.$store.commit('setFirstName', data.data.firstName); 

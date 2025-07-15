@@ -1,60 +1,36 @@
 <script>
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { fetchUserInfo } from '../../api/user';
+
 export default {
-  mounted() {
-    this.fetchUserInfoData()
+  async mounted() {
+    await this.loadUserInfo();
   },
   data() {
     return {
       userId: 0,
-      userDataList: [],
-      userInfoData: null,
-
+      userData: null,
       firstName: '',
       lastName: '',
       emailAddress: '',
       password: '',
-      // initial: '',
       color: '',
     }
   },
   methods: {
-    async fetchUserInfoData() {
+    async loadUserInfo() {
       this.userId = this.$store.state.userId;
-      const urls = [
-        `${BASE_URL}/users?userId=${userId}`
-      ];
-
-      const requests = urls.map(async url => {
-        const res = await fetch(url);
-        return res.json();
-      });
-
-      const responses = await Promise.all(requests);
-      this.userData = responses.json();
-
-      this.firstName = this.userData.firstName;
-      this.lastName = this.userData.lastName;
-      this.emailAddress = this.userData.email;
-      this.password = this.userData.password;
-      this.color = this.userData.color;
-    },
-
-    getUserDataById() {
-      this.userData = this.userDataList.find(user => user.id === this.userId);
-      console.log(this.userData);
-
-      if (this.userData) {
-        this.firstName = this.userData.first_name;
-        this.lastName = this.userData.last_name;
-        this.emailAddress = this.userData.email;
-        this.password = this.userData.password;
-        // this.initial = this.userData.initial;
-        this.color = this.userData.color;
-
+      try {
+        const userData = await fetchUserInfo(this.userId);
+        this.userData = userData;
+        this.firstName = userData.firstName;
+        this.lastName = userData.lastName;
+        this.emailAddress = userData.email;
+        this.password = userData.password;
+        this.color = userData.color;
+      } catch (error) {
+        alert('유저 정보를 불러오는데 실패했습니다.');
       }
     },
-
     moveToEditPage() {
       this.$router.push({ path: 'userInfoEdit' });
     }

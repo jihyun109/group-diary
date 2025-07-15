@@ -1,46 +1,42 @@
 <script>
+import { fetchUserInfo } from '../../api/user';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default {
-  mounted() {
-    this.fetchUserInfoData()
+  async mounted() {
+    await this.loadUserInfo();
   },
   data() {
     return {
       userId: 0,
-      userDataList: [],
-      userInfoData: null,
-
+      userData: null,
       firstName: '',
       lastName: '',
       emailAddress: '',
       password: '',
-      // initial: '',
       color: '',
       errors: {
         firstName: false,
         lastName: false,
         emailAddress: false,
         password: false,
-        // initial: false,
       }
     }
   },
   methods: {
-    async fetchUserInfoData() {
+    async loadUserInfo() {
       this.userId = this.$store.state.userId;
-        const urls = [
-        `${BASE_URL}/users`
-        ];
-
-        const requests = urls.map(async url => {
-            const res = await fetch(url);
-            return res.json();
-        });
-
-        const responses = await Promise.all(requests);
-        this.userDataList = responses.flatMap(response => response.data);
-
-        this.getUserDataById()
+      try {
+        const userData = await fetchUserInfo(this.userId);
+        this.userData = userData;
+        this.firstName = userData.firstName;
+        this.lastName = userData.lastName;
+        this.emailAddress = userData.email;
+        this.password = userData.password;
+        this.color = userData.color;
+      } catch (error) {
+        alert('유저 정보를 불러오는데 실패했습니다.');
+      }
     },
 
     // 사용자 info 데이터 get
@@ -53,7 +49,6 @@ export default {
         this.lastName = this.userData.last_name;
         this.emailAddress = this.userData.email;
         this.password = this.userData.password;
-        // this.initial = this.userData.initial;
         this.color = this.userData.color;
       }
     },
@@ -75,11 +70,10 @@ export default {
 
       // 입력 데이터를 객체로 수집
       const userData = {
-        first_name: this.firstName,
-        last_name: this.lastName,
+        firstName: this.firstName,
+        lastName: this.lastName,
         email: this.emailAddress,
         password: this.password,
-        // initial: this.initial,
         color: this.color
       };
 
