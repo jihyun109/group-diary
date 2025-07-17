@@ -12,9 +12,9 @@
         FROM users
     </select>
 
-    <insert id="insertUser" parameterType="com.example.demo.user.UserModel">
+    <insert id="insertUser" parameterType="com.example.demo.dto.SignupRequestDTO">
         INSERT INTO users (id, first_name, last_name, initial, color, password, email)
-        VALUES (#{id}, #{first_name}, #{last_name}, #{initial}, #{color}, #{password}, #{email});
+        VALUES (#{id}, #{firstName}, #{lastName}, #{initial}, #{color}, #{password}, #{email});
     </insert>
 
     <update id="updateUser" parameterType="com.example.demo.dto.UserUpdateRequestDTO">

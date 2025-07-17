@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginResponseDTO;
-import com.example.demo.dto.LogInRequestDTO;
-import com.example.demo.dto.UserUpdateRequestDTO;
-import com.example.demo.dto.UserResponseDTO;
+import com.example.demo.dto.*;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
 import com.example.demo.user.UserModel;
@@ -48,6 +45,16 @@ public class UserController {
         return result;
     }
 
+    // 사용자 생성 (회원가입)
+    @PostMapping("/users")
+    public HashMap<String, String> insertUser(@RequestBody SignupRequestDTO user) {
+        userService.insertUser(user);
+
+        HashMap<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return result;
+    }
+
     // 모든 사용자 정보 조회
     @GetMapping("/users")
     public HashMap<String, Object> getUsers() {
@@ -58,18 +65,6 @@ public class UserController {
         result.put("data", data);
         return result;
     }
-
-    // 사용자 생성
-    @PostMapping("/users")
-    public HashMap<String, String> insertUser(@RequestBody UserModel user) {
-        userServiceImpl.insertUser(user);
-
-        HashMap<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return result;
-    }
-
-
 
     // 사용자 삭제
     @DeleteMapping("/users/{id}")
@@ -93,6 +88,4 @@ public class UserController {
         result.put("data", data);
         return result;
     }
-
-
 }

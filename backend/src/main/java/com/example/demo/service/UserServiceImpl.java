@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.LoginResponseDTO;
-import com.example.demo.dto.LogInRequestDTO;
-import com.example.demo.dto.UserResponseDTO;
-import com.example.demo.dto.UserUpdateRequestDTO;
+import com.example.demo.dto.*;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.user.UserMapper;
 import com.example.demo.user.UserModel;
@@ -29,8 +26,9 @@ public class UserServiceImpl implements UserService {
     }
 
     // 사용자 생성
-    public void insertUser(UserModel user) {
-        userMapper.insertUser(user);
+    @Override
+    public void insertUser(SignupRequestDTO user) {
+        userRepository.insertUser(user);
     }
 
     // 사용자 정보 수정
