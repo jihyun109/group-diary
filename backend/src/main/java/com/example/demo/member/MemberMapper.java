@@ -1,5 +1,6 @@
 package com.example.demo.member;
 
+import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
 import com.example.demo.response.TeamMembersNameResponse;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface MemberMapper {
     List<MemberModel> selectMembers();  // 모든 팀의 멤버 리스트 조회
 
-    void insertMember(MemberModel member);  // 멤버 생성 (초대)
+    void insertMember(MemberInviteRequestDTO member);  // 멤버 생성 (초대)
 
     void updateMember(MemberModel member);  // 멤버 수정
 

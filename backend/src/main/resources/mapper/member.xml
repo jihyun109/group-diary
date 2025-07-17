@@ -6,9 +6,9 @@
         FROM members
     </select>
 
-    <insert id="insertMember" parameterType="com.example.demo.member.MemberModel">
+    <insert id="insertMember" parameterType="com.example.demo.dto.MemberInviteRequestDTO">
         INSERT INTO members (id, user_id, team_id, status, inviter_id)
-        VALUES (#{id}, #{user_id}, #{team_id}, #{status}, #{inviter_id});
+        VALUES (#{id}, #{userId}, #{teamId}, #{status}, #{inviterId});
     </insert>
 
     <update id="updateMember" parameterType="com.example.demo.member.MemberModel">

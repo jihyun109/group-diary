@@ -437,10 +437,10 @@ export default {
 
     async requestInviteUser(userId, teamId) {
       const inviteData = {
-        user_id: userId,
-        team_id: teamId,
+        userId: userId,
+        teamId: teamId,
         status: userId === this.userId ? 0 : 1,
-        inviter_id: this.userId
+        inviterId: this.userId
       };
 
       try {

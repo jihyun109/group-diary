@@ -1,18 +1,27 @@
-package com.example.demo.member;
+package com.example.demo.service;
 
+import com.example.demo.dto.MemberInviteRequestDTO;
+import com.example.demo.member.MemberMapper;
+import com.example.demo.member.MemberModel;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
 import com.example.demo.response.TeamMembersNameResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MemberService {
-    private MemberMapper memberMapper;
+@RequiredArgsConstructor
+public class MemberServiceImpl implements MemberService {
+    private final MemberMapper memberMapper;
+    private final MemberRepository memberRepository;
 
-    public MemberService(MemberMapper memberMapper){
-        this.memberMapper = memberMapper;
+    // 멤버 생성 (초대)
+    @Override
+    public void insertMember(MemberInviteRequestDTO member) {
+        memberRepository.inviteMember(member);
     }
 
     // 모든 팀의 멤버 리스트 조회
@@ -20,10 +29,6 @@ public class MemberService {
         return memberMapper.selectMembers();
     }
 
-    // 멤버 생성 (초대)
-    public void insertMember(MemberModel member) {
-        memberMapper.insertMember(member);
-    }
 
     // 멤버 수정
     public void updateMember(int memberId, MemberModel member) {
