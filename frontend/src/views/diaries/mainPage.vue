@@ -154,9 +154,9 @@
                   </div>
                   <div v-else class="list-group">
                     <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
-                      @click="addToInviteGroup(user.id, user.last_name, user.first_name)" href="javascript:void(0);"
+                      @click="addToInviteGroup(user.id, user.lastName, user.firstName)" href="javascript:void(0);"
                       class="list-group-item list-group-item-action">
-                      {{ user.last_name }} {{ user.first_name }}
+                      {{ user.lastName }} {{ user.firstName }}
                     </a>
                   </div>
                 </form>
@@ -401,7 +401,7 @@ export default {
       }
 
       try {
-        const response = await fetch('${BASE_URL}/teams', {
+        const response = await fetch(`${BASE_URL}/teams`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -444,7 +444,7 @@ export default {
       };
 
       try {
-        const response = await fetch('${BASE_URL}/members/', {
+        const response = await fetch(`${BASE_URL}/members`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -456,7 +456,7 @@ export default {
           console.log("초대 성공: ", inviteData);
         } else {
           const errorData = await response.json();
-          console.log(`오류가 발생했습니다: ${errorData.message}`);
+          console.log(`오류가 발생했습니다: ${JSON.stringify(errorData)}`);
         }
       } catch (error) {
         alert(`네트워크 오류가 발생했습니다: ${error.message}`);
