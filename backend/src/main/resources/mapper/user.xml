@@ -35,7 +35,7 @@
     </delete>
 
     <select id="userEmailSearchModel" resultType="com.example.demo.user.UserModel">
-        SELECT id, first_name, last_name, email
+        SELECT id, first_name AS firstName, last_name AS lastName, email
         FROM users
         WHERE email LIKE #{likeSearchWord};
     </select>
