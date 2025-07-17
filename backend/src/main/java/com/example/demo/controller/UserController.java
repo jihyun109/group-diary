@@ -20,6 +20,34 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
     private final UserService userService;
 
+    // login
+    @PostMapping("/users/logIn")
+    public HashMap<String, Object> logIn(@RequestBody LogInRequestDTO user) {
+        LoginResponseDTO userId = userService.logIn(user);
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("result", "success");
+        result.put("data", userId);
+        return result;
+    }
+
+    // 사용자 정보 get
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable long userId) {
+        UserResponseDTO userResponseDTO = userService.getUser(userId);
+        return ResponseEntity.ok(userResponseDTO);
+    }
+
+    // 사용자 정보 수정
+    @PutMapping("/users/{id}")
+    public HashMap<String, String> updateUser(@RequestBody UserUpdateRequestDTO userData, @PathVariable(required = true) int id) {
+        userService.updateUser(id, userData);
+
+        HashMap<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return result;
+    }
+
     // 모든 사용자 정보 조회
     @GetMapping("/users")
     public HashMap<String, Object> getUsers() {
@@ -29,12 +57,6 @@ public class UserController {
         result.put("result", "success");
         result.put("data", data);
         return result;
-    }
-
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<UserResponseDTO> getUser(@PathVariable long userId) {
-        UserResponseDTO userResponseDTO = userService.getUser(userId);
-        return ResponseEntity.ok(userResponseDTO);
     }
 
     // 사용자 생성
@@ -47,15 +69,7 @@ public class UserController {
         return result;
     }
 
-    // 사용자 정보 수정
-    @PutMapping("/users/{id}")
-    public HashMap<String, String> updateUser(@RequestBody UserUpdateRequestDTO userData, @PathVariable(required = true) int id) {
-        userServiceImpl.updateUser(id, userData);
 
-        HashMap<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return result;
-    }
 
     // 사용자 삭제
     @DeleteMapping("/users/{id}")
@@ -80,14 +94,5 @@ public class UserController {
         return result;
     }
 
-    // login
-    @PostMapping("/users/logIn")
-    public HashMap<String, Object> logIn(@RequestBody LogInRequestDTO user) {
-        LoginResponseDTO userId = userService.logIn(user);
 
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "success");
-        result.put("data", userId);
-        return result;
-    }
 }
