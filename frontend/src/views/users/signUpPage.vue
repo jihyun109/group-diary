@@ -39,8 +39,8 @@ export default {
 
       // 입력 데이터를 객체로 수집
       const signUpData = {
-        first_name: this.firstName,
-        last_name: this.lastName,
+        firstName: this.firstName,
+        lastName: this.lastName,
         email: this.emailAddress,
         password: this.password,
         // initial: this.initial,
@@ -49,7 +49,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch('${BASE_URL}/users', {
+        const response = await fetch(`${BASE_URL}/users`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
