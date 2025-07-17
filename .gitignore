@@ -47,3 +47,5 @@ out/
 *.class
 /build/
 /out/
+
+/application-secret.yml
