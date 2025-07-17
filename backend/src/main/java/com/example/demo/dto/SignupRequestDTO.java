@@ -1,15 +1,9 @@
-package com.example.demo.user;
+package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class UserModel {
+public class SignupRequestDTO {
     private int id;
     private String firstName;
     private String lastName;

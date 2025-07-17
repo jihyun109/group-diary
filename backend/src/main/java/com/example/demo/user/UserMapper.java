@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.dto.LogInRequestDTO;
+import com.example.demo.dto.SignupRequestDTO;
 import com.example.demo.dto.UserUpdateRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,7 +17,7 @@ public interface UserMapper {
     List<UserModel> selectUsers();
 
     // 사용자 생성
-    void insertUser(UserModel user);
+    void insertUser(SignupRequestDTO user);
 
     // 사용자 정보 수정
     void updateUser(UserUpdateRequestDTO user);
