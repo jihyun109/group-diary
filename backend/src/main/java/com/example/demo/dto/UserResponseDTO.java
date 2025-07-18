@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.user.UserModel;
+import com.example.demo.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

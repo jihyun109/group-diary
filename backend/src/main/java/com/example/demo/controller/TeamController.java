@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.request.CreateTeamRequest;
-import com.example.demo.request.FindTeamIdRequestModel;
 import com.example.demo.team.TeamModel;
 import com.example.demo.team.TeamService;
-import com.example.demo.user.UserModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

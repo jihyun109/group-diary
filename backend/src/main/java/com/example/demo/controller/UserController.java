@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.*;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
-import com.example.demo.user.UserModel;
+import com.example.demo.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

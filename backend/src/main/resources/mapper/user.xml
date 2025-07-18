@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.user.UserMapper">
-    <select id="getUser" parameterType="long" resultType="com.example.demo.user.UserModel">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <select id="getUser" parameterType="long" resultType="com.example.demo.model.UserModel">
         SELECT id, first_name AS firstName, last_name AS lastName, initial, color, password, email
         FROM users
         WHERE id = #{userId}
     </select>
 
-    <select id="selectUsers" resultType="com.example.demo.user.UserModel">
+    <select id="selectUsers" resultType="com.example.demo.model.UserModel">
         SELECT id, first_name AS firstName, last_name AS lastName, initial, color, password, email
         FROM users
     </select>
@@ -34,14 +34,14 @@
         WHERE id = #{userId};
     </delete>
 
-    <select id="userEmailSearchModel" resultType="com.example.demo.user.UserModel">
+    <select id="userEmailSearchModel" resultType="com.example.demo.model.UserModel">
         SELECT id, first_name AS firstName, last_name AS lastName, email
         FROM users
         WHERE email LIKE #{likeSearchWord};
     </select>
 
     <select id="logIn" parameterType="com.example.demo.dto.LogInRequestDTO"
-            resultType="com.example.demo.user.UserModel">
+            resultType="com.example.demo.model.UserModel">
         SELECT id, first_name AS firstName, last_name AS lastName, color
         FROM users
         WHERE email = #{email}

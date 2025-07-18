@@ -1,8 +1,9 @@
-package com.example.demo.user;
+package com.example.demo.mapper;
 
 import com.example.demo.dto.LogInRequestDTO;
 import com.example.demo.dto.SignupRequestDTO;
 import com.example.demo.dto.UserUpdateRequestDTO;
+import com.example.demo.model.UserModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
