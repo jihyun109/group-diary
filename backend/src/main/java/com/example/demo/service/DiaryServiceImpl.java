@@ -1,31 +1,32 @@
-package com.example.demo.diary;
+package com.example.demo.service;
 
+import com.example.demo.diary.DiaryMapper;
+import com.example.demo.diary.DiaryModel;
+import com.example.demo.dto.DiaryWriteRequestDTO;
+import com.example.demo.repository.DiaryRepository;
 import com.example.demo.response.AllTeamDiariesResponse;
-import com.example.demo.response.DiaryDetailsResponse;
 import com.example.demo.team.TeamMapper;
-import com.example.demo.team.TeamModel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class DiaryService {
-    private DiaryMapper diaryMapper;
-    private TeamMapper teamMapper;
-
-    public DiaryService(DiaryMapper diaryMapper,TeamMapper teamMapper) {
-        this.teamMapper=teamMapper;
-        this.diaryMapper = diaryMapper;
-    }
+@RequiredArgsConstructor
+public class DiaryServiceImpl implements DiaryService {
+    private final DiaryMapper diaryMapper;
+    private final TeamMapper teamMapper;
+    private final DiaryRepository diaryRepository;
 
     // 모든 일기 리스트 조회
     public List<DiaryModel> getDiaries() {
         return diaryMapper.selectDiaries();
     }
 
-    // 일기 생성
-    public void insertDiary(DiaryModel diary) {
-        diaryMapper.insertDiary(diary);
+    // 일기 생성(일기 작성)
+    @Override
+    public void insertDiary(DiaryWriteRequestDTO diaryWriteRequestDTO) {
+        diaryRepository.insertDiary(diaryWriteRequestDTO);
     }
 
     // 일기 수정
@@ -46,7 +47,7 @@ public class DiaryService {
 
     // 선택한 다이어리 상세 정보 요청
     public DiaryModel requestDiaryDetails(int diaryId) {
-        DiaryModel diary= diaryMapper.requestDiaryDetails(diaryId);
+        DiaryModel diary = diaryMapper.requestDiaryDetails(diaryId);
         diary.setSharedTeamList(teamMapper.searchTeamByDiaryId(diaryId));
         return diary;
     }
@@ -55,7 +56,4 @@ public class DiaryService {
     public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId) {
         return diaryMapper.requestDiaryId(diaryTitle, writtenDate, writerId);
     }
-
-
-
 }

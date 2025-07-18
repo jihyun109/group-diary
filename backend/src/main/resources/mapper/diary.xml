@@ -6,9 +6,9 @@
         FROM diaries
     </select>
 
-    <insert id="insertDiary" parameterType="com.example.demo.diary.DiaryModel">
+    <insert id="insertDiary" parameterType="com.example.demo.dto.DiaryWriteRequestDTO">
         INSERT INTO diaries (id, written_date, writer_id,diary_title, details)
-        VALUES (#{id}, #{written_date}, #{writer_id}, #{diary_title}, #{details});
+        VALUES (#{id}, #{writtenDate}, #{writerId}, #{diaryTitle}, #{details});
     </insert>
 
     <update id="updateDiary" parameterType="com.example.demo.diary.DiaryModel">

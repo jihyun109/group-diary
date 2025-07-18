@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.diary.DiaryModel;
-import com.example.demo.diary.DiaryService;
+import com.example.demo.dto.DiaryWriteRequestDTO;
+import com.example.demo.service.DiaryService;
+import com.example.demo.service.DiaryServiceImpl;
 import com.example.demo.response.AllTeamDiariesResponse;
-import com.example.demo.response.DiaryDetailsResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiaryController {
 
+    private final DiaryServiceImpl diaryServiceImpl;
     private final DiaryService diaryService;
 
 //    @GetMapping("/diaries") // 모든 일기 리스트 조회
@@ -27,19 +30,15 @@ public class DiaryController {
 //    }
 
     @PostMapping("/diaries")    // 일기 생성
-    public HashMap<String, String> insertDiary(@RequestBody DiaryModel diary) {
-
+    public ResponseEntity<String> insertDiary(@RequestBody DiaryWriteRequestDTO diary) {
         diaryService.insertDiary(diary);
-
-        HashMap<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return result;
+        return ResponseEntity.ok("일기 작성 완료");
     }
 
     @PutMapping("/diaries/edit/{id}")    // 일기 수정
     public HashMap<String, String> updateDiary(@PathVariable(required = true) int id, @RequestBody DiaryModel diaryData) {
 
-        diaryService.updateDiary(id, diaryData);
+        diaryServiceImpl.updateDiary(id, diaryData);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
@@ -49,7 +48,7 @@ public class DiaryController {
     @DeleteMapping("/diaries/{id}") // 일기 삭제
     public HashMap<String, String> deleteDiary(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
 
-        diaryService.deleteDiary(id);
+        diaryServiceImpl.deleteDiary(id);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", succMsg);
@@ -58,7 +57,7 @@ public class DiaryController {
 
     @GetMapping("/diaries/all/{userId}")    // 사용자가 속해있는 모든 그룹의 일기 조회
     public HashMap<String, Object> requestAllTeamDiaries(@PathVariable(required = true) int userId) {
-        List<AllTeamDiariesResponse> data = diaryService.requestAllTeamDiaries(userId);
+        List<AllTeamDiariesResponse> data = diaryServiceImpl.requestAllTeamDiaries(userId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -68,7 +67,7 @@ public class DiaryController {
 
     @GetMapping("/diaries/details/{diaryId}")   // 일기 상세 내용 요청
     public HashMap<String, Object> requestDiaryDetails(@PathVariable(required = true) int diaryId) {
-        DiaryModel data = diaryService.requestDiaryDetails(diaryId);
+        DiaryModel data = diaryServiceImpl.requestDiaryDetails(diaryId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -79,13 +78,11 @@ public class DiaryController {
     // 다이어리 id 요청
     @GetMapping("/diaries/findDiaryId")   // 일기 상세 내용 요청
     public HashMap<String, Object> requestDiaryId(@RequestParam(defaultValue = "succ") String diaryTitle, String writtenDate, int writerId) {
-        List<DiaryModel> data = diaryService.requestDiaryId(diaryTitle, writtenDate, writerId);
+        List<DiaryModel> data = diaryServiceImpl.requestDiaryId(diaryTitle, writtenDate, writerId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
         result.put("data", data);
         return result;
     }
-
-
 }

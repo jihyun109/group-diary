@@ -18,17 +18,6 @@ public class TeamDiaryController {
         this.teamDiaryService = teamDiaryService;
     }
 
-    // 모든 팀 일기 리스트 조회
-    @GetMapping("/teamDiaries")
-    public HashMap<String, Object> getTeamDiaries() {
-        List<TeamDiaryModel> data = teamDiaryService.getTeamDiaries();
-
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "success");
-        result.put("data", data);
-        return result;
-    }
-
     // 팁 일기 생성
     @PostMapping("/teamDiaries")
     public HashMap<String, String> insertTeamDiary(@RequestBody TeamDiaryModel teamDiary) {
@@ -53,7 +42,7 @@ public class TeamDiaryController {
 
     // 팀 일기 삭제 (공유 해제)
     @DeleteMapping("/teamDiaries")
-    public HashMap<String, String> deleteTeamDiary(@RequestParam(defaultValue = "succ")  int diaryId, int teamId) {
+    public HashMap<String, String> deleteTeamDiary(@RequestParam(defaultValue = "succ") int diaryId, int teamId) {
 
         teamDiaryService.deleteTeamDiary(diaryId, teamId);
         HashMap<String, String> result = new HashMap<>();
@@ -82,5 +71,4 @@ public class TeamDiaryController {
         result.put("data", data);
         return result;
     }
-
 }

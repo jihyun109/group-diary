@@ -1,8 +1,7 @@
 package com.example.demo.diary;
 
+import com.example.demo.dto.DiaryWriteRequestDTO;
 import com.example.demo.response.AllTeamDiariesResponse;
-import com.example.demo.response.DiaryDetailsResponse;
-import com.example.demo.team.TeamModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +11,8 @@ import java.util.List;
 @Repository
 public interface DiaryMapper {
     List<DiaryModel> selectDiaries();   // 모든 일기 정보 조회
-    void insertDiary(DiaryModel diary); // 일기 생성
+
+    void insertDiary(DiaryWriteRequestDTO diary); // 일기 생성
 
     void updateDiary(DiaryModel diary); // 일기 수정
 
@@ -23,7 +23,4 @@ public interface DiaryMapper {
     DiaryModel requestDiaryDetails(int diaryId);    // 일기 상세 내용 요청
 
     List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId);    // 일기 아이디 요청
-
-
-
 }
