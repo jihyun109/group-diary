@@ -48,6 +48,11 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.requestTeamMembersName(teamId);
     }
 
+    @Override
+    public List<InvitedListResponse> requestInvitedList(long userId) {
+        return memberRepository.requestInvitedList(userId);
+    }
+
 //    // 모든 팀의 멤버 리스트 조회
 //    public List<MemberModel> getMembers() {
 //        return memberMapper.selectMembers();

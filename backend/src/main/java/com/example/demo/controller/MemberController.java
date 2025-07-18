@@ -85,8 +85,8 @@ public class MemberController {
 
     // 사용자가 초대된 팀 리스트 요청
     @GetMapping("/members/invited/{userId}")
-    public HashMap<String, Object> requestInvitedList(@PathVariable(required = true) int userId) {
-        List<InvitedListResponse> data = memberServiceImpl.requestInvitedList(userId);
+    public HashMap<String, Object> requestInvitedList(@PathVariable(required = true) long userId) {
+        List<InvitedListResponse> data = memberService.requestInvitedList(userId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
