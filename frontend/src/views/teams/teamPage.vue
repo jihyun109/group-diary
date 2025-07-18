@@ -251,7 +251,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch('${BASE_URL}/teams', {
+        const response = await fetch(`${BASE_URL}/teams`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
