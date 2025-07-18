@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.service.MemberService;
-import com.example.demo.service.MemberServiceImpl;
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
 import com.example.demo.response.TeamMembersNameResponse;
@@ -20,7 +19,6 @@ import java.util.List;
 @Slf4j
 public class MemberController {
 
-    private final MemberServiceImpl memberServiceImpl;
     private final MemberService memberService;
 
     // 팀에 멤버로 초대
@@ -97,7 +95,7 @@ public class MemberController {
     // 사용자가 멤버인 팀 리스트 요청
     @GetMapping("/members/userTeamList/{userId}")
     public HashMap<String, Object> requestUserTeamList(@PathVariable(required = true) int userId) {
-        List<TeamRequest> data = memberServiceImpl.requestUserTeamList(userId);
+        List<TeamRequest> data = memberService.requestUserTeamList(userId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");

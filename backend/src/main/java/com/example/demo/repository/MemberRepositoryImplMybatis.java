@@ -4,6 +4,7 @@ import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.member.MemberMapper;
+import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
 import com.example.demo.response.TeamMembersNameResponse;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,10 @@ public class MemberRepositoryImplMybatis implements MemberRepository {
     @Override
     public List<InvitedListResponse> requestInvitedList(long userId) {
         return memberMapper.requestInvitedList(userId);
+    }
+
+    @Override
+    public List<TeamRequest> requestUserTeamList(long userId) {
+        return memberMapper.requestUserTeamList(userId);
     }
 }

@@ -28,6 +28,6 @@ public interface MemberMapper {
 
     List<InvitedListResponse> requestInvitedList(long userId);  // 사용자가 초대된 팀 리스트 요청
 
-    List<TeamRequest> requestUserTeamList(int userId);  // 사용자가 멤버인 팀 리스트 요청
+    List<TeamRequest> requestUserTeamList(long userId);  // 사용자가 멤버인 팀 리스트 요청
 
 }
