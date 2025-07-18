@@ -11,12 +11,12 @@
         VALUES (#{id}, #{userId}, #{teamId}, #{status}, #{inviterId});
     </insert>
 
-    <update id="updateMember" parameterType="com.example.demo.member.MemberModel">
+    <update id="updateMember" parameterType="com.example.demo.dto.MemberUpdateRequestDTO">
         UPDATE members
-        SET user_id = #{user_id},
-            team_id = #{team_id},
+        SET user_id = #{userId},
+            team_id = #{teamId},
             status = #{status},
-            inviter_id = #{inviter_id}
+            inviter_id = #{inviterId}
         WHERE id = #{id};
     </update>
 
@@ -32,9 +32,9 @@
         WHERE team_id = #{team_id} AND m.status=0;
     </select>
 
-    <insert id="requestInviteMember" parameterType="com.example.demo.member.MemberModel">
+    <insert id="requestInviteMember" parameterType="com.example.demo.dto.MemberInviteInTeamRequestDTO">
         INSERT INTO members (id, user_id, team_id, status, inviter_id)
-        VALUES (#{id}, #{user_id}, #{team_id}, #{status}, #{inviter_id});
+        VALUES (#{id}, #{userId}, #{teamId}, #{status}, #{inviterId});
     </insert>
 
     <select id="requestInvitedList" resultType="com.example.demo.response.InvitedListResponse">
