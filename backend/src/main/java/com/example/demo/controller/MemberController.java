@@ -65,15 +65,12 @@ public class MemberController {
         return ResponseEntity.ok("멤버 정보 수정 완료");
     }
 
-    // 멤버 삭제
+    // 멤버 삭제 (초대 거절)
     @DeleteMapping("/members/{id}")
-    public HashMap<String, String> deleteMember(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
-
+    public ResponseEntity<String> deleteMember(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
         memberServiceImpl.deleteMember(id);
 
-        HashMap<String, String> result = new HashMap<>();
-        result.put("result", succMsg);
-        return result;
+        return ResponseEntity.ok("invite refused");
     }
 
     // 팀에 속한 모든 멤버의 이름 요청
