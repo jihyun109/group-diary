@@ -80,6 +80,7 @@ export default {
       const inviteDataJson = await inviteDataResponse.json();
       this.inviteData = inviteDataJson.data;
       this.alarmN = this.inviteData.length;
+      console.log(this.inviteData);
     },
 
     logOut() {
@@ -96,10 +97,10 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            user_id: this.userId,
+            userId: this.userId,
             status: 0,
-            team_id: invite.team_id,
-            inviter_id: invite.inviter_id
+            teamId: invite.team_id,
+            inviterId: invite.inviter_id
           })
         });
         if (response.ok) {
