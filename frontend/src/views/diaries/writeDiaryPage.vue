@@ -19,7 +19,6 @@ export default {
     }
 
     this.fetchTeamData();
-    // console.log('sharedTeamId: ', this.sharedTeamId);
   },
   components: {
     cancelModal,
@@ -29,12 +28,11 @@ export default {
   },
   data() {
     return {
-      dataList: [],
 
       diaryModel: {
         id: "",
-        written_date: "",
-        diary_title: "",
+        writtenDate: "",
+        diaryTitle: "",
         details: "",
       },
 
@@ -114,7 +112,7 @@ export default {
 
     async requestPostOrUpdateDiary() {
       // 일기 post or put
-      var requestUrl = "${BASE_URL}/diaries";
+      var requestUrl = `${BASE_URL}/diaries`;
       var method = "";
       if (this.needUpdate) {
         requestUrl += `/edit/${this.diaryModel.id}`;
@@ -125,7 +123,7 @@ export default {
 
       console.log("diaryModel: ", this.diaryModel);
 
-      this.diaryModel.writer_id = this.userId;
+      this.diaryModel.writerId = this.userId;
 
       const response = await fetch(requestUrl, {
         method: method,
@@ -138,12 +136,7 @@ export default {
       if (response.ok) {
         // 요청이 성공하면 성공 메시지 표시
         console.log(`${this.needUpdate ? "수정" : "작성"} 성공 `);
-        // if (this.needUpdate) {
-        //   this.$router.push({ name: "diaryDetail", query: { diary: this.diaryModel.id } })
-        // } else {
-        //   this.$router.push({ name: "main" })
-        //   // this.$router.go(-1);
-        // }
+
       } else {
         // 요청이 실패하면 오류 메시지 표시
         const errorData = await response.json();
@@ -165,8 +158,8 @@ export default {
     },
 
     formattedDate(diary) {
-      if (diary.written_date) {
-        const date = diary.written_date;
+      if (diary.writtenDate) {
+        const date = diary.writtenDwrate;
         return `Written Date: ${date.slice(0, 2)}-${date.slice(
           2,
           4
@@ -234,8 +227,8 @@ export default {
       try {
         const response = await fetch(
           `${BASE_URL}/diaries/findDiaryId?diaryTitle=${encodeURIComponent(
-            this.diaryModel.diary_title
-          )}&writtenDate=${this.diaryModel.written_date}&writerId=${this.userId
+            this.diaryModel.diaryTitle
+          )}&writtenDate=${this.diaryModel.writtenDate}&writerId=${this.userId
           }`,
           {
             method: "GET",
@@ -276,7 +269,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch("${BASE_URL}/teamDiaries/", {
+        const response = await fetch(`${BASE_URL}/teamDiaries`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -423,22 +416,6 @@ export default {
       }
       return objCopy;
     },
-
-    async fetchData() {
-      const urls = [
-        `${BASE_URL}/diaries`,
-        `${BASE_URL}/teams`,
-        `${BASE_URL}/members`,
-      ];
-
-      const requests = urls.map(async (url) => {
-        const res = await fetch(url);
-        return res.json();
-      });
-
-      this.dataList = await Promise.all(requests);
-      console.log(this.dataList);
-    },
   },
 };
 </script>
@@ -456,13 +433,13 @@ export default {
             <!-- date picker 사용 -->
             <div class="input-group input-group-static my-3">
               <label>Date</label>
-              <input v-model="diaryModel.written_date" type="date" class="form-control" />
+              <input v-model="diaryModel.writtenDate" type="date" class="form-control" />
             </div>
 
             <div class="mb-4">
               <div class="input-group input-group-static">
                 <label>title</label>
-                <input v-model="diaryModel.diary_title" type="text" class="form-control" placeholder="제목" />
+                <input v-model="diaryModel.diaryTitle" type="text" class="form-control" placeholder="제목" />
               </div>
             </div>
             <div class="mb-4">
