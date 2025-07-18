@@ -585,9 +585,9 @@ export default {
                     </div>
                     <div v-else class="list-group">
                       <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
-                        @click="addToInviteGroup(user.id, user.last_name, user.first_name)" href="javacsript:void(0);"
+                        @click="addToInviteGroup(user.id, user.lastName, user.firstName)" href="javacsript:void(0);"
                         class="list-group-item list-group-item-action">
-                        {{ user.last_name }} {{ user.first_name }}
+                        {{ user.lastName }} {{ user.firstName }}
                       </a>
                     </div>
                   </form>
