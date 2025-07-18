@@ -132,11 +132,6 @@ export default {
       this.inviteData = this.dataTypeMap.get('invites')
 
       this.selectedTeam = this.teamData.filter(t => t.team_id == this.$route.query.team).at(0);
-
-
-      // this.alarmN = this.inviteData ? this.inviteData.length : 0;
-
-      // console.log(this.diariesData, this.teamsData, this.membersData, this.usersData)
     },
 
     // 일기 리스트 보기 방식 변경
@@ -225,13 +220,6 @@ export default {
     },
 
     async inviteToTeam() {
-      // usersToInvite ${this.$route.query.team}
-      // try {
-      //   await this.inviteUsers();
-      //   alert('팀에 초대되었습니다.');
-      // } catch (err) {
-      //   console.log("팀 초대에 실패했습니다 ", err)
-      // }
 
       for (let i = 0; i < this.usersToInvite.length; i++) {
         let userId = this.usersToInvite[i].userId;
@@ -311,15 +299,15 @@ export default {
     async requestInviteUser(userId, teamId) {
       // 입력 데이터를 객체로 수집
       const inviteData = {
-        user_id: userId,
-        team_id: teamId,
+        userId: userId,
+        teamId: teamId,
         status: userId === this.userId ? 0 : 1,
-        inviter_id: this.userId
+        inviterId: this.userId
       };
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch('${BASE_URL}/members/', {
+        const response = await fetch(`${BASE_URL}/members`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -665,9 +653,9 @@ export default {
                   </div>
                   <div v-else class="list-group">
                     <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
-                      @click="updateClickedUserInfo(user.id, user.last_name, user.first_name)"
+                      @click="updateClickedUserInfo(user.id, user.lastName, user.firstName)"
                       href="javacsript:void(0);" class="list-group-item list-group-item-action">
-                      {{ user.last_name }} {{ user.first_name }}
+                      {{ user.lastName }} {{ user.firstName }}
                     </a>
                   </div>
                   <!-- </form> -->
