@@ -22,7 +22,7 @@ public interface MemberMapper {
 
     void deleteMember(long memberId);    // 멤버 삭제
 
-    List<TeamMembersNameResponse> requestTeamMembersName(int teamId);  // 팀의 모든 멤버 이름 요청
+    List<TeamMembersNameResponse> requestTeamMembersName(long teamId);  // 팀의 모든 멤버 이름 요청
 
     void requestInviteMember(MemberInviteInTeamRequestDTO member);   // 팀에 멤버를 초대
 

@@ -4,7 +4,6 @@ import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.member.MemberMapper;
-import com.example.demo.member.MemberModel;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
@@ -42,6 +41,11 @@ public class MemberServiceImpl implements MemberService {
     public void deleteMember(long id) {
         memberRepository.deleteMember(id);
 
+    }
+
+    @Override
+    public List<TeamMembersNameResponse> requestTeamMembersName(long teamId) {
+        return memberRepository.requestTeamMembersName(teamId);
     }
 
 //    // 모든 팀의 멤버 리스트 조회

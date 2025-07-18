@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.service.MemberService;
@@ -32,14 +31,14 @@ public class MemberController {
         return ResponseEntity.ok("멤버 초대 완료");
     }
 
-    // 팀에 멤버를 초대
-    @PostMapping("/members/{teamId}")
-    public ResponseEntity<String> requestInviteMember(@PathVariable(required = true) int teamId, @RequestBody MemberInviteInTeamRequestDTO member) {
-        member.setTeamId(teamId);
-        memberService.inviteInTeam(member);
-
-        return ResponseEntity.ok("Member invited to the team" + teamId);
-    }
+//    // 팀에 멤버를 초대
+//    @PostMapping("/members/{teamId}")
+//    public ResponseEntity<String> requestInviteMember(@PathVariable(required = true) int teamId, @RequestBody MemberInviteInTeamRequestDTO member) {
+//        member.setTeamId(teamId);
+//        memberService.inviteInTeam(member);
+//
+//        return ResponseEntity.ok("Member invited to the team" + teamId);
+//    }
 
 //    // 모든 팀의 멤버 리스트 조회
 //    @GetMapping("/members")
@@ -75,8 +74,8 @@ public class MemberController {
 
     // 팀에 속한 모든 멤버의 이름 요청
     @GetMapping("/members/{teamId}")
-    public HashMap<String, Object> requestTeamMembersName(@PathVariable(required = true) int teamId) {
-        List<TeamMembersNameResponse> data = memberServiceImpl.requestTeamMembersName(teamId);
+    public HashMap<String, Object> requestTeamMembersName(@PathVariable(required = true) long teamId) {
+        List<TeamMembersNameResponse> data = memberService.requestTeamMembersName(teamId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
