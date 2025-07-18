@@ -9,4 +9,5 @@ public interface MemberRepository {
     void inviteMember(MemberInviteRequestDTO memberInviteRequestDTO);
     void inviteInTeam(MemberInviteInTeamRequestDTO memberInviteInTeamRequestDTO);
     void updateMember(MemberUpdateRequestDTO memberUpdateRequestDTO);
+    void deleteMember(long id);
 }

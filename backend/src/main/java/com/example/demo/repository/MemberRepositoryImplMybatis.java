@@ -25,7 +25,11 @@ public class MemberRepositoryImplMybatis implements MemberRepository {
 
     @Override
     public void updateMember(MemberUpdateRequestDTO memberUpdateRequestDTO) {
-        log.warn("memberUpdateRequestDTO: " + memberUpdateRequestDTO.getInviterId());
         memberMapper.updateMember(memberUpdateRequestDTO);
+    }
+
+    @Override
+    public void deleteMember(long id) {
+        memberMapper.deleteMember(id);
     }
 }

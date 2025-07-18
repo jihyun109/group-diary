@@ -8,4 +8,5 @@ public interface MemberService {
     void insertMember(MemberInviteRequestDTO member);
     void inviteInTeam(MemberInviteInTeamRequestDTO memberInviteInTeamRequestDTO);
     void updateMember(MemberUpdateRequestDTO memberUpdateRequestDTO);
+    void deleteMember(long id);
 }

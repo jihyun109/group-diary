@@ -20,7 +20,7 @@ public interface MemberMapper {
 
     void updateMember(MemberUpdateRequestDTO member);  // 멤버 수정
 
-    void deleteMember(int memberId);    // 멤버 삭제
+    void deleteMember(long memberId);    // 멤버 삭제
 
     List<TeamMembersNameResponse> requestTeamMembersName(int teamId);  // 팀의 모든 멤버 이름 요청
 

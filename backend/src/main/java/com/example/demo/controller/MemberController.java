@@ -68,7 +68,7 @@ public class MemberController {
     // 멤버 삭제 (초대 거절)
     @DeleteMapping("/members/{id}")
     public ResponseEntity<String> deleteMember(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
-        memberServiceImpl.deleteMember(id);
+        memberService.deleteMember(id);
 
         return ResponseEntity.ok("invite refused");
     }

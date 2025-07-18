@@ -38,26 +38,20 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.updateMember(memberUpdateRequestDTO);
     }
 
-    // 모든 팀의 멤버 리스트 조회
-    public List<MemberModel> getMembers() {
-        return memberMapper.selectMembers();
+    @Override
+    public void deleteMember(long id) {
+        memberRepository.deleteMember(id);
+
     }
 
-
-
-    // 멤버 삭제
-    public void deleteMember(int memberId) {
-        memberMapper.deleteMember(memberId);
-    }
+//    // 모든 팀의 멤버 리스트 조회
+//    public List<MemberModel> getMembers() {
+//        return memberMapper.selectMembers();
+//    }
 
     // 팀의 모든 멤버 이름 요청
     public List<TeamMembersNameResponse> requestTeamMembersName(int teamId) {
         return memberMapper.requestTeamMembersName(teamId);
-    }
-
-    // 팀에 멤버를 초대
-    public void requestInviteMember(MemberInviteInTeamRequestDTO member) {
-        memberMapper.requestInviteMember(member);
     }
 
     // 사용자가 초대된 팀 리스트 요청
