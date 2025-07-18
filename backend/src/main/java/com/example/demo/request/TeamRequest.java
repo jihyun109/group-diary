@@ -1,6 +1,6 @@
 package com.example.demo.request;
 
-import com.example.demo.member.MemberModel;
+import com.example.demo.model.MemberModel;
 import com.example.demo.team.TeamModel;
 
 public class TeamRequest {

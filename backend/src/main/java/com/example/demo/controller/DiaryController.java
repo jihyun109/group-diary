@@ -4,29 +4,27 @@ import com.example.demo.diary.DiaryModel;
 import com.example.demo.diary.DiaryService;
 import com.example.demo.response.AllTeamDiariesResponse;
 import com.example.demo.response.DiaryDetailsResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class DiaryController {
 
-    private DiaryService diaryService;
+    private final DiaryService diaryService;
 
-    public DiaryController(DiaryService diaryService) {
-        this.diaryService = diaryService;
-    }
-
-    @GetMapping("/diaries") // 모든 일기 리스트 조회
-    public HashMap<String, Object> getDiaries() {
-        List<DiaryModel> data = diaryService.getDiaries();
-
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "success");
-        result.put("data", data);
-        return result;
-    }
+//    @GetMapping("/diaries") // 모든 일기 리스트 조회
+//    public HashMap<String, Object> getDiaries() {
+//        List<DiaryModel> data = diaryService.getDiaries();
+//
+//        HashMap<String, Object> result = new HashMap<>();
+//        result.put("result", "success");
+//        result.put("data", data);
+//        return result;
+//    }
 
     @PostMapping("/diaries")    // 일기 생성
     public HashMap<String, String> insertDiary(@RequestBody DiaryModel diary) {

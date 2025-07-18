@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.*;
-import com.example.demo.user.UserModel;
+import com.example.demo.model.UserModel;
 
 import java.util.List;
 

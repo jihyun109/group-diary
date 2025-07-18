@@ -1,8 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.*;
-import com.example.demo.user.UserMapper;
-import com.example.demo.user.UserModel;
+import com.example.demo.mapper.UserMapper;
+import com.example.demo.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

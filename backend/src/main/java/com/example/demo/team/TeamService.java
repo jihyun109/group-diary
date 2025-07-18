@@ -1,8 +1,5 @@
 package com.example.demo.team;
 
-import com.example.demo.request.CreateTeamRequest;
-import com.example.demo.request.FindTeamIdRequestModel;
-import com.example.demo.user.UserModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
