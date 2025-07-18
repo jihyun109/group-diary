@@ -102,15 +102,14 @@ export default {
     },
     async fetchData() {
       console.log(this.firstName);
-      // console.log(this.userId);
 
-      console.log('team: ', this.$route.query.team)
-      // this.userId = this.$store.state.userId;
+      console.log('team: ', this.$route.query.team);
+      const teamId = this.$route.query.team;
       const menuList = await Promise.all([
         { type: 'diaries', url: `${BASE_URL}/teamDiaries/diaryList/${this.$route.query.team}` },
         { type: 'teams', url: `${BASE_URL}/members/userTeamList/${this.userId}` },
-        { type: 'teamMembers', url: `${BASE_URL}/members/${this.$route.query.team}` },
-        { type: 'members', url: `${BASE_URL}/members` },
+        { type: 'teamMembers', url: `${BASE_URL}/members/${teamId}` },
+        // { type: 'members', url: `${BASE_URL}/members` },
         { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` }
       ])
@@ -127,7 +126,8 @@ export default {
 
       this.teamData = this.dataTypeMap.get('teams')
       this.teamMembersData = this.dataTypeMap.get('teamMembers')
-      this.membersData = this.dataTypeMap.get('members')
+      console.log('teamMembersData: ', this.teamMembersData);
+      // this.membersData = this.dataTypeMap.get('members')
       this.usersData = this.dataTypeMap.get('users')
       this.inviteData = this.dataTypeMap.get('invites')
 
@@ -378,7 +378,6 @@ export default {
       this.showMemberList = !this.showMemberList
     },
     teamActiveStyle(id) {
-      console.log("team id", this.selectedTeam, id)
       if (this.selectedTeam.team_id == id) {
         return " bg-info text-white"
       }
