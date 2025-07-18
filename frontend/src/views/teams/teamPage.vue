@@ -251,7 +251,7 @@ export default {
 
       try {
         // 서버로 POST 요청 보내기
-        const response = await fetch('${BASE_URL}/teams', {
+        const response = await fetch(`${BASE_URL}/teams`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -585,9 +585,9 @@ export default {
                     </div>
                     <div v-else class="list-group">
                       <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
-                        @click="addToInviteGroup(user.id, user.last_name, user.first_name)" href="javacsript:void(0);"
+                        @click="addToInviteGroup(user.id, user.lastName, user.firstName)" href="javacsript:void(0);"
                         class="list-group-item list-group-item-action">
-                        {{ user.last_name }} {{ user.first_name }}
+                        {{ user.lastName }} {{ user.firstName }}
                       </a>
                     </div>
                   </form>
