@@ -4,15 +4,21 @@ import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.member.MemberMapper;
+import com.example.demo.request.TeamRequest;
+import com.example.demo.response.InvitedListResponse;
+import com.example.demo.response.TeamMembersNameResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class MemberRepositoryImplMybatis implements MemberRepository {
     private final MemberMapper memberMapper;
+
     @Override
     public void inviteMember(MemberInviteRequestDTO memberInviteRequestDTO) {
         memberMapper.insertMember(memberInviteRequestDTO);
@@ -31,5 +37,20 @@ public class MemberRepositoryImplMybatis implements MemberRepository {
     @Override
     public void deleteMember(long id) {
         memberMapper.deleteMember(id);
+    }
+
+    @Override
+    public List<TeamMembersNameResponse> requestTeamMembersName(long teamId) {
+        return memberMapper.requestTeamMembersName(teamId);
+    }
+
+    @Override
+    public List<InvitedListResponse> requestInvitedList(long userId) {
+        return memberMapper.requestInvitedList(userId);
+    }
+
+    @Override
+    public List<TeamRequest> requestUserTeamList(long userId) {
+        return memberMapper.requestUserTeamList(userId);
     }
 }
