@@ -22,3 +22,5 @@ logging:
       springframework:
         web: DEBUG
         security: DEBUG
+    com.example.demo.mapper: DEBUG
+    org.mybatis: DEBUG

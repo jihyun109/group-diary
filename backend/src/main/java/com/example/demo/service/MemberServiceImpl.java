@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
+import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.member.MemberMapper;
 import com.example.demo.member.MemberModel;
 import com.example.demo.repository.MemberRepository;
@@ -24,32 +26,32 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.inviteMember(member);
     }
 
-    // 모든 팀의 멤버 리스트 조회
-    public List<MemberModel> getMembers() {
-        return memberMapper.selectMembers();
+    // 팀에 멤버 초대
+    @Override
+    public void inviteInTeam(MemberInviteInTeamRequestDTO memberInviteInTeamRequestDTO) {
+        memberRepository.inviteInTeam(memberInviteInTeamRequestDTO);
     }
 
-
-    // 멤버 수정
-    public void updateMember(int memberId, MemberModel member) {
-        member.setId(memberId);
-        memberMapper.updateMember(member);
+    // 멤버 정보 수정 (초대 수락/거절)
+    @Override
+    public void updateMember(MemberUpdateRequestDTO memberUpdateRequestDTO) {
+        memberRepository.updateMember(memberUpdateRequestDTO);
     }
 
-    // 멤버 삭제
-    public void deleteMember(int memberId) {
-        memberMapper.deleteMember(memberId);
+    @Override
+    public void deleteMember(long id) {
+        memberRepository.deleteMember(id);
+
     }
+
+//    // 모든 팀의 멤버 리스트 조회
+//    public List<MemberModel> getMembers() {
+//        return memberMapper.selectMembers();
+//    }
 
     // 팀의 모든 멤버 이름 요청
     public List<TeamMembersNameResponse> requestTeamMembersName(int teamId) {
         return memberMapper.requestTeamMembersName(teamId);
-    }
-
-    // 팀에 멤버를 초대
-    public void requestInviteMember(int teamId, MemberModel member) {
-        member.setId(teamId);
-        memberMapper.requestInviteMember(member);
     }
 
     // 사용자가 초대된 팀 리스트 요청
