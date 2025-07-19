@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.team.TeamModel;
+import com.example.demo.model.TeamModel;
 
 import java.util.List;
 

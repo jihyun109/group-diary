@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.team.TeamModel;
+import com.example.demo.model.TeamModel;
 import com.example.demo.service.TeamServiceImpl;
 import org.springframework.web.bind.annotation.*;
 

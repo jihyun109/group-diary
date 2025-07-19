@@ -1,7 +1,7 @@
 package com.example.demo.request;
 
 import com.example.demo.model.MemberModel;
-import com.example.demo.team.TeamModel;
+import com.example.demo.model.TeamModel;
 
 public class TeamRequest {
 

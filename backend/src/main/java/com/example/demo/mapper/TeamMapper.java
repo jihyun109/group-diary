@@ -1,5 +1,6 @@
-package com.example.demo.team;
+package com.example.demo.mapper;
 
+import com.example.demo.model.TeamModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
