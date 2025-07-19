@@ -1,18 +1,18 @@
-package com.example.demo.teamDiary;
+package com.example.demo.service;
 
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
+import com.example.demo.teamDiary.TeamDiaryMapper;
+import com.example.demo.teamDiary.TeamDiaryModel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TeamDiaryService {
-    private TeamDiaryMapper TeamDiaryMapper;
-
-    public TeamDiaryService(TeamDiaryMapper TeamDiaryMapper){
-        this.TeamDiaryMapper = TeamDiaryMapper;
-    }
+@RequiredArgsConstructor
+public class TeamDiaryServiceImpl implements TeamDiaryService {
+    private final TeamDiaryMapper TeamDiaryMapper;
 
     // 모든 팀 일기 리스트 조회
     public List<TeamDiaryModel> getTeamDiaries() {
@@ -44,6 +44,4 @@ public class TeamDiaryService {
     public List<SharedTeamsResponse> requestSharedTeams(int diaryId) {
         return TeamDiaryMapper.requestSharedTeams(diaryId);
     }
-
-
 }
