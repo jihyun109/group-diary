@@ -5,20 +5,18 @@ import com.example.demo.response.TeamDiaryListResponse;
 import com.example.demo.service.TeamDiaryService;
 import com.example.demo.teamDiary.TeamDiaryModel;
 import com.example.demo.service.TeamDiaryServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class TeamDiaryController {
 
-    private TeamDiaryServiceImpl teamDiaryServiceImpl;
-    private TeamDiaryService teamDiaryService;
-
-    public TeamDiaryController(TeamDiaryServiceImpl teamDiaryServiceImpl) {
-        this.teamDiaryServiceImpl = teamDiaryServiceImpl;
-    }
+    private final TeamDiaryServiceImpl teamDiaryServiceImpl;
+    private final TeamDiaryService teamDiaryService;
 
     // 팁 일기 생성
     @PostMapping("/teamDiaries")
@@ -30,16 +28,16 @@ public class TeamDiaryController {
         return result;
     }
 
-    // 팀 일기 수정
-    @PutMapping("/teamDiaries/{id}")
-    public HashMap<String, String> updateTeamDiary(@RequestBody TeamDiaryModel teamDiaryData, @PathVariable(required = true) int id) {
-
-        teamDiaryServiceImpl.updateTeamDiary(id, teamDiaryData);
-
-        HashMap<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return result;
-    }
+//    // 팀 일기 수정
+//    @PutMapping("/teamDiaries/{id}")
+//    public HashMap<String, String> updateTeamDiary(@RequestBody TeamDiaryModel teamDiaryData, @PathVariable(required = true) int id) {
+//
+//        teamDiaryServiceImpl.updateTeamDiary(id, teamDiaryData);
+//
+//        HashMap<String, String> result = new HashMap<>();
+//        result.put("result", "success");
+//        return result;
+//    }
 
     // 팀 일기 삭제 (공유 해제)
     @DeleteMapping("/teamDiaries")
