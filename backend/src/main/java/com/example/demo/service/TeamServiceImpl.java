@@ -12,11 +12,13 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService {
     private final TeamMapper teamMapper;
 
+    @Override
     public void insertTeam(TeamModel team) {
         teamMapper.insertTeam(team);
     }
 
-    public List<TeamModel> findTeamId(String teamName, int creatorId) {
+    @Override
+    public List<TeamModel> findTeamId(String teamName, long creatorId) {
         return teamMapper.findTeamId(teamName, creatorId);
     }
 
