@@ -21,7 +21,7 @@ public class TeamDiaryController {
     // 팁 일기 생성
     @PostMapping("/teamDiaries")
     public HashMap<String, String> insertTeamDiary(@RequestBody TeamDiaryModel teamDiary) {
-        teamDiaryServiceImpl.insertTeamDiary(teamDiary);
+        teamDiaryService.insertTeamDiary(teamDiary);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
@@ -43,7 +43,7 @@ public class TeamDiaryController {
     @DeleteMapping("/teamDiaries")
     public HashMap<String, String> deleteTeamDiary(@RequestParam(defaultValue = "succ") int diaryId, int teamId) {
 
-        teamDiaryServiceImpl.deleteTeamDiary(diaryId, teamId);
+        teamDiaryService.deleteTeamDiary(diaryId, teamId);
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
@@ -52,7 +52,7 @@ public class TeamDiaryController {
     // 현재 팀에 공유된 일기 리스트 요청
     @GetMapping("/teamDiaries/diaryList/{teamId}")
     public HashMap<String, Object> requestTeamDiaryList(@PathVariable(required = true) int teamId) {
-        List<TeamDiaryListResponse> data = teamDiaryServiceImpl.requestTeamDiaryList(teamId);
+        List<TeamDiaryListResponse> data = teamDiaryService.requestTeamDiaryList(teamId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -63,7 +63,7 @@ public class TeamDiaryController {
     // 선택한 일기가 공유된 팀들의 id, 이름 요청
     @GetMapping("/teamDiaries/sharedTeams/{diaryId}")
     public HashMap<String, Object> requestSharedTeams(@PathVariable(required = true) int diaryId) {
-        List<SharedTeamsResponse> data = teamDiaryServiceImpl.requestSharedTeams(diaryId);
+        List<SharedTeamsResponse> data = teamDiaryService.requestSharedTeams(diaryId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
