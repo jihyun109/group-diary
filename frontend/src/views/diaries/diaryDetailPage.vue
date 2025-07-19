@@ -4,12 +4,12 @@
     <div v-else>
       <div class="card mx-auto">
         <div class="card-header text-center">
-          <h1>{{ diary.diary_title }}</h1>
+          <h1>{{ diary.diaryTitle }}</h1>
         </div>
         <div class="card-body">
   <div class="d-flex justify-content-between align-items-center">
     <div class="text-start">
-      작성자: {{ diary.last_name }} {{ diary.first_name }} <br>
+      작성자: {{ diary.lastName }} {{ diary.firstName }} <br>
       {{ formattedDate(diary) }}
     </div>
   </div>
@@ -21,7 +21,7 @@
 </div>
 
         <div class="card-footer text-end">
-          <div v-if="diary.writer_id === this.userId" class="d-flex justify-content-end">
+          <div v-if="diary.writerId === this.userId" class="d-flex justify-content-end">
             <button class="btn me-2" @click="editDiary" style="background-color: #638589; color: #ffffff;">수정</button>
             <button class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" style="background-color: #d1c5ab;">삭제</button>
           </div>
@@ -81,9 +81,9 @@ export default {
       console.log(this.diary)
     },
     formattedDate(diary) {
-      if (diary.written_date) {
-        const date = diary.written_date;
-        return `작성일: ${diary.written_date}`;
+      if (diary.writtenDate) {
+        const date = diary.writtenDate;
+        return `작성일: ${diary.writtenDate}`;
       }
       return '';
     },

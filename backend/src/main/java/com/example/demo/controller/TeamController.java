@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.team.TeamModel;
-import com.example.demo.team.TeamService;
+import com.example.demo.service.TeamServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -10,16 +10,16 @@ import java.util.List;
 @RestController
 public class TeamController {
 
-    private TeamService teamService;
+    private TeamServiceImpl teamServiceImpl;
 
-    public TeamController(TeamService teamService) {
-        this.teamService = teamService;
+    public TeamController(TeamServiceImpl teamServiceImpl) {
+        this.teamServiceImpl = teamServiceImpl;
     }
 
     // 모든 팀 리스트 조회
     @GetMapping("/teams")
     public HashMap<String, Object> getTeams() {
-        List<TeamModel> data = teamService.getTeams();
+        List<TeamModel> data = teamServiceImpl.getTeams();
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -30,7 +30,7 @@ public class TeamController {
     // 팀 생성
     @PostMapping("/teams")
     public HashMap<String, String> insertTeam(@RequestBody TeamModel team) {
-        teamService.insertTeam(team);
+        teamServiceImpl.insertTeam(team);
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
@@ -40,7 +40,7 @@ public class TeamController {
     @PutMapping("/teams/{id}")
     public HashMap<String, String> updateTeam(@RequestBody TeamModel teamData, @PathVariable(required = true) int id) {
 
-        teamService.updateTeam(id, teamData);
+        teamServiceImpl.updateTeam(id, teamData);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
@@ -51,7 +51,7 @@ public class TeamController {
     @DeleteMapping("/teams/{id}")
     public HashMap<String, String> deleteTeam(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
 
-        teamService.deleteTeam(id);
+        teamServiceImpl.deleteTeam(id);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", succMsg);
@@ -62,7 +62,7 @@ public class TeamController {
     public HashMap<String, Object> searchTeam(@RequestParam(defaultValue = "succ") String searchWord) {
         String likeSearchWord = "%" + searchWord + "%";
 
-        List<TeamModel> data = teamService.searchTeam(likeSearchWord);
+        List<TeamModel> data = teamServiceImpl.searchTeam(likeSearchWord);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
@@ -73,7 +73,7 @@ public class TeamController {
     // 팀 id 조회
     @GetMapping("/teams/findId")
     public HashMap<String, Object> findTeamId(@RequestParam(defaultValue = "succ") String teamName, int creatorId) {
-        List<TeamModel> data = teamService.findTeamId(teamName, creatorId);
+        List<TeamModel> data = teamServiceImpl.findTeamId(teamName, creatorId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");

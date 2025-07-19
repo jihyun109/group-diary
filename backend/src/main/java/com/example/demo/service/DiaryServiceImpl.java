@@ -2,8 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.diary.DiaryMapper;
 import com.example.demo.diary.DiaryModel;
+import com.example.demo.dto.DiaryDetailResponseDTO;
+import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
 import com.example.demo.repository.DiaryRepository;
+import com.example.demo.repository.TeamRepository;
 import com.example.demo.response.AllTeamDiariesResponse;
 import com.example.demo.team.TeamMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ public class DiaryServiceImpl implements DiaryService {
     private final DiaryMapper diaryMapper;
     private final TeamMapper teamMapper;
     private final DiaryRepository diaryRepository;
+    private final TeamRepository teamRepository;
 
     // 모든 일기 리스트 조회
     public List<DiaryModel> getDiaries() {
@@ -30,9 +34,19 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     // 일기 수정
-    public void updateDiary(int diaryId, DiaryModel diary) {
-        diary.setId(diaryId);
-        diaryMapper.updateDiary(diary);
+    @Override
+    public void updateDiary(long id, DiaryEditRequestDTO diaryData) {
+        diaryData.setId(id);
+        diaryRepository.updateDiary(diaryData);
+    }
+
+    // 선택한 다이어리 상세 정보 요청
+    @Override
+    public DiaryDetailResponseDTO requestDiaryDetails(long diaryId) {
+        DiaryDetailResponseDTO diaryDetailResponseDTO = diaryRepository.requestDiaryDetails(diaryId);
+        diaryDetailResponseDTO.setSharedTeamList(teamRepository.searchTeamByDiaryId(diaryId));
+
+        return diaryDetailResponseDTO;
     }
 
     // 일기 삭제
@@ -45,7 +59,6 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryMapper.requestAllTeamDiaries(userId);
     }
 
-    // 선택한 다이어리 상세 정보 요청
     public DiaryModel requestDiaryDetails(int diaryId) {
         DiaryModel diary = diaryMapper.requestDiaryDetails(diaryId);
         diary.setSharedTeamList(teamMapper.searchTeamByDiaryId(diaryId));

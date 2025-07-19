@@ -1,16 +1,16 @@
-package com.example.demo.team;
+package com.example.demo.service;
 
+import com.example.demo.team.TeamMapper;
+import com.example.demo.team.TeamModel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TeamService {
-    private TeamMapper teamMapper;
-
-    public TeamService(TeamMapper teamMapper){
-        this.teamMapper = teamMapper;
-    }
+@RequiredArgsConstructor
+public class TeamServiceImpl implements TeamService {
+    private final TeamMapper teamMapper;
 
     public List<TeamModel> getTeams() {
         return teamMapper.selectTeams();

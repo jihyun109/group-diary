@@ -4,14 +4,15 @@ import com.example.demo.diary.DiaryModel;
 import com.example.demo.team.TeamModel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
-public class DiaryWriteRequestDTO {
-    private int id;
+public class DiaryDetailResponseDTO {
+    private long id;
     private String writtenDate;
     private int writerId;
     private String diaryTitle;
@@ -19,10 +20,10 @@ public class DiaryWriteRequestDTO {
 
     private String firstName;
     private String lastName;
-    private List<TeamModel> sharedTeamList = new ArrayList<>();
+    private List<TeamModel> sharedTeamList;
 
-    public static DiaryWriteRequestDTO from(DiaryModel diaryModel) {
-        return DiaryWriteRequestDTO.builder()
+    public static DiaryDetailResponseDTO from (DiaryModel diaryModel) {
+        return DiaryDetailResponseDTO.builder()
                 .id(diaryModel.getId())
                 .writtenDate(diaryModel.getWrittenDate())
                 .writerId(diaryModel.getWriterId())
