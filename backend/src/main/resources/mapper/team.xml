@@ -6,7 +6,7 @@
         FROM teams
     </select>
 
-    <insert id="insertTeam" parameterType="com.example.demo.model.TeamModel">
+    <insert id="insertTeam" parameterType="com.example.demo.dto.TeamCreateRequestDTO">
         INSERT INTO teams (id, team_name, creator_id)
         VALUES (#{id}, #{team_name}, #{creator_id});
     </insert>

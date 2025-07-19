@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.TeamCreateRequestDTO;
 import com.example.demo.model.TeamModel;
 import com.example.demo.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
 
     @Override
-    public void insertTeam(TeamModel team) {
+    public void insertTeam(TeamCreateRequestDTO team) {
         teamRepository.insertTeam(team);
     }
 
