@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class TeamRepositoryImpl implements TeamRepository {
+public class TeamRepositoryImplMybatis implements TeamRepository {
     private final TeamMapper teamMapper;
 
     @Override
