@@ -1,4 +1,4 @@
-package com.example.demo.diary;
+package com.example.demo.model;
 
 import com.example.demo.team.TeamModel;
 import lombok.AllArgsConstructor;

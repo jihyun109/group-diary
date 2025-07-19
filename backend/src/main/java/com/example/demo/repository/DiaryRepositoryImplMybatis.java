@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
-import com.example.demo.diary.DiaryMapper;
-import com.example.demo.diary.DiaryModel;
+import com.example.demo.mapper.DiaryMapper;
+import com.example.demo.model.DiaryModel;
 import com.example.demo.dto.DiaryDetailResponseDTO;
 import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;

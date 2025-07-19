@@ -1,5 +1,6 @@
-package com.example.demo.diary;
+package com.example.demo.mapper;
 
+import com.example.demo.model.DiaryModel;
 import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
 import com.example.demo.response.AllTeamDiariesResponse;
