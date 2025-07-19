@@ -1,11 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.DiaryModel;
-import com.example.demo.dto.DiaryDetailResponseDTO;
-import com.example.demo.dto.DiaryEditRequestDTO;
-import com.example.demo.dto.DiaryWriteRequestDTO;
+import com.example.demo.dto.*;
 import com.example.demo.service.DiaryService;
-import com.example.demo.dto.TeamDiariesResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,9 +60,9 @@ public class DiaryController {
     }
 
     // 다이어리 id 요청
-    @GetMapping("/diaries/findDiaryId")   // 일기 상세 내용 요청
+    @GetMapping("/diaries/findDiaryId")
     public HashMap<String, Object> requestDiaryId(@RequestParam(defaultValue = "succ") String diaryTitle, String writtenDate, long writerId) {
-        List<DiaryModel> data = diaryService.requestDiaryId(diaryTitle, writtenDate, writerId);
+        List<DiaryIdResponseDTO> data = diaryService.requestDiaryId(diaryTitle, writtenDate, writerId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");

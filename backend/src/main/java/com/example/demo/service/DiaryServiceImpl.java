@@ -1,12 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.model.DiaryModel;
-import com.example.demo.dto.DiaryDetailResponseDTO;
-import com.example.demo.dto.DiaryEditRequestDTO;
-import com.example.demo.dto.DiaryWriteRequestDTO;
+import com.example.demo.dto.*;
 import com.example.demo.repository.DiaryRepository;
 import com.example.demo.repository.TeamRepository;
-import com.example.demo.dto.TeamDiariesResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +50,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     // 일기 id 요청
     @Override
-    public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, long writerId) {
+    public List<DiaryIdResponseDTO> requestDiaryId(String diaryTitle, String writtenDate, long writerId) {
         return diaryRepository.requestDiaryId(diaryTitle, writtenDate, writerId);
     }
 }

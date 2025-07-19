@@ -1,15 +1,13 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.*;
 import com.example.demo.mapper.DiaryMapper;
 import com.example.demo.model.DiaryModel;
-import com.example.demo.dto.DiaryDetailResponseDTO;
-import com.example.demo.dto.DiaryEditRequestDTO;
-import com.example.demo.dto.DiaryWriteRequestDTO;
-import com.example.demo.dto.TeamDiariesResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -43,7 +41,20 @@ public class DiaryRepositoryImplMybatis implements DiaryRepository {
     }
 
     @Override
-    public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, long writerId) {
-        return diaryMapper.requestDiaryId(diaryTitle, writtenDate, writerId);
+    public List<DiaryIdResponseDTO> requestDiaryId(String diaryTitle, String writtenDate, long writerId) {
+        List<DiaryModel> diaryModelList = diaryMapper.requestDiaryId(diaryTitle, writtenDate, writerId);
+
+        return diaryModelList.stream()
+                .map(model -> DiaryIdResponseDTO.builder()
+                        .id(model.getId())
+                        .writtenDate(model.getWrittenDate())
+                        .writerId(model.getWriterId())
+                        .diaryTitle(model.getDiaryTitle())
+                        .details(model.getDetails())
+                        .firstName(model.getFirstName())
+                        .lastName(model.getLastName())
+                        .sharedTeamList(model.getSharedTeamList())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

@@ -1,10 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.DiaryModel;
-import com.example.demo.dto.DiaryDetailResponseDTO;
-import com.example.demo.dto.DiaryEditRequestDTO;
-import com.example.demo.dto.DiaryWriteRequestDTO;
-import com.example.demo.dto.TeamDiariesResponseDTO;
+import com.example.demo.dto.*;
 
 import java.util.List;
 
@@ -19,5 +15,5 @@ public interface DiaryService {
 
     List<TeamDiariesResponseDTO> requestAllTeamDiaries(long userId);
 
-    List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, long writerId);
+    List<DiaryIdResponseDTO> requestDiaryId(String diaryTitle, String writtenDate, long writerId);
 }
