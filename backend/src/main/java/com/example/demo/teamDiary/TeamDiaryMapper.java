@@ -1,5 +1,6 @@
 package com.example.demo.teamDiary;
 
+import com.example.demo.dto.TeamDiaryPostRequestDTO;
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,14 +12,8 @@ import java.util.List;
 @Repository
 public interface TeamDiaryMapper {
 
-    // 모든 팀 일기 리스트 조회
-    List<TeamDiaryModel> selectTeamDiaries();
-
     // 팁 일기 생성
-    void insertTeamDiary(TeamDiaryModel teamDiary);
-
-    // 팀 일기 수정
-    void updateTeamDiary(TeamDiaryModel teamDiary);
+    void insertTeamDiary(TeamDiaryPostRequestDTO teamDiary);
 
     // 팀 일기 삭제 (공유 해제)
     void deleteTeamDiary(long diaryId, long teamId);
@@ -28,7 +23,4 @@ public interface TeamDiaryMapper {
 
     // 선택한 일기가 공유된 팀들의 id, 이름 요청
     List<SharedTeamsResponse> requestSharedTeams(long diaryId);
-
-
-
 }
