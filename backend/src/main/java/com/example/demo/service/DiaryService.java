@@ -12,7 +12,7 @@ public interface DiaryService {
     void insertDiary(DiaryWriteRequestDTO diaryWriteRequestDTO);
     void updateDiary(long id, DiaryEditRequestDTO diaryData);
     DiaryDetailResponseDTO requestDiaryDetails(long diaryId);
-    void deleteDiary(int diaryId);
-    List<AllTeamDiariesResponse> requestAllTeamDiaries(int userId);
-    List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId);
+    void deleteDiary(long diaryId);
+    List<AllTeamDiariesResponse> requestAllTeamDiaries(long userId);
+    List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, long writerId);
 }
