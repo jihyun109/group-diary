@@ -42,19 +42,19 @@ public class DiaryServiceImpl implements DiaryService {
 
     // 일기 삭제
     @Override
-    public void deleteDiary(int diaryId) {
+    public void deleteDiary(long diaryId) {
         diaryRepository.deleteDiary(diaryId);
     }
 
     // 사용자가 포함된 모든 그룹의 일기 정보 요청
     @Override
-    public List<AllTeamDiariesResponse> requestAllTeamDiaries(int userId) {
+    public List<AllTeamDiariesResponse> requestAllTeamDiaries(long userId) {
         return diaryRepository.requestAllTeamDiaries(userId);
     }
 
     // 일기 id 요청
     @Override
-    public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId) {
+    public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, long writerId) {
         return diaryRepository.requestDiaryId(diaryTitle, writtenDate, writerId);
     }
 }

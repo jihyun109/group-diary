@@ -33,17 +33,17 @@ public class DiaryRepositoryImplMybatis implements DiaryRepository {
     }
 
     @Override
-    public void deleteDiary(int diaryId) {
+    public void deleteDiary(long diaryId) {
         diaryMapper.deleteDiary(diaryId);
     }
 
     @Override
-    public List<AllTeamDiariesResponse> requestAllTeamDiaries(int userId) {
+    public List<AllTeamDiariesResponse> requestAllTeamDiaries(long userId) {
         return diaryMapper.requestAllTeamDiaries(userId);
     }
 
     @Override
-    public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId) {
+    public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, long writerId) {
         return diaryMapper.requestDiaryId(diaryTitle, writtenDate, writerId);
     }
 }
