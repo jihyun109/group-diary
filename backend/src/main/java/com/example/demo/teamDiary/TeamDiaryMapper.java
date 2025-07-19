@@ -21,13 +21,13 @@ public interface TeamDiaryMapper {
     void updateTeamDiary(TeamDiaryModel teamDiary);
 
     // 팀 일기 삭제 (공유 해제)
-    void deleteTeamDiary(int diaryId, int teamId);
+    void deleteTeamDiary(long diaryId, long teamId);
 
     // 현재 팀에 공유된 일기 리스트 요청
-    List<TeamDiaryListResponse> requestTeamDiaryList(int teamId);
+    List<TeamDiaryListResponse> requestTeamDiaryList(long teamId);
 
     // 선택한 일기가 공유된 팀들의 id, 이름 요청
-    List<SharedTeamsResponse> requestSharedTeams(int diaryId);
+    List<SharedTeamsResponse> requestSharedTeams(long diaryId);
 
 
 
