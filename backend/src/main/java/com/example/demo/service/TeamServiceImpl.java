@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.team.TeamMapper;
-import com.example.demo.team.TeamModel;
+import com.example.demo.mapper.TeamMapper;
+import com.example.demo.model.TeamModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

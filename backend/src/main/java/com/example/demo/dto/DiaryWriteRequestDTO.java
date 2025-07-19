@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.DiaryModel;
-import com.example.demo.team.TeamModel;
+import com.example.demo.model.TeamModel;
 import lombok.Builder;
 import lombok.Getter;
 
