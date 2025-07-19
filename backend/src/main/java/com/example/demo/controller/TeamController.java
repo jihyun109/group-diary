@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TeamCreateRequestDTO;
 import com.example.demo.model.TeamModel;
 import com.example.demo.service.TeamService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class TeamController {
 
     // 팀 생성
     @PostMapping("/teams")
-    public HashMap<String, String> insertTeam(@RequestBody TeamModel team) {
+    public HashMap<String, String> insertTeam(@RequestBody TeamCreateRequestDTO team) {
         teamService.insertTeam(team);
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");

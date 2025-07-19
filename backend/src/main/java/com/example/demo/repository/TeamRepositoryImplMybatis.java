@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.TeamCreateRequestDTO;
 import com.example.demo.mapper.TeamMapper;
 import com.example.demo.model.TeamModel;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class TeamRepositoryImplMybatis implements TeamRepository {
     }
 
     @Override
-    public void insertTeam(TeamModel team) {
+    public void insertTeam(TeamCreateRequestDTO team) {
         teamMapper.insertTeam(team);
     }
 
