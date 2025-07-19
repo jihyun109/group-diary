@@ -50,16 +50,19 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     // 일기 삭제
+    @Override
     public void deleteDiary(int diaryId) {
         diaryMapper.deleteDiary(diaryId);
     }
 
     // 사용자가 포함된 모든 그룹의 일기 정보 요청
+    @Override
     public List<AllTeamDiariesResponse> requestAllTeamDiaries(int userId) {
         return diaryMapper.requestAllTeamDiaries(userId);
     }
 
     // 일기 id 요청
+    @Override
     public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId) {
         return diaryMapper.requestDiaryId(diaryTitle, writtenDate, writerId);
     }
