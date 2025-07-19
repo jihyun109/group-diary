@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.diary.DiaryModel;
+import com.example.demo.model.DiaryModel;
 import com.example.demo.dto.DiaryDetailResponseDTO;
 import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;

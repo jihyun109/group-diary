@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.diary.DiaryModel;
+import com.example.demo.model.DiaryModel;
 import com.example.demo.team.TeamModel;
 import lombok.Builder;
 import lombok.Getter;
