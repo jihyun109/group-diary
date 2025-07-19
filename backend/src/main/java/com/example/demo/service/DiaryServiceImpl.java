@@ -59,12 +59,6 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryMapper.requestAllTeamDiaries(userId);
     }
 
-    public DiaryModel requestDiaryDetails(int diaryId) {
-        DiaryModel diary = diaryMapper.requestDiaryDetails(diaryId);
-        diary.setSharedTeamList(teamMapper.searchTeamByDiaryId(diaryId));
-        return diary;
-    }
-
     // 일기 id 요청
     public List<DiaryModel> requestDiaryId(String diaryTitle, String writtenDate, int writerId) {
         return diaryMapper.requestDiaryId(diaryTitle, writtenDate, writerId);
