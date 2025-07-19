@@ -6,7 +6,7 @@ import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
 import com.example.demo.repository.DiaryRepository;
 import com.example.demo.repository.TeamRepository;
-import com.example.demo.response.AllTeamDiariesResponse;
+import com.example.demo.dto.TeamDiariesResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +48,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     // 사용자가 포함된 모든 그룹의 일기 정보 요청
     @Override
-    public List<AllTeamDiariesResponse> requestAllTeamDiaries(long userId) {
+    public List<TeamDiariesResponseDTO> requestAllTeamDiaries(long userId) {
         return diaryRepository.requestAllTeamDiaries(userId);
     }
 

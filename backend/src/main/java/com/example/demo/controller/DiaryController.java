@@ -5,7 +5,7 @@ import com.example.demo.dto.DiaryDetailResponseDTO;
 import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
 import com.example.demo.service.DiaryService;
-import com.example.demo.response.AllTeamDiariesResponse;
+import com.example.demo.dto.TeamDiariesResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +45,7 @@ public class DiaryController {
 
     @GetMapping("/diaries/all/{userId}")    // 사용자가 속해있는 모든 그룹의 일기 조회
     public HashMap<String, Object> requestAllTeamDiaries(@PathVariable(required = true) int userId) {
-        List<AllTeamDiariesResponse> data = diaryService.requestAllTeamDiaries(userId);
+        List<TeamDiariesResponseDTO> data = diaryService.requestAllTeamDiaries(userId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
