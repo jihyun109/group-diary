@@ -11,9 +11,9 @@ public interface TeamDiaryService {
 
     void insertTeamDiary(TeamDiaryModel teamDiary);
 
-    void deleteTeamDiary(int diaryId, int teamId);
+    void deleteTeamDiary(long diaryId, long teamId);
 
-    List<TeamDiaryListResponse> requestTeamDiaryList(int teamId);
+    List<TeamDiaryListResponse> requestTeamDiaryList(long teamId);
 
-    List<SharedTeamsResponse> requestSharedTeams(int diaryId);
+    List<SharedTeamsResponse> requestSharedTeams(long diaryId);
 }

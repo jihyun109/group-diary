@@ -1,7 +1,7 @@
 package com.example.demo.teamDiary;
 
 public class TeamDiaryModel {
-    int id;
+    long id;
     int diary_id;
     int team_id;
 
@@ -14,7 +14,7 @@ public class TeamDiaryModel {
         this.team_id = team_id;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -26,7 +26,7 @@ public class TeamDiaryModel {
         return team_id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

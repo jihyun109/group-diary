@@ -41,7 +41,7 @@ public class TeamDiaryController {
 
     // 팀 일기 삭제 (공유 해제)
     @DeleteMapping("/teamDiaries")
-    public HashMap<String, String> deleteTeamDiary(@RequestParam(defaultValue = "succ") int diaryId, int teamId) {
+    public HashMap<String, String> deleteTeamDiary(@RequestParam(defaultValue = "succ") long diaryId, long teamId) {
 
         teamDiaryService.deleteTeamDiary(diaryId, teamId);
         HashMap<String, String> result = new HashMap<>();
@@ -51,7 +51,7 @@ public class TeamDiaryController {
 
     // 현재 팀에 공유된 일기 리스트 요청
     @GetMapping("/teamDiaries/diaryList/{teamId}")
-    public HashMap<String, Object> requestTeamDiaryList(@PathVariable(required = true) int teamId) {
+    public HashMap<String, Object> requestTeamDiaryList(@PathVariable(required = true) long teamId) {
         List<TeamDiaryListResponse> data = teamDiaryService.requestTeamDiaryList(teamId);
 
         HashMap<String, Object> result = new HashMap<>();
@@ -62,7 +62,7 @@ public class TeamDiaryController {
 
     // 선택한 일기가 공유된 팀들의 id, 이름 요청
     @GetMapping("/teamDiaries/sharedTeams/{diaryId}")
-    public HashMap<String, Object> requestSharedTeams(@PathVariable(required = true) int diaryId) {
+    public HashMap<String, Object> requestSharedTeams(@PathVariable(required = true) long diaryId) {
         List<SharedTeamsResponse> data = teamDiaryService.requestSharedTeams(diaryId);
 
         HashMap<String, Object> result = new HashMap<>();
