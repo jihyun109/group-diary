@@ -5,7 +5,7 @@ import com.example.demo.model.DiaryModel;
 import com.example.demo.dto.DiaryDetailResponseDTO;
 import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
-import com.example.demo.response.AllTeamDiariesResponse;
+import com.example.demo.dto.TeamDiariesResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +38,7 @@ public class DiaryRepositoryImplMybatis implements DiaryRepository {
     }
 
     @Override
-    public List<AllTeamDiariesResponse> requestAllTeamDiaries(long userId) {
+    public List<TeamDiariesResponseDTO> requestAllTeamDiaries(long userId) {
         return diaryMapper.requestAllTeamDiaries(userId);
     }
 

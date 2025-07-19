@@ -3,7 +3,7 @@ package com.example.demo.mapper;
 import com.example.demo.model.DiaryModel;
 import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
-import com.example.demo.response.AllTeamDiariesResponse;
+import com.example.demo.dto.TeamDiariesResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +20,7 @@ public interface DiaryMapper {
 
     void deleteDiary(long diaryId);  // 일기 삭제
 
-    List<AllTeamDiariesResponse> requestAllTeamDiaries(long userId); // 사용자가 속해있는 모든 그룹의 일기 조회
+    List<TeamDiariesResponseDTO> requestAllTeamDiaries(long userId); // 사용자가 속해있는 모든 그룹의 일기 조회
 
     DiaryModel requestDiaryDetails(long diaryId);    // 일기 상세 내용 요청
 
