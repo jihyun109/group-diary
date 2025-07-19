@@ -16,4 +16,14 @@ public class TeamRepositoryImplMybatis implements TeamRepository {
     public List<TeamModel> searchTeamByDiaryId(long diaryId) {
         return teamMapper.searchTeamByDiaryId(diaryId);
     }
+
+    @Override
+    public void insertTeam(TeamModel team) {
+        teamMapper.insertTeam(team);
+    }
+
+    @Override
+    public List<TeamModel> findTeamId(String teamName, long creatorId) {
+        return teamMapper.findTeamId(teamName, creatorId);
+    }
 }
