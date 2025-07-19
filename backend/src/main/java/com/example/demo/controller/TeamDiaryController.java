@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TeamDiaryPostRequestDTO;
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
 import com.example.demo.service.TeamDiaryService;
-import com.example.demo.teamDiary.TeamDiaryModel;
-import com.example.demo.service.TeamDiaryServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,29 +14,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeamDiaryController {
 
-    private final TeamDiaryServiceImpl teamDiaryServiceImpl;
     private final TeamDiaryService teamDiaryService;
 
     // 팁 일기 생성
     @PostMapping("/teamDiaries")
-    public HashMap<String, String> insertTeamDiary(@RequestBody TeamDiaryModel teamDiary) {
+    public HashMap<String, String> insertTeamDiary(@RequestBody TeamDiaryPostRequestDTO teamDiary) {
         teamDiaryService.insertTeamDiary(teamDiary);
 
         HashMap<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
     }
-
-//    // 팀 일기 수정
-//    @PutMapping("/teamDiaries/{id}")
-//    public HashMap<String, String> updateTeamDiary(@RequestBody TeamDiaryModel teamDiaryData, @PathVariable(required = true) int id) {
-//
-//        teamDiaryServiceImpl.updateTeamDiary(id, teamDiaryData);
-//
-//        HashMap<String, String> result = new HashMap<>();
-//        result.put("result", "success");
-//        return result;
-//    }
 
     // 팀 일기 삭제 (공유 해제)
     @DeleteMapping("/teamDiaries")

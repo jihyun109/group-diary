@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.TeamDiaryPostRequestDTO;
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
 import com.example.demo.teamDiary.TeamDiaryMapper;
-import com.example.demo.teamDiary.TeamDiaryModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,22 +14,10 @@ import java.util.List;
 public class TeamDiaryServiceImpl implements TeamDiaryService {
     private final TeamDiaryMapper TeamDiaryMapper;
 
-    // 모든 팀 일기 리스트 조회
-    @Override
-    public List<TeamDiaryModel> getTeamDiaries() {
-        return TeamDiaryMapper.selectTeamDiaries();
-    }
-
     // 팁 일기 생성
     @Override
-    public void insertTeamDiary(TeamDiaryModel teamDiary) {
+    public void insertTeamDiary(TeamDiaryPostRequestDTO teamDiary) {
         TeamDiaryMapper.insertTeamDiary(teamDiary);
-    }
-
-    // 팀 일기 수정
-    public void updateTeamDiary(long teamDiaryId, TeamDiaryModel teamDiary) {
-        teamDiary.setId(teamDiaryId);
-        TeamDiaryMapper.updateTeamDiary(teamDiary);
     }
 
     // 팀 일기 삭제 (공유 해제)
