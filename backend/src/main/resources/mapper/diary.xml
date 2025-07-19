@@ -11,11 +11,11 @@
         VALUES (#{id}, #{writtenDate}, #{writerId}, #{diaryTitle}, #{details});
     </insert>
 
-    <update id="updateDiary" parameterType="com.example.demo.diary.DiaryModel">
+    <update id="updateDiary" parameterType="com.example.demo.dto.DiaryEditRequestDTO">
         UPDATE diaries
-        SET written_date = #{written_date},
-            diary_title = #{diary_title},
-            writer_id = #{writer_id},
+        SET written_date = #{writtenDate},
+            diary_title = #{diaryTitle},
+            writer_id = #{writerId},
             details = #{details}
         WHERE id = #{id};
     </update>
@@ -35,7 +35,7 @@
     </select>
 
     <select id="requestDiaryDetails" resultType="com.example.demo.diary.DiaryModel">
-        SELECT d.id, d.written_date, d.diary_title, d.details, d.writer_id, u.first_name, u.last_name
+        SELECT d.id, d.written_date AS writtenDate, d.diary_title AS diaryTitle, d.details, d.writer_id AS writerId, u.first_name AS firstName, u.last_name AS lastName
         FROM diaries d JOIN users u ON d.writer_id = u.id
         WHERE d.id = #{diaryId};
     </select>

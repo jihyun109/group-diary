@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.diary.DiaryModel;
+import com.example.demo.dto.DiaryDetailResponseDTO;
+import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
 import com.example.demo.service.DiaryService;
 import com.example.demo.service.DiaryServiceImpl;
@@ -19,16 +21,6 @@ public class DiaryController {
     private final DiaryServiceImpl diaryServiceImpl;
     private final DiaryService diaryService;
 
-//    @GetMapping("/diaries") // 모든 일기 리스트 조회
-//    public HashMap<String, Object> getDiaries() {
-//        List<DiaryModel> data = diaryService.getDiaries();
-//
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("result", "success");
-//        result.put("data", data);
-//        return result;
-//    }
-
     @PostMapping("/diaries")    // 일기 생성
     public ResponseEntity<String> insertDiary(@RequestBody DiaryWriteRequestDTO diary) {
         diaryService.insertDiary(diary);
@@ -36,13 +28,11 @@ public class DiaryController {
     }
 
     @PutMapping("/diaries/edit/{id}")    // 일기 수정
-    public HashMap<String, String> updateDiary(@PathVariable(required = true) int id, @RequestBody DiaryModel diaryData) {
+    public ResponseEntity<String> updateDiary(@PathVariable(required = true) long id, @RequestBody DiaryEditRequestDTO diaryData) {
 
-        diaryServiceImpl.updateDiary(id, diaryData);
+        diaryService.updateDiary(id, diaryData);
 
-        HashMap<String, String> result = new HashMap<>();
-        result.put("result", "success");
-        return result;
+        return ResponseEntity.ok("diary edited.");
     }
 
     @DeleteMapping("/diaries/{id}") // 일기 삭제
@@ -67,7 +57,7 @@ public class DiaryController {
 
     @GetMapping("/diaries/details/{diaryId}")   // 일기 상세 내용 요청
     public HashMap<String, Object> requestDiaryDetails(@PathVariable(required = true) int diaryId) {
-        DiaryModel data = diaryServiceImpl.requestDiaryDetails(diaryId);
+        DiaryDetailResponseDTO data = diaryService.requestDiaryDetails(diaryId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
