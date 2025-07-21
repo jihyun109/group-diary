@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.TeamDiaryPostRequestDTO;
-import com.example.demo.repository.TeamDiaryRepository;
+import com.example.demo.repository.inter.TeamDiaryRepository;
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
 import lombok.RequiredArgsConstructor;

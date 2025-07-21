@@ -1,4 +1,4 @@
-package com.example.demo.repository;
+package com.example.demo.repository.inter;
 
 import com.example.demo.dto.TeamDiaryPostRequestDTO;
 import com.example.demo.response.SharedTeamsResponse;

@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.inter.MemberRepository;
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
 import com.example.demo.response.TeamMembersNameResponse;
