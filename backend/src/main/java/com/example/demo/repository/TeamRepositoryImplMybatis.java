@@ -1,12 +1,14 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.TeamCreateRequestDTO;
+import com.example.demo.dto.TeamSearchIdResponseDTO;
 import com.example.demo.mapper.TeamMapper;
 import com.example.demo.model.TeamModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +26,15 @@ public class TeamRepositoryImplMybatis implements TeamRepository {
     }
 
     @Override
-    public List<TeamModel> findTeamId(String teamName, long creatorId) {
-        return teamMapper.findTeamId(teamName, creatorId);
+    public List<TeamSearchIdResponseDTO> findTeamId(String teamName, long creatorId) {
+        List<TeamModel> teamModelList = teamMapper.findTeamId(teamName, creatorId);
+
+        return teamModelList.stream()
+                .map(teamModel -> TeamSearchIdResponseDTO.builder()
+                        .id(teamModel.getId())
+                        .team_name(teamModel.getTeam_name())
+                        .creator_id(teamModel.getCreator_id())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

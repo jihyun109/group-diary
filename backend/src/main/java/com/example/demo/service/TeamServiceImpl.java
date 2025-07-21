@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.TeamCreateRequestDTO;
-import com.example.demo.model.TeamModel;
+import com.example.demo.dto.TeamSearchIdResponseDTO;
 import com.example.demo.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamModel> findTeamId(String teamName, long creatorId) {
+    public List<TeamSearchIdResponseDTO> findTeamId(String teamName, long creatorId) {
         return teamRepository.findTeamId(teamName, creatorId);
     }
 
