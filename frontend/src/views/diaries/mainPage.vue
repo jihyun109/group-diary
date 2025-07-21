@@ -57,19 +57,19 @@
                         <!-- author -->
                         <td class="author-column">
                           <div class="d-flex px-2 py-1">
-                            <UserProfile :color="diary.color" :firstName="diary.first_name" :lastName="diary.last_name">
+                            <UserProfile :color="diary.color" :firstName="diary.firstName" :lastName="diary.lastName">
                             </UserProfile>
                           </div>
                         </td>
                         <!-- title -->
                         <td>
                           <h6 class="mb-0 title-column">
-                            <a href="javascript:void(0);" @click="moveToDetails(diary.id)">{{ diary.diary_title }}</a>
+                            <a href="javascript:void(0);" @click="moveToDetails(diary.id)">{{ diary.diaryTitle }}</a>
                           </h6>
                         </td>
                         <!-- Date -->
                         <td class="date-column align-middle text-center">
-                          <span class="text-secondary font-weight-normal">{{ diary.written_date }}</span>
+                          <span class="text-secondary font-weight-normal">{{ diary.writtenDate }}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -230,7 +230,7 @@ export default {
     }),
 
     sortedDiaryData() {
-      return this.diaryData.slice().sort((a, b) => new Date(b.written_date) - new Date(a.written_date));
+      return this.diaryData.slice().sort((a, b) => new Date(b.writtenDate) - new Date(a.writtenDate));
     },
 
     filteredUserSearchData() {
@@ -273,6 +273,7 @@ export default {
       this.dataList = await Promise.all(requests)
       this.dataTypeMap = new Map(this.dataList.map((data, idx) => [menuList[idx].type, data.data]))
       this.diaryData = this.dataTypeMap.get('diaries')
+      console.log("diaryData: ", this.diaryData);
       this.teamData = this.dataTypeMap.get('teams')
       this.membersData = this.dataTypeMap.get('members')
       this.usersData = this.dataTypeMap.get('users')
