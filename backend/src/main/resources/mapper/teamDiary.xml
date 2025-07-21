@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.teamDiary.TeamDiaryMapper">
-    <select id="selectTeamDiaries" resultType="com.example.demo.teamDiary.TeamDiaryModel">
+<mapper namespace="com.example.demo.mapper.TeamDiaryMapper">
+    <select id="selectTeamDiaries" resultType="com.example.demo.model.TeamDiaryModel">
         SELECT id, diary_id, team_id
         FROM team_diary;
     </select>
@@ -11,14 +11,14 @@
         VALUES (#{id}, #{diary_id}, #{team_id});
     </insert>
 
-    <update id="updateTeamDiary" parameterType="com.example.demo.teamDiary.TeamDiaryModel">
+    <update id="updateTeamDiary" parameterType="com.example.demo.model.TeamDiaryModel">
         UPDATE team_diary
         SET diary_id = #{diary_id},
             team_id  = #{team_id}
         WHERE id = #{id};
     </update>
 
-    <delete id="deleteTeamDiary" parameterType="com.example.demo.teamDiary.TeamDiaryModel">
+    <delete id="deleteTeamDiary" parameterType="com.example.demo.model.TeamDiaryModel">
         DELETE
         FROM team_diary
         WHERE diary_id = #{diaryId}

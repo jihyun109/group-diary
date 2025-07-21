@@ -1,4 +1,4 @@
-package com.example.demo.teamDiary;
+package com.example.demo.mapper;
 
 import com.example.demo.dto.TeamDiaryPostRequestDTO;
 import com.example.demo.response.SharedTeamsResponse;
