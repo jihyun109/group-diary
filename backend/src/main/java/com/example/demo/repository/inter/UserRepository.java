@@ -1,4 +1,4 @@
-package com.example.demo.repository;
+package com.example.demo.repository.inter;
 
 import com.example.demo.dto.*;
 import com.example.demo.model.UserModel;

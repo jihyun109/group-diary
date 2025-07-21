@@ -1,9 +1,10 @@
-package com.example.demo.repository;
+package com.example.demo.repository.mybatis;
 
 import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.mapper.MemberMapper;
+import com.example.demo.repository.inter.MemberRepository;
 import com.example.demo.request.TeamRequest;
 import com.example.demo.response.InvitedListResponse;
 import com.example.demo.response.TeamMembersNameResponse;

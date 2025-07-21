@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.*;
-import com.example.demo.repository.DiaryRepository;
-import com.example.demo.repository.TeamRepository;
+import com.example.demo.repository.inter.DiaryRepository;
+import com.example.demo.repository.inter.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

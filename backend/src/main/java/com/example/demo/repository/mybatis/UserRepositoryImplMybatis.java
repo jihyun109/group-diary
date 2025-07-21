@@ -1,8 +1,9 @@
-package com.example.demo.repository;
+package com.example.demo.repository.mybatis;
 
 import com.example.demo.dto.*;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.UserModel;
+import com.example.demo.repository.inter.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

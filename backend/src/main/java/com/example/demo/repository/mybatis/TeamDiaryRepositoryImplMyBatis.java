@@ -1,6 +1,7 @@
-package com.example.demo.repository;
+package com.example.demo.repository.mybatis;
 
 import com.example.demo.dto.TeamDiaryPostRequestDTO;
+import com.example.demo.repository.inter.TeamDiaryRepository;
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
 import com.example.demo.mapper.TeamDiaryMapper;

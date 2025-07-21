@@ -1,9 +1,10 @@
-package com.example.demo.repository;
+package com.example.demo.repository.mybatis;
 
 import com.example.demo.dto.TeamCreateRequestDTO;
 import com.example.demo.dto.TeamSearchIdResponseDTO;
 import com.example.demo.mapper.TeamMapper;
 import com.example.demo.model.TeamModel;
+import com.example.demo.repository.inter.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
