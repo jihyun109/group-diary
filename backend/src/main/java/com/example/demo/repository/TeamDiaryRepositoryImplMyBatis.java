@@ -3,7 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.dto.TeamDiaryPostRequestDTO;
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
-import com.example.demo.teamDiary.TeamDiaryMapper;
+import com.example.demo.mapper.TeamDiaryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

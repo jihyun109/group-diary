@@ -1,4 +1,4 @@
-package com.example.demo.teamDiary;
+package com.example.demo.model;
 
 public class TeamDiaryModel {
     long id;
