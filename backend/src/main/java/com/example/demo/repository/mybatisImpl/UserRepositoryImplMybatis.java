@@ -1,4 +1,4 @@
-package com.example.demo.repository.mybatis;
+package com.example.demo.repository.mybatisImpl;
 
 import com.example.demo.dto.*;
 import com.example.demo.mapper.UserMapper;

@@ -1,4 +1,4 @@
-package com.example.demo.repository.mybatis;
+package com.example.demo.repository.mybatisImpl;
 
 import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
