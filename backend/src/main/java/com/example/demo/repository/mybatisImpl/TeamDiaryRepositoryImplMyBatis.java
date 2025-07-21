@@ -6,12 +6,14 @@ import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
 import com.example.demo.mapper.TeamDiaryMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Primary
 public class TeamDiaryRepositoryImplMyBatis implements TeamDiaryRepository {
     private final TeamDiaryMapper teamDiaryMapper;
 
