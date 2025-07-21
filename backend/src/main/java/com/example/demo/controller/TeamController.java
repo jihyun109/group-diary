@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.TeamCreateRequestDTO;
-import com.example.demo.model.TeamModel;
+import com.example.demo.dto.TeamSearchIdResponseDTO;
 import com.example.demo.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class TeamController {
     // 팀 id 조회
     @GetMapping("/teams/findId")
     public HashMap<String, Object> findTeamId(@RequestParam(defaultValue = "succ") String teamName, int creatorId) {
-        List<TeamModel> data = teamService.findTeamId(teamName, creatorId);
+        List<TeamSearchIdResponseDTO> data = teamService.findTeamId(teamName, creatorId);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "success");
