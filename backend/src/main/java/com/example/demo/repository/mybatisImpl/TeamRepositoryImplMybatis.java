@@ -6,6 +6,7 @@ import com.example.demo.mapper.TeamMapper;
 import com.example.demo.model.TeamModel;
 import com.example.demo.repository.inter.TeamRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Primary
 public class TeamRepositoryImplMybatis implements TeamRepository {
     private final TeamMapper teamMapper;
 

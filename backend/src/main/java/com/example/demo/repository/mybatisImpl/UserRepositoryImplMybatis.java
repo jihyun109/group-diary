@@ -5,10 +5,12 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.UserModel;
 import com.example.demo.repository.inter.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Primary
 public class UserRepositoryImplMybatis implements UserRepository {
     private final UserMapper userMapper;
 

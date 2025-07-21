@@ -5,11 +5,13 @@ import com.example.demo.mapper.DiaryMapper;
 import com.example.demo.model.DiaryModel;
 import com.example.demo.repository.inter.DiaryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Primary
 @Component
 @RequiredArgsConstructor
 public class DiaryRepositoryImplMybatis implements DiaryRepository {
