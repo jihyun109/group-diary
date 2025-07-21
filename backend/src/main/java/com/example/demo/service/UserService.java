@@ -7,10 +7,14 @@ import java.util.List;
 
 public interface UserService {
     UserResponseDTO getUser(long userId);
-    List<UserModel> getUsers();
+
     void insertUser(SignupRequestDTO user);
+
     void updateUser(int userId, UserUpdateRequestDTO user);
+
     void deleteUser(int userId);
+
     List<UserModel> userEmailSearchModel(String searchWord);
+
     LoginResponseDTO logIn(LogInRequestDTO user);
 }

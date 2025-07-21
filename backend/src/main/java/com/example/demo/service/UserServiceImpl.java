@@ -20,11 +20,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUser(userId);
     }
 
-    // 모든 사용자 정보 조회
-    public List<UserModel> getUsers() {
-        return userRepository.getUsers();
-    }
-
     // 사용자 생성
     @Override
     public void insertUser(SignupRequestDTO user) {
