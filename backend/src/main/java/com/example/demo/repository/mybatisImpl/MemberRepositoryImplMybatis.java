@@ -1,6 +1,5 @@
 package com.example.demo.repository.mybatisImpl;
 
-import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.mapper.MemberMapper;
@@ -23,11 +22,6 @@ public class MemberRepositoryImplMybatis implements MemberRepository {
     @Override
     public void inviteMember(MemberInviteRequestDTO memberInviteRequestDTO) {
         memberMapper.insertMember(memberInviteRequestDTO);
-    }
-
-    @Override
-    public void inviteInTeam(MemberInviteInTeamRequestDTO memberInviteInTeamRequestDTO) {
-        memberMapper.requestInviteMember(memberInviteInTeamRequestDTO);
     }
 
     @Override

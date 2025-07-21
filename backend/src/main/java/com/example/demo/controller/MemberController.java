@@ -29,26 +29,6 @@ public class MemberController {
         return ResponseEntity.ok("멤버 초대 완료");
     }
 
-//    // 팀에 멤버를 초대
-//    @PostMapping("/members/{teamId}")
-//    public ResponseEntity<String> requestInviteMember(@PathVariable(required = true) int teamId, @RequestBody MemberInviteInTeamRequestDTO member) {
-//        member.setTeamId(teamId);
-//        memberService.inviteInTeam(member);
-//
-//        return ResponseEntity.ok("Member invited to the team" + teamId);
-//    }
-
-//    // 모든 팀의 멤버 리스트 조회
-//    @GetMapping("/members")
-//    public HashMap<String, Object> getMembers() {
-//        List<MemberModel> data = memberServiceImpl.getMembers();
-//
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("result", "success");
-//        result.put("data", data);
-//        return result;
-//    }
-
     // 멤버 수정 (초대 수락/거절)
     @PutMapping("/members/{id}")
     public ResponseEntity<String> updateMember(@RequestBody MemberUpdateRequestDTO memberData, @PathVariable(required = true) long id) {

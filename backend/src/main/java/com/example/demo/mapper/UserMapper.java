@@ -14,9 +14,6 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
-    // 모든 사용자 정보 조회
-    List<UserModel> selectUsers();
-
     // 사용자 생성
     void insertUser(SignupRequestDTO user);
 

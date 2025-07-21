@@ -12,8 +12,6 @@ import java.util.List;
 @Mapper
 @Repository
 public interface DiaryMapper {
-    List<DiaryModel> selectDiaries();   // 모든 일기 정보 조회
-
     void insertDiary(DiaryWriteRequestDTO diary); // 일기 생성
 
     void updateDiary(DiaryEditRequestDTO diary); // 일기 수정

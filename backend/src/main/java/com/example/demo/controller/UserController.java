@@ -55,17 +55,6 @@ public class UserController {
         return result;
     }
 
-    // 모든 사용자 정보 조회
-    @GetMapping("/users")
-    public HashMap<String, Object> getUsers() {
-        List<UserModel> data = userServiceImpl.getUsers();
-
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "success");
-        result.put("data", data);
-        return result;
-    }
-
     // 사용자 삭제
     @DeleteMapping("/users/{id}")
     public HashMap<String, String> deleteUser(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {

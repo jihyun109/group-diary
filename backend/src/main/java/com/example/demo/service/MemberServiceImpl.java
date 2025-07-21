@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.MemberInviteInTeamRequestDTO;
 import com.example.demo.dto.MemberInviteRequestDTO;
 import com.example.demo.dto.MemberUpdateRequestDTO;
 import com.example.demo.repository.inter.MemberRepository;
@@ -21,12 +20,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void insertMember(MemberInviteRequestDTO member) {
         memberRepository.inviteMember(member);
-    }
-
-    // 팀에 멤버 초대
-    @Override
-    public void inviteInTeam(MemberInviteInTeamRequestDTO memberInviteInTeamRequestDTO) {
-        memberRepository.inviteInTeam(memberInviteInTeamRequestDTO);
     }
 
     // 멤버 정보 수정 (초대 수락/거절)
@@ -58,10 +51,5 @@ public class MemberServiceImpl implements MemberService {
     public List<TeamRequest> requestUserTeamList(long userId) {
         return memberRepository.requestUserTeamList(userId);
     }
-
-//    // 모든 팀의 멤버 리스트 조회
-//    public List<MemberModel> getMembers() {
-//        return memberMapper.selectMembers();
-//    }
 
 }
