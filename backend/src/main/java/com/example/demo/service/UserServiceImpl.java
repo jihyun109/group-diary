@@ -26,22 +26,26 @@ public class UserServiceImpl implements UserService {
         userRepository.insertUser(user);
     }
 
+    @Override
     // 사용자 정보 수정
-    public void updateUser(int userId, UserUpdateRequestDTO user) {
+    public void updateUser(long userId, UserUpdateRequestDTO user) {
         user.setId(userId);
         userRepository.updateUser(user);
     }
 
+    @Override
     // 사용자 삭제
-    public void deleteUser(int userId) {
+    public void deleteUser(long userId) {
         userMapper.deleteUser(userId);
     }
 
+    @Override
     // 사용자 이메일 검색
     public List<UserModel> userEmailSearchModel(String searchWord) {
         return userMapper.userEmailSearchModel(searchWord);
     }
 
+    @Override
     public LoginResponseDTO logIn(LogInRequestDTO user) {
         return userRepository.login(user);
     }

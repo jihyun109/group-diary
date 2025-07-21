@@ -21,7 +21,7 @@ public interface UserMapper {
     void updateUser(UserUpdateRequestDTO user);
 
     // 사용자 삭제
-    void deleteUser(int userId);
+    void deleteUser(long userId);
 
     // 사용자 이메일 검색
     List<UserModel> userEmailSearchModel(String searchWord);

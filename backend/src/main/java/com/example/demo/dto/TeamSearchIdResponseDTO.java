@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class TeamSearchIdResponseDTO {
-    private int id;
+    private long id;
     private String team_name;
-    private int creator_id;
+    private long creator_id;
 }

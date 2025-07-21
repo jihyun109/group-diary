@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeamEntity {
-    int id;
-    String team_name;
-    int creator_id;
-
+    private long id;
+    private String team_name;
+    private int creator_id;
 }

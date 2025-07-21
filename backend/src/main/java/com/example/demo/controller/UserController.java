@@ -37,7 +37,7 @@ public class UserController {
 
     // 사용자 정보 수정
     @PutMapping("/users/{id}")
-    public HashMap<String, String> updateUser(@RequestBody UserUpdateRequestDTO userData, @PathVariable(required = true) int id) {
+    public HashMap<String, String> updateUser(@RequestBody UserUpdateRequestDTO userData, @PathVariable(required = true) long id) {
         userService.updateUser(id, userData);
 
         HashMap<String, String> result = new HashMap<>();
@@ -57,7 +57,7 @@ public class UserController {
 
     // 사용자 삭제
     @DeleteMapping("/users/{id}")
-    public HashMap<String, String> deleteUser(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
+    public HashMap<String, String> deleteUser(@PathVariable(required = true) long id, @RequestParam(defaultValue = "succ") String succMsg) {
         userServiceImpl.deleteUser(id);
 
         HashMap<String, String> result = new HashMap<>();

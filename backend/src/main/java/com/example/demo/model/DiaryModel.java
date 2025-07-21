@@ -15,9 +15,9 @@ import java.util.List;
 public class DiaryModel {
 
     // 공유할 그룹
-    private int id;
+    private long id;
     private String writtenDate;
-    private int writerId;
+    private long writerId;
     private String diaryTitle;
     private String details;
 
