@@ -26,7 +26,7 @@ public class TeamController {
 
     // 팀 id 조회
     @GetMapping("/teams/findId")
-    public HashMap<String, Object> findTeamId(@RequestParam(defaultValue = "succ") String teamName, int creatorId) {
+    public HashMap<String, Object> findTeamId(@RequestParam(defaultValue = "succ") String teamName, long creatorId) {
         List<TeamSearchIdResponseDTO> data = teamService.findTeamId(teamName, creatorId);
 
         HashMap<String, Object> result = new HashMap<>();
@@ -34,5 +34,4 @@ public class TeamController {
         result.put("data", data);
         return result;
     }
-
 }

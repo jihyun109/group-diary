@@ -14,7 +14,7 @@ import java.util.List;
 public class DiaryDetailResponseDTO {
     private long id;
     private String writtenDate;
-    private int writerId;
+    private long writerId;
     private String diaryTitle;
     private String details;
 

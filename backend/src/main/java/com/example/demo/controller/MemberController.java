@@ -74,7 +74,7 @@ public class MemberController {
 
     // 사용자가 멤버인 팀 리스트 요청
     @GetMapping("/members/userTeamList/{userId}")
-    public HashMap<String, Object> requestUserTeamList(@PathVariable(required = true) int userId) {
+    public HashMap<String, Object> requestUserTeamList(@PathVariable(required = true) long userId) {
         List<TeamRequest> data = memberService.requestUserTeamList(userId);
 
         HashMap<String, Object> result = new HashMap<>();

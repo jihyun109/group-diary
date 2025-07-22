@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeamDiaryEntity {
     private long id;
-    private int diary_id;
-    private int team_id;
+    private long diary_id;
+    private long team_id;
 }
