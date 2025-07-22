@@ -10,9 +10,9 @@ public interface UserService {
 
     void insertUser(SignupRequestDTO user);
 
-    void updateUser(int userId, UserUpdateRequestDTO user);
+    void updateUser(long userId, UserUpdateRequestDTO user);
 
-    void deleteUser(int userId);
+    void deleteUser(long userId);
 
     List<UserModel> userEmailSearchModel(String searchWord);
 

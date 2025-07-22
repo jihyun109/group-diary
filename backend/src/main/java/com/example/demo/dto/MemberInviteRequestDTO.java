@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class MemberInviteRequestDTO {
-    private int id;
-    private int userId;
-    private int teamId;
-    private int status;
-    private int inviterId;    // 초대를 한 사람
+    private long id;
+    private long userId;
+    private long teamId;
+    private long status;
+    private long inviterId;    // 초대를 한 사람
 }

@@ -9,9 +9,9 @@ import java.util.List;
 @Getter
 @Builder
 public class DiaryIdResponseDTO {
-    private int id;
+    private long id;
     private String writtenDate;
-    private int writerId;
+    private long writerId;
     private String diaryTitle;
     private String details;
 

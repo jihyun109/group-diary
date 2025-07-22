@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 @Builder
 public class TeamResponseDTO {
-    private int id;
+    private long id;
     private String teamName;
-    private int creatorId;
+    private long creatorId;
 
     public static TeamResponseDTO from(TeamModel teamModel) {
         return TeamResponseDTO.builder()

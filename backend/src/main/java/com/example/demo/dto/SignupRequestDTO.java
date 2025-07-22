@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class SignupRequestDTO {
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
     private String initial;

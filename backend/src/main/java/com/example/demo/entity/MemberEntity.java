@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberEntity {
-    private int id;
-    private int user_id;
-    private int team_id;
-    private int status;
-    private int inviter_id;    // 초대를 한 사람
+    private long id;
+    private long user_id;
+    private long team_id;
+    private long status;
+    private long inviter_id;    // 초대를 한 사람
 }

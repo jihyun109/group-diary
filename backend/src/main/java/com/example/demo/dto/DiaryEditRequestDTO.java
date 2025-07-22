@@ -12,7 +12,7 @@ import java.util.List;
 public class DiaryEditRequestDTO {
     private long id;
     private String writtenDate;
-    private int writerId;
+    private long writerId;
     private String diaryTitle;
     private String details;
 

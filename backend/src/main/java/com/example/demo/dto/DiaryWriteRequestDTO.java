@@ -5,21 +5,20 @@ import com.example.demo.model.TeamModel;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Builder
 public class DiaryWriteRequestDTO {
-    private int id;
+    private long id;
     private String writtenDate;
-    private int writerId;
+    private long writerId;
     private String diaryTitle;
     private String details;
 
     private String firstName;
     private String lastName;
-    private List<TeamModel> sharedTeamList = new ArrayList<>();
+    private List<TeamModel> sharedTeamList;
 
     public static DiaryWriteRequestDTO from(DiaryModel diaryModel) {
         return DiaryWriteRequestDTO.builder()

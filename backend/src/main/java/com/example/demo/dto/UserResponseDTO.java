@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class UserResponseDTO {
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
     private String color;

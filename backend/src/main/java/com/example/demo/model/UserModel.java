@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class UserModel {
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
     private String initial;

@@ -44,7 +44,7 @@ public class MemberController {
 
     // 멤버 삭제 (초대 거절)
     @DeleteMapping("/members/{id}")
-    public ResponseEntity<String> deleteMember(@PathVariable(required = true) int id, @RequestParam(defaultValue = "succ") String succMsg) {
+    public ResponseEntity<String> deleteMember(@PathVariable(required = true) long id, @RequestParam(defaultValue = "succ") String succMsg) {
         memberService.deleteMember(id);
 
         return ResponseEntity.ok("invite refused");
@@ -74,7 +74,7 @@ public class MemberController {
 
     // 사용자가 멤버인 팀 리스트 요청
     @GetMapping("/members/userTeamList/{userId}")
-    public HashMap<String, Object> requestUserTeamList(@PathVariable(required = true) int userId) {
+    public HashMap<String, Object> requestUserTeamList(@PathVariable(required = true) long userId) {
         List<TeamRequest> data = memberService.requestUserTeamList(userId);
 
         HashMap<String, Object> result = new HashMap<>();

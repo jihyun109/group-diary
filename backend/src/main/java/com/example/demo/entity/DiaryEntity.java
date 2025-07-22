@@ -4,7 +4,6 @@ import com.example.demo.model.TeamModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 public class DiaryEntity {
     // 공유할 그룹
-    private int id;
+    private long id;
     private String writtenDate;
-    private int writerId;
+    private long writerId;
     private String diaryTitle;
     private String details;
 
