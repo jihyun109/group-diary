@@ -1,19 +1,16 @@
 <script setup>
-import {  RouterView } from 'vue-router'
-import HeaderMenu from './components/HeaderComponent.vue'
+import { RouterView } from 'vue-router';
+import HeaderMenu from './components/HeaderComponent.vue';
 // const route = useRoute();
 </script>
 
 <template>
-  
   <HeaderMenu />
   <!-- <RouterView style="height: 1024px;"/> -->
   <div class="content">
     <RouterView />
-  
-</div>
+  </div>
 </template>
-
 
 <style>
 /* 헤더의 높이만큼 마진 추가 */

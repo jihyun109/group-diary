@@ -26,8 +26,8 @@ export default {
     fontSize: {
       type: Number,
       default: '20',
-    }
-  }, 
+    },
+  },
 
   computed: {
     circleStyle() {
@@ -43,11 +43,11 @@ export default {
         fontSize: `${this.fontSize}px`,
         textAlign: 'center',
       };
-    }
+    },
   },
 
   methods: {
-    getInitials(name){
+    getInitials(name) {
       if (this.isEnglish(name)) {
         const firstNameInitial = this.firstName.substring(0, 1).toUpperCase();
         const lastNameInitial = this.lastName.substring(0, 1).toUpperCase();
@@ -60,13 +60,13 @@ export default {
     isEnglish(name) {
       const englishRegex = /^[A-Za-z\s]+$/;
       return englishRegex.test(name);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
-    <div class="circle" :style="circleStyle">
-              {{ getInitials(firstName) }}
-    </div>
+  <div class="circle" :style="circleStyle">
+    {{ getInitials(firstName) }}
+  </div>
 </template>

@@ -1,192 +1,324 @@
 <template>
-  <div class="card" style="max-width: 1250px; height: 800px; background-color: #aeba94;">
-  <div class="container">
-    <p v-if="!dataList">로딩...</p>
-    <div v-else>
-      <div class="row mt-3">
-        <div class="col-2 ms-3 mt-6" style="margin: 10px 0;">
-          <!-- create group 버튼 -->
-          <button type="button" class="btn btn-block" data-bs-toggle="modal" data-bs-target="#createGroup-form"
-            style="background-color: #e0d4be;">create group
-          </button>
-          <!-- team 목록 -->
-          <ul class="list-group team-list-scroll" v-if="teamData">
-            <a @click="moveToTeamPage(team.team_id)" href="javascript:void(0);"
-              class="list-group-item list-group-item-action" v-for="(team, idx) in teamData" :key="idx">
-              {{ team.team_name }}
-            </a>
-          </ul>
-        </div>
+  <div
+    class="card"
+    style="max-width: 1250px; height: 800px; background-color: #aeba94"
+  >
+    <div class="container">
+      <p v-if="!dataList">로딩...</p>
+      <div v-else>
+        <div class="row mt-3">
+          <div class="col-2 ms-3 mt-6" style="margin: 10px 0">
+            <!-- create group 버튼 -->
+            <button
+              type="button"
+              class="btn btn-block"
+              data-bs-toggle="modal"
+              data-bs-target="#createGroup-form"
+              style="background-color: #e0d4be"
+            >
+              create group
+            </button>
+            <!-- team 목록 -->
+            <ul class="list-group team-list-scroll" v-if="teamData">
+              <a
+                @click="moveToTeamPage(team.team_id)"
+                href="javascript:void(0);"
+                class="list-group-item list-group-item-action"
+                v-for="(team, idx) in teamData"
+                :key="idx"
+              >
+                {{ team.team_name }}
+              </a>
+            </ul>
+          </div>
 
-        <div class="col-8 me-3">
-          <!-- 일기 리스트 -->
-          <!-- 달력 보기 방식 -->
-          <h1 v-if="isCalendar">calendar</h1>
-          <!-- 리스트 보기 방식 -->
-          <div v-else>
-            <div class="card rounded-card">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <div class="d-flex align-items-center justify-content-between" style="margin: 10px 0;">
-                    <h4 class="font-weight-bold" style="margin-left: 30px;">Diaries</h4>
-                    <a href="/writeDiary" style="margin: 10px 30px -10px 10px;">
-                      <img src="../../assets/img/write.png" style="height: 30px; margin-right: 10px;">
-                      <strong>Write diary</strong>
-                    </a>
+          <div class="col-8 me-3">
+            <!-- 일기 리스트 -->
+            <!-- 달력 보기 방식 -->
+            <h1 v-if="isCalendar">calendar</h1>
+            <!-- 리스트 보기 방식 -->
+            <div v-else>
+              <div class="card rounded-card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <div
+                      class="d-flex align-items-center justify-content-between"
+                      style="margin: 10px 0"
+                    >
+                      <h4 class="font-weight-bold" style="margin-left: 30px">
+                        Diaries
+                      </h4>
+                      <a
+                        href="/writeDiary"
+                        style="margin: 10px 30px -10px 10px"
+                      >
+                        <img
+                          src="../../assets/img/write.png"
+                          style="height: 30px; margin-right: 10px"
+                        />
+                        <strong>Write diary</strong>
+                      </a>
+                    </div>
+
+                    <table
+                      class="table align-items-center mb-0 table-background rounded-table"
+                    >
+                      <!-- 표 헤더 -->
+                      <thead>
+                        <tr>
+                          <th
+                            class="author-column text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                          >
+                            Author
+                          </th>
+                          <th
+                            class="title-column text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                          >
+                            Title
+                          </th>
+                          <th
+                            class="date-column text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                          >
+                            Date
+                          </th>
+                        </tr>
+                      </thead>
+                      <!-- 표 body -->
+                      <tbody>
+                        <!-- 한 행 -->
+                        <tr v-for="(diary, idx) in paginatedDiaries" :key="idx">
+                          <!-- author -->
+                          <td class="author-column">
+                            <div class="d-flex px-2 py-1">
+                              <UserProfile
+                                :color="diary.color"
+                                :firstName="diary.firstName"
+                                :lastName="diary.lastName"
+                              >
+                              </UserProfile>
+                            </div>
+                          </td>
+                          <!-- title -->
+                          <td>
+                            <h6 class="mb-0 title-column">
+                              <a
+                                href="javascript:void(0);"
+                                @click="moveToDetails(diary.id)"
+                                >{{ diary.diaryTitle }}</a
+                              >
+                            </h6>
+                          </td>
+                          <!-- Date -->
+                          <td class="date-column align-middle text-center">
+                            <span class="text-secondary font-weight-normal">{{
+                              diary.writtenDate
+                            }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <nav class="mt-4" aria-label="Page navigation example">
+                      <ul class="pagination justify-content-center">
+                        <li
+                          :class="[
+                            'page-item',
+                            { disabled: currentPage === 1 },
+                          ]"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:;"
+                            @click="changePage(currentPage - 1)"
+                            tabindex="-1"
+                          >
+                            <i class="fa fa-angle-left"></i>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                        </li>
+                        <li
+                          v-for="page in totalPages"
+                          :key="page"
+                          :class="[
+                            'page-item',
+                            { active: page === currentPage },
+                          ]"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:;"
+                            @click="changePage(page)"
+                            >{{ page }}</a
+                          >
+                        </li>
+                        <li
+                          :class="[
+                            'page-item',
+                            { disabled: currentPage === totalPages },
+                          ]"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:;"
+                            @click="changePage(currentPage + 1)"
+                          >
+                            <i class="fa fa-angle-right"></i>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
-
-                  <table class="table align-items-center mb-0 table-background rounded-table">
-                    <!-- 표 헤더 -->
-                    <thead>
-                      <tr>
-                        <th class="author-column text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Author</th>
-                        <th
-                          class="title-column text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                          Title</th>
-                        <th
-                          class="date-column text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Date
-                        </th>
-                      </tr>
-                    </thead>
-                    <!-- 표 body -->
-                    <tbody>
-                      <!-- 한 행 -->
-                      <tr v-for="(diary, idx) in paginatedDiaries" :key="idx">
-                        <!-- author -->
-                        <td class="author-column">
-                          <div class="d-flex px-2 py-1">
-                            <UserProfile :color="diary.color" :firstName="diary.firstName" :lastName="diary.lastName">
-                            </UserProfile>
-                          </div>
-                        </td>
-                        <!-- title -->
-                        <td>
-                          <h6 class="mb-0 title-column">
-                            <a href="javascript:void(0);" @click="moveToDetails(diary.id)">{{ diary.diaryTitle }}</a>
-                          </h6>
-                        </td>
-                        <!-- Date -->
-                        <td class="date-column align-middle text-center">
-                          <span class="text-secondary font-weight-normal">{{ diary.writtenDate }}</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                  <!-- Pagination -->
-                  <nav class="mt-4" aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                      <li :class="['page-item', { disabled: currentPage === 1 }]">
-                        <a class="page-link" href="javascript:;" @click="changePage(currentPage - 1)" tabindex="-1">
-                          <i class="fa fa-angle-left"></i>
-                          <span class="sr-only">Previous</span>
-                        </a>
-                      </li>
-                      <li v-for="page in totalPages" :key="page"
-                        :class="['page-item', { active: page === currentPage }]">
-                        <a class="page-link" href="javascript:;" @click="changePage(page)">{{ page }}</a>
-                      </li>
-                      <li :class="['page-item', { disabled: currentPage === totalPages }]">
-                        <a class="page-link" href="javascript:;" @click="changePage(currentPage + 1)">
-                          <i class="fa fa-angle-right"></i>
-                          <span class="sr-only">Next</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
                 </div>
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
-    </div>
-    <!-- modal -->
-    <div class="modal fade" id="createGroup-form" tabindex="-1" role="dialog" aria-labelledby="createGroup-form"
-      aria-hidden="true" data-bs-backdrop="static">
-      <div class="modal-dialog modal-dialog-centered " role="document">
-        <div class="modal-content">
-          <!-- 헤더 -->
-          <div class="modal-header">
-            <h5 class="modal-title" id="modal-title-notification">Create new group</h5>
-          </div>
+      <!-- modal -->
+      <div
+        class="modal fade"
+        id="createGroup-form"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="createGroup-form"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <!-- 헤더 -->
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-title-notification">
+                Create new group
+              </h5>
+            </div>
 
-          <!-- body -->
-          <div class="modal-body p-0">
-            <div class="card card-plain">
-              <div class="card-body">
-                <form role="form text-left d-flex">
-                  <label>Group name</label>
-                  <div class="input-group input-group-outline mb-3">
-                    <input v-model="groupNameToCreate" type="text" class="form-control"
-                      :class="{ 'is-invalid': errors.groupNameToCreate }" placeholder="Group Name">
-                  </div>
+            <!-- body -->
+            <div class="modal-body p-0">
+              <div class="card card-plain">
+                <div class="card-body">
+                  <form role="form text-left d-flex">
+                    <label>Group name</label>
+                    <div class="input-group input-group-outline mb-3">
+                      <input
+                        v-model="groupNameToCreate"
+                        type="text"
+                        class="form-control"
+                        :class="{ 'is-invalid': errors.groupNameToCreate }"
+                        placeholder="Group Name"
+                      />
+                    </div>
 
-                  <label>Add friends to this group</label>
-                  <div id="recipient_input_list">
-                    <span v-for="(user, idx) in usersToInvite" :key="idx"
-                      class="
-                      me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center">
-                      <span style="margin-left: 10px;">{{ user.lastName }} {{ user.firstName }}</span>
-                      <span class="vr mx-2"></span>
-                      <a href="javacsript:void(0);" @click="removeFromInviteGroup(user.userId)">
-                        <span class="material-icons opacity-6 me-2 text-md">cancel</span>
+                    <label>Add friends to this group</label>
+                    <div id="recipient_input_list">
+                      <span
+                        v-for="(user, idx) in usersToInvite"
+                        :key="idx"
+                        class="me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center"
+                      >
+                        <span style="margin-left: 10px"
+                          >{{ user.lastName }} {{ user.firstName }}</span
+                        >
+                        <span class="vr mx-2"></span>
+                        <a
+                          href="javacsript:void(0);"
+                          @click="removeFromInviteGroup(user.userId)"
+                        >
+                          <span class="material-icons opacity-6 me-2 text-md"
+                            >cancel</span
+                          >
+                        </a>
+                      </span>
+                    </div>
+
+                    <form @submit.prevent="searchUser">
+                      <div class="input-group input-group-outline mb-3 mt-2">
+                        <div class="col-8">
+                          <input
+                            v-model="searchWord"
+                            class="form-control me-2"
+                            type="text"
+                            placeholder="Search"
+                          />
+                        </div>
+                        <div class="col-4 ps-0">
+                          <button
+                            @click="searchUser"
+                            class="btn ms-3"
+                            style="background-color: #4f684e; color: #ffffff"
+                            id="searchBtn"
+                          >
+                            Search
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                    <div
+                      v-if="filteredUserSearchData.length === 0"
+                      class="list-group"
+                    >
+                      <p>no such user</p>
+                    </div>
+                    <div v-else class="list-group">
+                      <a
+                        v-for="(user, idx) in filteredUserSearchData"
+                        :key="idx"
+                        @click="
+                          addToInviteGroup(
+                            user.id,
+                            user.lastName,
+                            user.firstName
+                          )
+                        "
+                        href="javascript:void(0);"
+                        class="list-group-item list-group-item-action"
+                      >
+                        {{ user.lastName }} {{ user.firstName }}
                       </a>
-                    </span>
-                  </div>
-
-                  <form @submit.prevent="searchUser">
-                    <div class="input-group input-group-outline mb-3 mt-2">
-                      <div class="col-8">
-                        <input v-model="searchWord" class="form-control me-2" type="text" placeholder="Search">
-                      </div>
-                      <div class="col-4 ps-0">
-                        <button @click="searchUser" class="btn ms-3" style="background-color: #4f684e; color: #ffffff;" id="searchBtn">Search</button>
-                      </div>
                     </div>
                   </form>
-                  <div v-if="filteredUserSearchData.length === 0" class="list-group">
-                    <p>no such user</p>
-                  </div>
-                  <div v-else class="list-group">
-                    <a v-for="(user, idx) in filteredUserSearchData" :key="idx"
-                      @click="addToInviteGroup(user.id, user.lastName, user.firstName)" href="javascript:void(0);"
-                      class="list-group-item list-group-item-action">
-                      {{ user.lastName }} {{ user.firstName }}
-                    </a>
-                  </div>
-                </form>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- modal footer -->
-          <div class="modal-footer">
-            
-            <button @click="createTeam" type="button" class="btn"  style="background-color: #718e71; color: #ffffff;">Create</button>
-            <button @click="resetUsersToInvite" type="button" class="btn"
-              data-bs-dismiss="modal"  style="background-color: #e5d9c4; color: #000000;">Close</button>
+            <!-- modal footer -->
+            <div class="modal-footer">
+              <button
+                @click="createTeam"
+                type="button"
+                class="btn"
+                style="background-color: #718e71; color: #ffffff"
+              >
+                Create
+              </button>
+              <button
+                @click="resetUsersToInvite"
+                type="button"
+                class="btn"
+                data-bs-dismiss="modal"
+                style="background-color: #e5d9c4; color: #000000"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-// import { mapGetters } from 'vuex';
-import UserProfile from '@/components/UserProfile.vue'
+import UserProfile from '@/components/UserProfile.vue';
 import '../../assets/styles.css';
+import { fetchAllDiaries } from '@/api/diary';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   components: {
-    UserProfile
+    UserProfile,
   },
 
   mounted() {
@@ -214,9 +346,9 @@ export default {
       isCalendar: false,
       dropdownText: 'list',
       errors: {
-        groupNameToCreate: false
-      }
-    }
+        groupNameToCreate: false,
+      },
+    };
   },
 
   created() {
@@ -226,16 +358,22 @@ export default {
   computed: {
     ...mapState(['userId', 'firstName', 'lastName']),
     ...mapState({
-      teamList: state => state.teamList
+      teamList: (state) => state.teamList,
     }),
 
     sortedDiaryData() {
-      return this.diaryData.slice().sort((a, b) => new Date(b.writtenDate) - new Date(a.writtenDate));
+      return this.diaryData
+        .slice()
+        .sort((a, b) => new Date(b.writtenDate) - new Date(a.writtenDate));
     },
 
     filteredUserSearchData() {
-      const invitedUserIds = new Set(this.usersToInvite.map(user => user.userId));
-      return this.userSearchData.filter(user => user.id !== this.userId && !invitedUserIds.has(user.id));
+      const invitedUserIds = new Set(
+        this.usersToInvite.map((user) => user.userId)
+      );
+      return this.userSearchData.filter(
+        (user) => user.id !== this.userId && !invitedUserIds.has(user.id)
+      );
     },
 
     paginatedDiaries() {
@@ -246,43 +384,58 @@ export default {
 
     totalPages() {
       return Math.ceil(this.diaryData.length / this.itemsPerPage);
-    }
+    },
   },
 
   watch: {
     teamList(newTeamList) {
       this.teamData = newTeamList;
-    }
+    },
   },
 
   methods: {
     async fetchData() {
       const menuList = await Promise.all([
         { type: 'diaries', url: `${BASE_URL}/diaries/all/${this.userId}` },
-        { type: 'teams', url: `${BASE_URL}/members/userTeamList/${this.userId}` },
+        {
+          type: 'teams',
+          url: `${BASE_URL}/members/userTeamList/${this.userId}`,
+        },
         { type: 'members', url: `${BASE_URL}/members` },
         { type: 'users', url: `${BASE_URL}/users` },
-        { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` }
-      ])
+        { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
+      ]);
 
       const requests = menuList.map(async (dataReq) => {
-        const res = await fetch(dataReq.url)
-        return res.json()
-      })
+        const res = await fetch(dataReq.url);
+        return res.json();
+      });
 
-      this.dataList = await Promise.all(requests)
-      this.dataTypeMap = new Map(this.dataList.map((data, idx) => [menuList[idx].type, data.data]))
-      this.diaryData = this.dataTypeMap.get('diaries')
-      console.log("diaryData: ", this.diaryData);
-      this.teamData = this.dataTypeMap.get('teams')
-      this.membersData = this.dataTypeMap.get('members')
-      this.usersData = this.dataTypeMap.get('users')
-      this.inviteData = this.dataTypeMap.get('invites')
+      this.dataList = await Promise.all(requests);
+      this.dataTypeMap = new Map(
+        this.dataList.map((data, idx) => [menuList[idx].type, data.data])
+      );
+      this.diaryData = this.dataTypeMap.get('diaries');
+      console.log('diaryData: ', this.diaryData);
+      this.teamData = this.dataTypeMap.get('teams');
+      this.membersData = this.dataTypeMap.get('members');
+      this.usersData = this.dataTypeMap.get('users');
+      this.inviteData = this.dataTypeMap.get('invites');
+    },
+
+    async fetchAllDiaries() {
+      try {
+        this.diaryData = await fetchAllDiaries(this.userId);
+      } catch (e) {
+        this.error = e.message;
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     setView(text) {
-      this.dropdownText = text
-      this.isCalendar = text === 'calendar'
+      this.dropdownText = text;
+      this.isCalendar = text === 'calendar';
     },
 
     async requestAcceptInvite(invite) {
@@ -290,18 +443,20 @@ export default {
         const response = await fetch(`${BASE_URL}/members/${invite.id}`, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             user_id: this.userId,
             status: 0,
             team_id: invite.team_id,
-            inviter_id: invite.inviter_id
-          })
+            inviter_id: invite.inviter_id,
+          }),
         });
         if (response.ok) {
-          this.inviteData = this.inviteData.filter(invite => invite.id !== invite.id);
-          this.fetchData()
+          this.inviteData = this.inviteData.filter(
+            (invite) => invite.id !== invite.id
+          );
+          this.fetchData();
         } else {
           console.error('Error accepting invite');
         }
@@ -315,11 +470,13 @@ export default {
         const response = await fetch(`${BASE_URL}/members/${inviteId}`, {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         });
         if (response.ok) {
-          this.inviteData = this.inviteData.filter(invite => invite.id !== inviteId);
+          this.inviteData = this.inviteData.filter(
+            (invite) => invite.id !== inviteId
+          );
         } else {
           console.error('Error accepting invite');
         }
@@ -330,12 +487,15 @@ export default {
 
     async searchUser() {
       try {
-        const response = await fetch(`${BASE_URL}/users/search/?searchWord=${encodeURIComponent(this.searchWord)}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
+        const response = await fetch(
+          `${BASE_URL}/users/search/?searchWord=${encodeURIComponent(this.searchWord)}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }
-        });
+        );
         if (response.ok) {
           const resjson = await response.json();
           this.userSearchData = resjson.data;
@@ -363,7 +523,9 @@ export default {
     },
 
     removeFromInviteGroup(userId) {
-      this.usersToInvite = this.usersToInvite.filter(user => user.userId != userId);
+      this.usersToInvite = this.usersToInvite.filter(
+        (user) => user.userId != userId
+      );
     },
 
     resetUsersToInvite() {
@@ -405,12 +567,12 @@ export default {
         const response = await fetch(`${BASE_URL}/teams`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             team_name: this.groupNameToCreate,
-            creator_id: this.userId
-          })
+            creator_id: this.userId,
+          }),
         });
 
         if (response.ok) {
@@ -441,20 +603,20 @@ export default {
         userId: userId,
         teamId: teamId,
         status: userId === this.userId ? 0 : 1,
-        inviterId: this.userId
+        inviterId: this.userId,
       };
 
       try {
         const response = await fetch(`${BASE_URL}/members`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(inviteData)
+          body: JSON.stringify(inviteData),
         });
 
         if (response.ok) {
-          console.log("초대 성공: ", inviteData);
+          console.log('초대 성공: ', inviteData);
         } else {
           const errorData = await response.json();
           console.log(`오류가 발생했습니다: ${JSON.stringify(errorData)}`);
@@ -466,12 +628,15 @@ export default {
 
     async requestTeamId() {
       try {
-        const response = await fetch(`${BASE_URL}/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
+        const response = await fetch(
+          `${BASE_URL}/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }
-        });
+        );
 
         if (response.ok) {
           const resjson = await response.json();
@@ -479,21 +644,23 @@ export default {
           return teamId;
         } else {
           const errorData = await response.json();
-          console.log(`team not founded: ${errorData.message}`)
+          console.log(`team not founded: ${errorData.message}`);
         }
       } catch (error) {
-        console.log(`team not founded. 네트워크 오류가 발생했습니다: ${error.message}`);
+        console.log(
+          `team not founded. 네트워크 오류가 발생했습니다: ${error.message}`
+        );
       }
     },
 
     changePage(page) {
       if (page > 0 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.fetchData();
-    }
-    }
-  }
-}
+        this.currentPage = page;
+        this.fetchData();
+      }
+    },
+  },
+};
 </script>
 
 <style>
@@ -521,7 +688,6 @@ body {
   /* 일기 리스트의 폭 줄이기 */
   margin: 0 auto;
   /* 가운데 정렬 */
-  
 }
 
 .table-responsive {
