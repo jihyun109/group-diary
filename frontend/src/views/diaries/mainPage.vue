@@ -324,6 +324,7 @@ export default {
   mounted() {
     this.$store.dispatch('fetchStoreData');
     this.fetchData();
+    this.fetchAllDiaries();
   },
 
   data() {
@@ -396,7 +397,6 @@ export default {
   methods: {
     async fetchData() {
       const menuList = await Promise.all([
-        { type: 'diaries', url: `${BASE_URL}/diaries/all/${this.userId}` },
         {
           type: 'teams',
           url: `${BASE_URL}/members/userTeamList/${this.userId}`,
@@ -415,8 +415,6 @@ export default {
       this.dataTypeMap = new Map(
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
       );
-      this.diaryData = this.dataTypeMap.get('diaries');
-      console.log('diaryData: ', this.diaryData);
       this.teamData = this.dataTypeMap.get('teams');
       this.membersData = this.dataTypeMap.get('members');
       this.usersData = this.dataTypeMap.get('users');
@@ -426,6 +424,8 @@ export default {
     async fetchAllDiaries() {
       try {
         this.diaryData = await fetchAllDiaries(this.userId);
+        console.log('diaryData: ', this.diaryData);
+
       } catch (e) {
         this.error = e.message;
       } finally {
