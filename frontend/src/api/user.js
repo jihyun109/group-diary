@@ -10,4 +10,4 @@ export async function fetchUserInfo(userId) {
     console.error(error);
     throw error;
   }
-} 
+}
