@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.TeamMapper">
-    <select id="selectTeams" resultType="com.example.demo.model.TeamModel">
-        SELECT id, team_name, creator_id
-        FROM teams
+    <select id="searchTeamByDiaryId" resultType="com.example.demo.model.TeamModel">
+        SELECT t.id, t.team_name
+        FROM teams t join team_diary td on t.id=td.team_id
+        WHERE td.diary_id = #{diaryId};
     </select>
 
     <insert id="insertTeam" parameterType="com.example.demo.dto.TeamCreateRequestDTO">
@@ -11,47 +12,9 @@
         VALUES (#{id}, #{team_name}, #{creator_id});
     </insert>
 
-    <update id="updateTeam" parameterType="com.example.demo.model.TeamModel">
-        UPDATE teams
-        SET team_name = #{team_name}
-        WHERE id = #{id};
-    </update>
-
-    <delete id="deleteTeam">
-        DELETE
-        FROM teams
-        WHERE id = #{teamId};
-    </delete>
-
-    <select id="searchTeam" resultType="com.example.demo.model.UserModel">
-        SELECT id, first_name, last_name, email
-        FROM users
-        WHERE email LIKE #{likeSearchWord};
-    </select>
-
-    <select id="searchTeamByDiaryId" resultType="com.example.demo.model.TeamModel">
-        SELECT t.id, t.team_name
-        FROM teams t join team_diary td on t.id=td.team_id
-        WHERE td.diary_id = #{diaryId};
-    </select>
-
     <select id="findTeamId" resultType="com.example.demo.model.TeamModel">
         SELECT id
         FROM teams
         WHERE team_name = #{teamName} AND creator_id = #{creatorId};
     </select>
-
-<!--    <insert id="requestCreateTeam" parameterType="com.example.demo.request.CreateTeamRequest">-->
-<!--        INSERT INTO teams (id, team_name)-->
-<!--        VALUES (#{team_id}, #{team_name});-->
-
-<!--        INSERT INTO members (id, user_id, team_id, status, inviter_id)-->
-<!--        VALUES (#{member_id}, #{user_id}, #{team_id}, #{status}, #{inviter_id});-->
-<!--    </insert>-->
-
-<!--    <select id="requestCurTeamName" parameterType="com.example.demo.model.TeamModel" resultType="com.example.demo.model.TeamModel">-->
-<!--        SELECT team_name-->
-<!--        FROM teams-->
-<!--        WHERE id = #{teamId}-->
-<!--    </select>-->
 </mapper>
