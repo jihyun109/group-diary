@@ -13,9 +13,10 @@ export async function fetchAllDiaries(userId) {
       const errorData = await res.json().catch(() => ({}));
       throw new Error(errorData.message || '전체 일기 목록을 불러오지 못했습니다.');
     }
-
     const data = await res.json();
-    return data?.data ?? [];
+    console.log("data: ", data);
+
+    return data.data;
   } catch (error) {
     throw error;
   }
