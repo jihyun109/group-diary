@@ -179,9 +179,10 @@
 
 <script>
 import { mapState } from 'vuex';
-// import { mapGetters } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
 import '../../assets/styles.css';
+
+import { fetchAllDiaries } from '@/api/diary.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -189,9 +190,12 @@ export default {
     UserProfile
   },
 
-  mounted() {
+  async mounted() {
     this.$store.dispatch('fetchStoreData');
     this.fetchData();
+    
+    const result = await fetchAllDiaries(this.userId);
+    this.diaryData = result.data;
   },
 
   data() {
@@ -258,7 +262,7 @@ export default {
   methods: {
     async fetchData() {
       const menuList = await Promise.all([
-        { type: 'diaries', url: `${BASE_URL}/diaries/all/${this.userId}` },
+        // { type: 'diaries', url: `${BASE_URL}/diaries/all/${this.userId}` },
         { type: 'teams', url: `${BASE_URL}/members/userTeamList/${this.userId}` },
         { type: 'members', url: `${BASE_URL}/members` },
         { type: 'users', url: `${BASE_URL}/users` },
@@ -272,8 +276,8 @@ export default {
 
       this.dataList = await Promise.all(requests)
       this.dataTypeMap = new Map(this.dataList.map((data, idx) => [menuList[idx].type, data.data]))
-      this.diaryData = this.dataTypeMap.get('diaries')
-      console.log("diaryData: ", this.diaryData);
+      // this.diaryData = this.dataTypeMap.get('diaries')
+      // console.log("diaryData: ", this.diaryData);
       this.teamData = this.dataTypeMap.get('teams')
       this.membersData = this.dataTypeMap.get('members')
       this.usersData = this.dataTypeMap.get('users')
