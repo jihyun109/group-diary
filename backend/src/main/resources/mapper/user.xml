@@ -31,4 +31,14 @@
         VALUES (#{id}, #{firstName}, #{lastName}, #{initial}, #{color}, #{password}, #{email});
     </insert>
 
+    <select id="userEmailSearchModel" resultType="com.example.demo.model.UserModel">
+        SELECT id,
+               first_name AS firstName,
+               last_name  AS lastName,
+               email
+        FROM users
+        WHERE email LIKE #{likeSearchWord}
+        ;
+    </select>
+
 </mapper>
