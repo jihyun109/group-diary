@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.TeamDiaryMapper">
-    <select id="selectTeamDiaries" resultType="com.example.demo.model.TeamDiaryModel">
-        SELECT id, diary_id, team_id
-        FROM team_diary;
-    </select>
-
     <insert id="insertTeamDiary" parameterType="com.example.demo.dto.TeamDiaryPostRequestDTO">
         INSERT INTO team_diary (id, diary_id, team_id)
         VALUES (#{id}, #{diary_id}, #{team_id});
     </insert>
-
-    <update id="updateTeamDiary" parameterType="com.example.demo.model.TeamDiaryModel">
-        UPDATE team_diary
-        SET diary_id = #{diary_id},
-            team_id  = #{team_id}
-        WHERE id = #{id};
-    </update>
 
     <delete id="deleteTeamDiary" parameterType="com.example.demo.model.TeamDiaryModel">
         DELETE
