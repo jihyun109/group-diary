@@ -1,14 +1,13 @@
 <!-- tag 사용 -->
 
 <script>
-import { mapState } from "vuex";
-import cancelModal from "@/components/cancelModal.vue";
+import { mapState } from 'vuex';
+import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
-  beforeMount() {
-  },
+  beforeMount() {},
   mounted() {
     this.updateNeedUpdate();
     if (this.needUpdate) {
@@ -26,17 +25,16 @@ export default {
   },
   data() {
     return {
-
       diaryModel: {
-        id: "",
-        writtenDate: "",
-        diaryTitle: "",
-        details: "",
+        id: '',
+        writtenDate: '',
+        diaryTitle: '',
+        details: '',
       },
 
       diaryId: this.$route.query.diaryId,
 
-      cancelMessage: "일기 작성",
+      cancelMessage: '일기 작성',
 
       teamListToShare: [], // 일기를 공유할 팀들의 id 저장 리스트
       teamData: [],
@@ -44,12 +42,12 @@ export default {
       editedTeamList: [], // 수정된 팀 리스트
       addedTeamList: [],
       deletedTeamList: [],
-      needUpdate: false
+      needUpdate: false,
     };
   },
 
   computed: {
-    ...mapState(["userId", "firstName", "lastName"]),
+    ...mapState(['userId', 'firstName', 'lastName']),
 
     filteredTeamData() {
       if (!this.needUpdate) {
@@ -85,41 +83,51 @@ export default {
 
         // this.$router.push({ name: "main" })
         this.$router.go(-1);
-        alert("일기 작성 완료");
+        alert('일기 작성 완료');
       } else {
         // 일기 수정 페이지
         await this.requestEditedTeamList();
         this.$router.go(-1);
-        alert("일기 수정 완료");
+        alert('일기 수정 완료');
       }
     },
 
     async requestPostOrUpdateDiary() {
       // 일기 post or put
       var requestUrl = `${BASE_URL}/diaries`;
-      var method = "";
+      var method = '';
       if (this.needUpdate) {
         requestUrl += `/edit/${this.diaryModel.id}`;
-        method = "PUT";
+        method = 'PUT';
       } else {
-        method = "POST";
+        method = 'POST';
       }
+    },
 
+    async requestPostOrUpdateDiary() {
+      // 일기 post or put
+      var requestUrl = `${BASE_URL}/diaries`;
+      var method = '';
+      if (this.needUpdate) {
+        requestUrl += `/edit/${this.diaryModel.id}`;
+        method = 'PUT';
+      } else {
+        method = 'POST';
+      }
 
       this.diaryModel.writerId = this.userId;
 
       const response = await fetch(requestUrl, {
         method: method,
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(this.diaryModel),
       });
 
       if (response.ok) {
         // 요청이 성공하면 성공 메시지 표시
-        console.log(`${this.needUpdate ? "수정" : "작성"} 성공 `);
-
+        console.log(`${this.needUpdate ? '수정' : '작성'} 성공 `);
       } else {
         // 요청이 실패하면 오류 메시지 표시
         const errorData = await response.json();
@@ -145,7 +153,7 @@ export default {
           4
         )}-${date.slice(4)}`;
       }
-      return "";
+      return '';
     },
 
     // 사용자가 멤버인 팀들의 데이터(team id, team name) fetch
@@ -154,21 +162,21 @@ export default {
         const response = await fetch(
           `${BASE_URL}/members/userTeamList/${this.userId}`,
           {
-            method: "GET",
+            method: 'GET',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
         );
         if (response.ok) {
           const resjson = await response.json();
           this.teamData = resjson.data;
-          console.log("fetchTeamData success.", this.teamData);
+          console.log('fetchTeamData success.', this.teamData);
         } else {
-          console.log("team data를 불러오지 못했습니다.");
+          console.log('team data를 불러오지 못했습니다.');
         }
       } catch (error) {
-        console.error("fail fetchTeamData. Error:", error);
+        console.error('fail fetchTeamData. Error:', error);
       }
     },
 
@@ -196,17 +204,17 @@ export default {
     },
     // 작성한 일기의 아이디 요청
     async requestThisDiaryId() {
-
       try {
         const response = await fetch(
           `${BASE_URL}/diaries/findDiaryId?diaryTitle=${encodeURIComponent(
             this.diaryModel.diaryTitle
-          )}&writtenDate=${this.diaryModel.writtenDate}&writerId=${this.userId
+          )}&writtenDate=${this.diaryModel.writtenDate}&writerId=${
+            this.userId
           }`,
           {
-            method: "GET",
+            method: 'GET',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
         );
@@ -239,16 +247,16 @@ export default {
       try {
         // 서버로 POST 요청 보내기
         const response = await fetch(`${BASE_URL}/teamDiaries`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(shareDiaryData),
         });
 
         if (response.ok) {
           // 요청이 성공하면 성공 메시지 표시
-          console.log("일기 공유 성공: ", shareDiaryData);
+          console.log('일기 공유 성공: ', shareDiaryData);
         } else {
           // 요청이 실패하면 오류 메시지 표시
           const errorData = await response.json();
@@ -266,9 +274,9 @@ export default {
         const response = await fetch(
           `${BASE_URL}/teamDiaries/sharedTeams/${diaryId}`,
           {
-            method: "GET",
+            method: 'GET',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
         );
@@ -330,9 +338,9 @@ export default {
         const response = await fetch(
           `${BASE_URL}/teamDiaries?diaryId=${this.diaryId}&teamId=${teamId}`,
           {
-            method: "DELETE",
+            method: 'DELETE',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
         );
@@ -340,9 +348,9 @@ export default {
         if (response.ok) {
           const resjson = await response.json();
           console.log(
-            "공유 취소 성공. diaryId: ",
+            '공유 취소 성공. diaryId: ',
             this.diaryId,
-            ", teamId:",
+            ', teamId:',
             teamId
           );
         } else {
@@ -360,10 +368,10 @@ export default {
 
     deepCopyAndRename(obj) {
       const renameMap = {
-        teamId: "id",
-        teamName: "team_name",
+        teamId: 'id',
+        teamName: 'team_name',
       };
-      if (obj === null || typeof obj !== "object") {
+      if (obj === null || typeof obj !== 'object') {
         return obj;
       }
 
@@ -389,7 +397,7 @@ export default {
     <div class="container py-4">
       <div class="row">
         <h2 class="text-center">
-          {{ needUpdate ? "edite diary" : "write diary" }}
+          {{ needUpdate ? 'edite diary' : 'write diary' }}
         </h2>
 
         <div class="card">
@@ -397,26 +405,48 @@ export default {
             <!-- date picker 사용 -->
             <div class="input-group input-group-static my-3">
               <label>Date</label>
-              <input v-model="diaryModel.writtenDate" type="date" class="form-control" />
+              <input
+                v-model="diaryModel.writtenDate"
+                type="date"
+                class="form-control"
+              />
             </div>
 
             <div class="mb-4">
               <div class="input-group input-group-static">
                 <label>title</label>
-                <input v-model="diaryModel.diaryTitle" type="text" class="form-control" placeholder="제목" />
+                <input
+                  v-model="diaryModel.diaryTitle"
+                  type="text"
+                  class="form-control"
+                  placeholder="제목"
+                />
               </div>
             </div>
             <div class="mb-4">
               <div class="dropdown">
-                <a href="#" class="btn dropdown-toggle" style="background-color: #5d6443;color: #ffffff;"  data-bs-toggle="dropdown"
-                  id="navbarDropdownMenuLink2">
+                <a
+                  href="#"
+                  class="btn dropdown-toggle"
+                  style="background-color: #5d6443; color: #ffffff"
+                  data-bs-toggle="dropdown"
+                  id="navbarDropdownMenuLink2"
+                >
                   team list
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                <ul
+                  class="dropdown-menu"
+                  aria-labelledby="navbarDropdownMenuLink2"
+                >
                   <li>
-                    <a @click="
-                      addToTeamListToShare(team.team_id, team.team_name)
-                      " class="dropdown-item" v-for="(team, idx) in filteredTeamData" href="javacsript:void(0);">
+                    <a
+                      @click="
+                        addToTeamListToShare(team.team_id, team.team_name)
+                      "
+                      class="dropdown-item"
+                      v-for="(team, idx) in filteredTeamData"
+                      href="javacsript:void(0);"
+                    >
                       {{ team.team_name }}
                     </a>
                   </li>
@@ -424,14 +454,22 @@ export default {
               </div>
 
               <div id="recipient_input_list">
-                <span v-for="(team, idx) in needUpdate
-                  ? editedTeamList
-                  : teamListToShare" :key="idx"
-                  class="me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center">
+                <span
+                  v-for="(team, idx) in needUpdate
+                    ? editedTeamList
+                    : teamListToShare"
+                  :key="idx"
+                  class="me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center"
+                >
                   <span style="margin-left: 10px">{{ team.team_name }}</span>
                   <span class="vr mx-2"></span>
-                  <a href="javacsript:void(0);" @click="removeFromTeamListToShare(team.id)">
-                    <span class="material-icons opacity-6 me-2 text-md">cancel</span>
+                  <a
+                    href="javacsript:void(0);"
+                    @click="removeFromTeamListToShare(team.id)"
+                  >
+                    <span class="material-icons opacity-6 me-2 text-md"
+                      >cancel</span
+                    >
                   </a>
                 </span>
               </div>
@@ -440,18 +478,32 @@ export default {
             <!-- details -->
             <div class="input-group mb-4 input-group-static">
               <label>Details</label>
-              <textarea v-model="diaryModel.details" name="message" class="form-control" id="message"
-                rows="4"></textarea>
+              <textarea
+                v-model="diaryModel.details"
+                name="message"
+                class="form-control"
+                id="message"
+                rows="4"
+              ></textarea>
             </div>
           </div>
 
           <div class="card-footer">
             <!-- button & modal -->
             <div class="d-flex justify-content-end">
-              <button @click="writeOrUpdateDiary" class="btn  me-2" style="background-color: #638589; color: #ffffff;">
-                {{ needUpdate ? "edite" : "write diary" }}
+              <button
+                @click="writeOrUpdateDiary"
+                class="btn me-2"
+                style="background-color: #638589; color: #ffffff"
+              >
+                {{ needUpdate ? 'edite' : 'write diary' }}
               </button>
-              <button class="btn " data-bs-toggle="modal" data-bs-target="#cancelModal" style="background-color: #d1c5ab;">
+              <button
+                class="btn"
+                data-bs-toggle="modal"
+                data-bs-target="#cancelModal"
+                style="background-color: #d1c5ab"
+              >
                 cancel
               </button>
               <cancelModal :message="cancelMessage" />
@@ -461,9 +513,6 @@ export default {
       </div>
     </div>
   </section>
-  
-
-  
 </template>
 
 <style>
@@ -472,7 +521,6 @@ export default {
 .card {
   width: 700px;
   margin: 0 auto;
- 
 }
 .card-body {
   width: 700px;
