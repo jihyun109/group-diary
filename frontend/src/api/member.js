@@ -27,3 +27,32 @@ export async function fetchUserInvites(userId) {
     throw error;
   }
 }
+
+export async function inviteUser(inviteeId, teamId, inviterId) {
+  const inviteData = {
+    userId: inviteeId,
+    teamId: teamId,
+    status: inviteeId === inviterId ? 0 : 1,
+    inviterId: inviterId,
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/members`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify( inviteData),
+    });
+
+    if (response.ok) {
+      console.log('초대 성공: ', inviteData);
+    } else {
+      const errorData = await response.json();
+      console.log(`오류가 발생했습니다: ${JSON.stringify(errorData)}`);
+    }
+  } catch (error) {
+    console.error('초대 오류:', error);
+    throw error;
+  }
+}
