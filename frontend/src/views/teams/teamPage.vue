@@ -1,5 +1,5 @@
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
 import '../../assets/styles.css';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -96,6 +96,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(['updateTeamList']),
+
     changePage(page) {
       if (page > 0 && page <= this.totalPages) {
         this.currentPage = page;

@@ -83,18 +83,24 @@ const store = createStore({
       commit('setTeamList', dataList[0].data);
       commit('setinviteData', dataList[1].data);
       commit('setDiaryData', dataList[2].data);
-
-      // dataList.forEach((data, idx) => {
-      //   commit(`set${menuList[idx].type.charAt(0).toUpperCase() + menuList[idx].type.slice(1)}Data`, data.data);
-      // });
     },
 
-    // updateTeamList({ commit }, teamList) {
-    //   commit('setTeamList', teamList);
-    // },
-    // getters: {
-    //   teamList: state => state.teamList
-    // }
+    // 팀 목록 갱신
+    async updateTeamList({ commit, state }) {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/members/userTeamList/${state.userId}`
+        );
+        if (!response.ok) {
+          throw new Error('팀 목록을 불러오지 못했습니다.');
+        }
+        const data = await response.json();
+        commit('setTeamList', data.data);
+      } catch (error) {
+        console.error('팀 목록 갱신 오류:', error);
+        throw error;
+      }
+    },
   },
 
   plugins: [

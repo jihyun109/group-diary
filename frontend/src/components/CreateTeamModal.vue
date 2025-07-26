@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { fetchUserSearch } from '@/api/user.js';
 import { createTeam, fetchTeamId } from '@/api/team.js';
 import { inviteUser } from '@/api/member.js';
@@ -173,7 +173,9 @@ export default {
   },
 
   methods: {
-    async updateTeamList() {
+    ...mapActions(['updateTeamList']),
+
+    async notifyParent() {
       // 부모 컴포넌트의 updateTeamList 메서드 호출
       this.$emit('team-created');
     },
@@ -212,6 +214,9 @@ export default {
       if (modal) {
         modal.hide();
       }
+
+      // Store에서 팀 목록 갱신
+      await this.updateTeamList();
 
       // 부모 컴포넌트에 이벤트 발생
       this.$emit('team-created');
