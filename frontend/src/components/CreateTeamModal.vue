@@ -132,7 +132,7 @@
 <script>
 import { mapState } from 'vuex';
 import { fetchUserSearch } from '@/api/user.js';
-import { createTeam } from '@/api/team.js';
+import { createTeam, fetchTeamId } from '@/api/team.js';
 import { inviteUser } from '@/api/member.js';
 
 
@@ -235,7 +235,7 @@ export default {
     },
 
     async inviteUsers() {
-      const teamData = await this.requestTeamId();
+      const teamData = await fetchTeamId(this.groupNameToCreate, this.userId);
       const teamId = teamData[0].id;
 
       this.requestInviteUser(this.userId, teamId);
@@ -248,59 +248,8 @@ export default {
 
     async requestInviteUser(userId, teamId) {
       await inviteUser(userId, teamId, this.userId);
-    //   const inviteData = {
-    //     userId: userId,
-    //     teamId: teamId,
-    //     status: userId === this.userId ? 0 : 1,
-    //     inviterId: this.userId,
-    //   };
-
-    //   try {
-    //     const response = await fetch(`${BASE_URL}/members`, {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(inviteData),
-    //     });
-
-    //     if (response.ok) {
-    //       console.log('초대 성공: ', inviteData);
-    //     } else {
-    //       const errorData = await response.json();
-    //       console.log(`오류가 발생했습니다: ${JSON.stringify(errorData)}`);
-    //     }
-    //   } catch (error) {
-    //     alert(`네트워크 오류가 발생했습니다: ${error.message}`);
-    //   }
     },
 
-    async requestTeamId() {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (response.ok) {
-          const resjson = await response.json();
-          const teamId = resjson.data;
-          return teamId;
-        } else {
-          const errorData = await response.json();
-          console.log(`team not founded: ${errorData.message}`);
-        }
-      } catch (error) {
-        console.log(
-          `team not founded. 네트워크 오류가 발생했습니다: ${error.message}`
-        );
-      }
-    },
   },
 };
 </script> 
