@@ -18,7 +18,6 @@ public class DiaryWriteRequestDTO {
 
     private String firstName;
     private String lastName;
-    private List<TeamModel> sharedTeamList;
 
     public static DiaryWriteRequestDTO from(DiaryModel diaryModel) {
         return DiaryWriteRequestDTO.builder()
@@ -29,7 +28,6 @@ public class DiaryWriteRequestDTO {
                 .details(diaryModel.getDetails())
                 .firstName(diaryModel.getFirstName())
                 .lastName(diaryModel.getLastName())
-                .sharedTeamList(diaryModel.getSharedTeamList())
                 .build();
     }
 }
