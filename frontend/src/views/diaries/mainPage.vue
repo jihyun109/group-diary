@@ -177,13 +177,13 @@
         </div>
       </div>
       <!-- modal -->
-      <CreateTeamModal @team-created="fetchData" />
+      <CreateTeamModal @team-created="handleTeamCreated" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue'
 import CreateTeamModal from '@/components/CreateTeamModal.vue'
 import '../../assets/styles.css';
@@ -259,7 +259,9 @@ export default {
   },
 
   methods: {
-    async updateTeamList() {
+    ...mapActions(['updateTeamList']),
+
+    async updateTeamListLocal() {
       this.teamData = await fetchUserTeams(this.userId);
     },
 
@@ -281,6 +283,18 @@ export default {
         this.currentPage = page;
         this.fetchData();
       }
+    },
+
+    async handleTeamCreated() {
+      // Store에서 팀 목록 갱신
+      await this.updateTeamList();
+      // 기존 데이터도 갱신
+      await this.fetchData();
+    },
+
+    async fetchData() {
+      this.diaryData = await fetchAllDiaries(this.userId);
+      this.inviteData = await fetchUserInvites(this.userId);
     },
   },
 };
