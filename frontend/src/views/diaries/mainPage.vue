@@ -4,7 +4,7 @@
     style="max-width: 1250px; height: 800px; background-color: #aeba94"
   >
     <div class="container">
-      <p v-if="!dataList">로딩...</p>
+      <p v-if="!diaryData">로딩...</p>
       <div v-else>
         <div class="row mt-3">
           <div class="col-2 ms-3 mt-6" style="margin: 10px 0">
@@ -325,10 +325,12 @@ export default {
 
   async mounted() {
     this.$store.dispatch('fetchStoreData');
-    this.fetchData();
-    
+    // this.fetchData();
+    console.log('mounted userId:', this.userId)
+
     this.diaryData = await fetchAllDiaries(this.userId);
     this.teamData = await fetchUserTeams(this.userId);
+    this.inviteData = await fetchUserInvites(this.userId);
   },
 
   data() {
@@ -401,7 +403,6 @@ export default {
     async fetchData() {
       const menuList = await Promise.all([
         { type: 'users', url: `${BASE_URL}/users` },
-        { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
       ]);
 
       const requests = menuList.map(async (dataReq) => {
@@ -413,8 +414,6 @@ export default {
       this.dataTypeMap = new Map(
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
       );
-      this.usersData = this.dataTypeMap.get('users');
-      this.inviteData = this.dataTypeMap.get('invites');
     },
 
     async fetchAllDiaries() {
