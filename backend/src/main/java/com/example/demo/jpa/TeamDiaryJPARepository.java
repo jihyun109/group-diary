@@ -35,7 +35,7 @@ public interface TeamDiaryJPARepository extends JpaRepository<TeamDiaryEntity, L
                 )
                 FROM TeamDiaryEntity td
                 JOIN TeamEntity t ON td.team_id = t.id
-                WHERE td.diaryId = :diaryId
+                WHERE td.diary_id = :diaryId
             """)
     List<SharedTeamsResponse> findSharedTeamsByDiaryId(Long diaryId);
 
