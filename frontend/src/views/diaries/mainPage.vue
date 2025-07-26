@@ -328,6 +328,7 @@ export default {
     this.fetchData();
     
     this.diaryData = await fetchAllDiaries(this.userId);
+    this.teamData = await fetchUserTeams(this.userId);
   },
 
   data() {
@@ -341,7 +342,6 @@ export default {
       dataTypeMap: new Map(),
       diaryData: null,
       teamData: null,
-      membersData: null,
       usersData: null,
       userSearchData: [],
       inviteData: null,
@@ -400,10 +400,6 @@ export default {
   methods: {
     async fetchData() {
       const menuList = await Promise.all([
-        // { type: 'diaries', url: `${BASE_URL}/diaries/all/${this.userId}` },
-        { type: 'teams', url: `${BASE_URL}/members/userTeamList/${this.userId}` },
-
-        { type: 'members', url: `${BASE_URL}/members` },
         { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
       ]);
@@ -417,8 +413,6 @@ export default {
       this.dataTypeMap = new Map(
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
       );
-      this.teamData = this.dataTypeMap.get('teams');
-      this.membersData = this.dataTypeMap.get('members');
       this.usersData = this.dataTypeMap.get('users');
       this.inviteData = this.dataTypeMap.get('invites');
     },
