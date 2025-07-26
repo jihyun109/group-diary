@@ -311,9 +311,16 @@
 
 <script>
 import { mapState } from 'vuex';
+<<<<<<< HEAD
+import UserProfile from '@/components/UserProfile.vue'
+import '../../assets/styles.css';
+
+import { fetchAllDiaries } from '@/api/diary.js';
+=======
 import UserProfile from '@/components/UserProfile.vue';
 import '../../assets/styles.css';
 import { fetchAllDiaries } from '@/api/diary';
+>>>>>>> main
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -321,10 +328,16 @@ export default {
     UserProfile,
   },
 
-  mounted() {
+  async mounted() {
     this.$store.dispatch('fetchStoreData');
     this.fetchData();
+<<<<<<< HEAD
+    
+    const result = await fetchAllDiaries(this.userId);
+    this.diaryData = result.data;
+=======
     this.fetchAllDiaries();
+>>>>>>> main
   },
 
   data() {
@@ -397,10 +410,15 @@ export default {
   methods: {
     async fetchData() {
       const menuList = await Promise.all([
+<<<<<<< HEAD
+        // { type: 'diaries', url: `${BASE_URL}/diaries/all/${this.userId}` },
+        { type: 'teams', url: `${BASE_URL}/members/userTeamList/${this.userId}` },
+=======
         {
           type: 'teams',
           url: `${BASE_URL}/members/userTeamList/${this.userId}`,
         },
+>>>>>>> main
         { type: 'members', url: `${BASE_URL}/members` },
         { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
@@ -411,6 +429,16 @@ export default {
         return res.json();
       });
 
+<<<<<<< HEAD
+      this.dataList = await Promise.all(requests)
+      this.dataTypeMap = new Map(this.dataList.map((data, idx) => [menuList[idx].type, data.data]))
+      // this.diaryData = this.dataTypeMap.get('diaries')
+      // console.log("diaryData: ", this.diaryData);
+      this.teamData = this.dataTypeMap.get('teams')
+      this.membersData = this.dataTypeMap.get('members')
+      this.usersData = this.dataTypeMap.get('users')
+      this.inviteData = this.dataTypeMap.get('invites')
+=======
       this.dataList = await Promise.all(requests);
       this.dataTypeMap = new Map(
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
@@ -431,6 +459,7 @@ export default {
       } finally {
         this.isLoading = false;
       }
+>>>>>>> main
     },
 
     setView(text) {
