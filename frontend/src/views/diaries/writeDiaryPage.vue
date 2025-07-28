@@ -6,6 +6,7 @@ import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
 import { createDiary, updateDiary, fetchDiaryDetail, findDiaryId } from '@/api/diary.js';
+import { shareDiary } from '@/api/teamDiary.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -82,9 +83,8 @@ export default {
         );
 
         // 선택한 팀들에 일기 공유
-        for (let i = 0; i < this.teamListToShare.length; i++) {
-          const teamId = this.teamListToShare[i].id;
-          await this.requestShareDiary(diaryId, teamId);
+        for (const team of this.teamListToShare) {
+          await shareDiary(diaryId, team.id);
         }
 
         this.$router.go(-1);
