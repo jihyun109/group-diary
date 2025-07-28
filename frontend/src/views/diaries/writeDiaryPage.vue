@@ -153,37 +153,6 @@ export default {
       }
     },
 
-    async requestShareDiary(diaryId, teamId) {
-      // 입력 데이터를 객체로 수집
-      const shareDiaryData = {
-        diary_id: diaryId,
-        team_id: teamId,
-      };
-
-      try {
-        // 서버로 POST 요청 보내기
-        const response = await fetch(`${BASE_URL}/teamDiaries`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(shareDiaryData),
-        });
-
-        if (response.ok) {
-          // 요청이 성공하면 성공 메시지 표시
-          console.log('일기 공유 성공: ', shareDiaryData);
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          console.log(`오류가 발생했습니다: ${errorData.message}`);
-        }
-      } catch (error) {
-        // 네트워크 오류 처리
-        alert(`네트워크 오류가 발생했습니다: ${error.message}`);
-      }
-    },
-
     async requestSharedTeams() {
       try {
         const diaryId = this.diaryModel.id;
@@ -238,9 +207,8 @@ export default {
       );
 
       // 추가된 팀 공유 요청 보내기
-      for (let i = 0; i < this.addedTeamList.length; i++) {
-        await this.requestShareDiary(this.diaryId, this.addedTeamList[i].id);
-        console.log(1);
+      for (const team of this.addedTeamList) {
+        await shareDiary(this.diaryId, team.id);
       }
 
       // 삭제된 팀 delete 요청 보내기
