@@ -3,24 +3,29 @@ import { mapState, mapActions } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
 import { fetchUserTeams, fetchTeamMembers } from '@/api/member.js';
 import { fetchTeamDiaryList } from '@/api/teamDiary.js';
+import CreateTeamModal from '@/components/CreateTeamModal.vue';
 import '../../assets/styles.css';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   components: {
     UserProfile,
+    CreateTeamModal,
   },
 
   async mounted() {
     this.$store.dispatch('fetchStoreData');
-    this.fetchData();
+    // this.fetchData();
 
     await this.initializeData();
   },
   watch: {
     '$route.query.team': async function (newTeam) {
-      this.fetchData();
+      // this.fetchData();
       this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
+      this.selectedTeam = this.teamData.find(
+        (t) => t.team_id == this.$route.query.team
+      );
     },
     teamList(newTeamList) {
       this.teamData = newTeamList;
@@ -35,7 +40,6 @@ export default {
     return {
       color: '',
       searchWord: '',
-      groupNameToCreate: '',
       selectedTeam: '',
       dataList: null,
       dataTypeMap: new Map(),
@@ -55,9 +59,6 @@ export default {
       // 사용자가 속한 team의 이름을 받아와서 배열에 저장.
       // team name 클릭하면 team page로 이동. (team 정보를 가지고서.),
 
-      errors: {
-        groupNameToCreate: false,
-      },
       clickedUserLastName: '',
       clickedUserFirstName: '',
       currentPage: 1,
@@ -118,30 +119,9 @@ export default {
       this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
       this.teamMembersData = await fetchTeamMembers(this.$route.query.team);
 
-      this.selectedTeam = this.teamData
-        .filter((t) => t.team_id == this.$route.query.team)
-        .at(0);
-
-      this.isLoading = false;
-    },
-
-    async fetchData() {
-      this.isLoading = true;
-      const menuList = await Promise.all([
-        { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
-      ]);
-
-      const requests = menuList.map(async (dataReq) => {
-        const res = await fetch(dataReq.url);
-        return res.json();
-      });
-
-      this.dataList = await Promise.all(requests);
-      this.dataTypeMap = new Map(
-        this.dataList.map((data, idx) => [menuList[idx].type, data.data])
+      this.selectedTeam = this.teamData.find(
+        (t) => t.team_id == this.$route.query.team
       );
-
-      this.inviteData = this.dataTypeMap.get('invites');
 
       this.isLoading = false;
     },
@@ -218,94 +198,15 @@ export default {
       console.log('userToInvite[]: ', this.userToInvite);
     },
 
-    // create team
-    async createTeam() {
-      await this.requestCreateTeam();
-      await this.inviteUsers();
-      alert('팀이 생성되었습니다.');
-      this.groupNameToCreate = '';
-      this.searchWord = '';
-      this.userSearchData = [];
-      this.usersToInvite = [];
-      const modalElement = document.getElementById('createGroup-form');
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      modal.hide();
-
+    // 팀 생성 완료 후 처리
+    async handleTeamCreated() {
       this.teamData = await fetchUserTeams(this.userId);
-      this.fetchData();
-
+      // this.fetchData();
     },
 
-    async inviteToTeam() {
-      for (let i = 0; i < this.usersToInvite.length; i++) {
-        let userId = this.usersToInvite[i].userId;
-        await this.requestInviteUser(userId, this.$route.query.team);
-      }
-      alert('팀에 초대되었습니다.');
-      const modalElement = document.getElementById('inviteUser-form');
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      modal.hide();
-    },
-
-    // 팀생성 요청 보내기
-    async requestCreateTeam() {
-      // 오류 상태 초기화
-      this.errors.groupNameToCreate = !this.groupNameToCreate;
-
-      // 오류가 있는 경우 경고 메시지 표시
-      if (this.errors.groupNameToCreate) {
-        alert('그룹 이름을 입력해 주세요');
-        return;
-      }
-
-      // // 입력 데이터를 객체로 수집
-      // const groupData = {
-      //   team_name: this.groupNameToCreate,
-      //   creator_id: this.userId
-      // };
-
-      try {
-        // 서버로 POST 요청 보내기
-        const response = await fetch(`${BASE_URL}/teams`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            team_name: this.groupNameToCreate,
-            creator_id: this.userId,
-          }),
-        });
-
-        if (response.ok) {
-          // 요청이 성공하면 성공 메시지 표시
-          console.log('그룹 생성 완료. group name: ', this.groupNameToCreate);
-          const responseData = await response.json();
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          alert(`오류가 발생했습니다: ${errorData.message}`);
-        }
-      } catch (error) {
-        // 네트워크 오류 처리
-        alert(`네트워크 오류가 발생했습니다: ${error.message}`);
-      }
-    },
-
-    async inviteUsers() {
-      // 추가한 team id 찾기
-      const teamData = await this.requestTeamId();
-      const teamId = teamData[0].id;
-
-      // 본인 그룹에 추가
-      this.requestInviteUser(this.userId, teamId);
-
-      // 선택한 사용자들 초대.
-      for (let i = 0; i < this.usersToInvite.length; i++) {
-        let userId = this.usersToInvite[i].userId;
-        console.log('userId:', userId, ', teamId: ', teamId);
-        this.requestInviteUser(userId, teamId);
-      }
+    // 멤버 초대 완료 후 처리
+    async handleUsersInvited() {
+      this.teamMembersData = await fetchTeamMembers(this.$route.query.team);
     },
 
     // 초대 요청 보내기
@@ -342,56 +243,6 @@ export default {
       }
     },
 
-    async requestTeamId() {
-      // // 입력 데이터를 객체로 수집
-      // const groupData = {
-      //   groupNameToCreate: this.groupNameToCreate,
-      //   creator_id: this.userId
-      // };
-
-      try {
-        console.log('store userId: ', this.userId);
-        const response = await fetch(
-          `${BASE_URL}/teams/findId?teamName=${encodeURIComponent(this.groupNameToCreate)}&creatorId=${this.userId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            // body: JSON.stringify(groupData)
-          }
-        );
-
-        console.log('response: ', response);
-
-        if (response.ok) {
-          const resjson = await response.json();
-          console.log(resjson);
-          const teamId = resjson.data;
-          console.log('find team id. teamId: ', teamId);
-          return teamId;
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          console.log(`team not founded: ${errorData.message}`);
-        }
-      } catch (error) {
-        // 네트워크 오류 처리
-        console.log(
-          `team not founded. 네트워크 오류가 발생했습니다: ${error.message}`
-        );
-      }
-    },
-    // 클릭시 사용자 정보 업데이트
-    updateClickedUserInfo(userId, lastName, firstName) {
-      this.clickedUserLastName = lastName;
-      this.clickedUserFirstName = firstName;
-      this.usersToInvite.push({ userId, lastName, firstName });
-    },
-    initUsersToInvite() {
-      this.usersToInvite = [];
-      // console.log("aaa")
-    },
     toggleShowMemberList() {
       this.showMemberList = !this.showMemberList;
     },
@@ -427,7 +278,7 @@ export default {
     style="max-width: 1250px; height: 800px; background-color: #aeba94"
   >
     <div class="container">
-      <p v-if="!dataList">로딩...</p>
+      <p v-if="!diaryData">로딩...</p>
       <div v-else>
         <div class="row mt-3">
           <div class="col-2 ms-3 mt-6">
@@ -654,140 +505,7 @@ export default {
         </div>
       </div>
       <!-- createGroup modal -->
-      <div
-        class="modal fade"
-        id="createGroup-form"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="createGroup-form"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <!-- 헤더 -->
-            <div class="modal-header">
-              <h5
-                class="modal-title"
-                @click="initUsersToInvite"
-                id="modal-title-notification"
-              >
-                Create new group
-              </h5>
-            </div>
-            <!-- body -->
-            <div class="modal-body p-0">
-              <div class="card card-plain">
-                <div class="card-body">
-                  <form role="form text-left d-flex">
-                    <label>Group name</label>
-                    <div class="input-group input-group-outline mb-3">
-                      <input
-                        v-model="groupNameToCreate"
-                        placeholder="Group Name"
-                        type="text"
-                        class="form-control"
-                        :class="{ 'is-invalid': errors.groupNameToCreate }"
-                      />
-                    </div>
-
-                    <label>Add friends to this group</label>
-
-                    <div id="recipient_input_list">
-                      <span
-                        v-for="(user, idx) in usersToInvite"
-                        :key="idx"
-                        class="me-1 badge align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill d-inline-flex align-items-center"
-                      >
-                        <span style="margin-left: 10px"
-                          >{{ user.lastName }} {{ user.firstName }}</span
-                        >
-                        <span class="vr mx-2"></span>
-                        <a
-                          href="javacsript:void(0);"
-                          @click="removeFromInviteGroup(user.userId)"
-                        >
-                          <span class="material-icons opacity-6 me-2 text-md"
-                            >cancel</span
-                          >
-                        </a>
-                      </span>
-                    </div>
-
-                    <form @submit.prevent="searchUser">
-                      <div class="input-group input-group-outline mb-3 mt-2">
-                        <div class="col-8">
-                          <input
-                            v-model="searchWord"
-                            class="form-control me-2"
-                            type="text"
-                            placeholder="Search"
-                          />
-                        </div>
-                        <div class="col-4 ps-0">
-                          <button
-                            @click="searchUser"
-                            class="btn ms-3"
-                            style="background-color: #4f684e; color: #ffffff"
-                            id="searchBtn"
-                          >
-                            Search
-                          </button>
-                        </div>
-                      </div>
-
-                      <div
-                        v-if="filteredUserSearchData.length === 0"
-                        class="list-group"
-                      >
-                        <p>no such user</p>
-                      </div>
-                      <div v-else class="list-group">
-                        <a
-                          v-for="(user, idx) in filteredUserSearchData"
-                          :key="idx"
-                          @click="
-                            addToInviteGroup(
-                              user.id,
-                              user.lastName,
-                              user.firstName
-                            )
-                          "
-                          href="javacsript:void(0);"
-                          class="list-group-item list-group-item-action"
-                        >
-                          {{ user.lastName }} {{ user.firstName }}
-                        </a>
-                      </div>
-                    </form>
-                  </form>
-                </div>
-              </div>
-            </div>
-
-            <!-- modal footer -->
-            <div class="modal-footer">
-              <button
-                @click="createTeam"
-                type="button"
-                class="btn"
-                style="background-color: #718e71; color: #ffffff"
-              >
-                Create
-              </button>
-              <button
-                @click="resetUsersToInvite"
-                type="button"
-                class="btn"
-                data-bs-dismiss="modal"
-                style="background-color: #e5d9c4; color: #000000"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CreateTeamModal @team-created="handleTeamCreated" />
 
       <!--inviteUser modal -->
       <div
