@@ -51,3 +51,23 @@ export async function logInUser(email, password) {
     throw error;
   }
 }
+
+export async function signUpUser({ firstName, lastName, email, password, color }) {
+  try {
+    const response = await fetch(`${BASE_URL}/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ firstName, lastName, email, password, color }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || '회원가입에 실패했습니다.');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('회원가입 API 호출 중 오류:', error);
+    throw error;
+  }
+}

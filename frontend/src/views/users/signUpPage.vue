@@ -1,9 +1,6 @@
 <script>
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { signUpUser } from '../../api/user.js';
 export default {
-  mounted() {
-    this.fetchData();
-  },
   data() {
     return {
       dataList: [],
@@ -11,14 +8,12 @@ export default {
       lastName: '',
       emailAddress: '',
       password: '',
-      // initial: '',
       color: '',
       errors: {
         firstName: false,
         lastName: false,
         emailAddress: false,
         password: false,
-        // initial: false,
       },
     };
   },
@@ -29,7 +24,6 @@ export default {
       this.errors.lastName = !this.lastName;
       this.errors.emailAddress = !this.emailAddress;
       this.errors.password = !this.password;
-      // this.errors.initial = !this.initial;
 
       // 오류가 있는 경우 경고 메시지 표시
       if (
@@ -48,46 +42,18 @@ export default {
         lastName: this.lastName,
         email: this.emailAddress,
         password: this.password,
-        // initial: this.initial,
         color: this.color,
       };
 
       try {
-        // 서버로 POST 요청 보내기
-        const response = await fetch(`${BASE_URL}/users`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(signUpData),
-        });
-
-        if (response.ok) {
-          // 요청이 성공하면 성공 메시지 표시
-          alert('회원가입이 완료되었습니다.');
-          this.$router.push({ path: '/logIn' });
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          alert(`오류가 발생했습니다: ${errorData.message}`);
-        }
+        await signUpUser(signUpData);
+        alert('회원가입이 완료되었습니다.');
+        this.$router.push({ path: '/logIn' });
       } catch (error) {
-        // 네트워크 오류 처리
-        alert(`네트워크 오류가 발생했습니다: ${error.message}`);
+        alert(`오류가 발생했습니다: ${error.message}`);
       }
     },
 
-    async fetchData() {
-      const urls = [`${BASE_URL}/users`];
-
-      const requests = urls.map(async (url) => {
-        const res = await fetch(url);
-        return res.json();
-      });
-
-      this.dataList = await Promise.all(requests);
-      console.log(this.dataList);
-    },
   },
 };
 </script>
