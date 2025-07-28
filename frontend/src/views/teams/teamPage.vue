@@ -1,7 +1,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
-import { fetchUserTeams } from '@/api/member.js';
+import { fetchUserTeams, fetchTeamMembers } from '@/api/member.js';
 import { fetchTeamDiaryList } from '@/api/teamDiary.js';
 import '../../assets/styles.css';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -116,6 +116,7 @@ export default {
 
       this.teamData = await fetchUserTeams(this.userId);
       this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
+      this.teamMembersData = await fetchTeamMembers(this.$route.query.team);
 
       this.isLoading = false;
     },
@@ -124,7 +125,6 @@ export default {
       this.isLoading = true;
       const teamId = this.$route.query.team;
       const menuList = await Promise.all([
-        { type: 'teamMembers', url: `${BASE_URL}/members/${teamId}` },
         { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
       ]);
@@ -139,8 +139,6 @@ export default {
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
       );
 
-      this.teamMembersData = this.dataTypeMap.get('teamMembers');
-      console.log('teamMembersData: ', this.teamMembersData);
       this.usersData = this.dataTypeMap.get('users');
       this.inviteData = this.dataTypeMap.get('invites');
 
