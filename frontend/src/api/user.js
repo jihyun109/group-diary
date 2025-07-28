@@ -32,3 +32,22 @@ export async function fetchUserSearch(searchWord) {
     throw error;
   }
 }
+
+export async function logInUser(email, password) {
+  try {
+    const response = await fetch(`${BASE_URL}/users/logIn`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('로그인 API 호출 중 오류:', error);
+    throw error;
+  }
+}

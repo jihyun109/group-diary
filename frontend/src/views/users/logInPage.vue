@@ -1,9 +1,7 @@
 <script>
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { logInUser } from '../../api/user.js';
 export default {
-  mounted() {
-    this.fetchData();
-  },
+
   data() {
     return {
       dataList: [],
@@ -14,57 +12,24 @@ export default {
   methods: {
     async logIn() {
       try {
-        const response = await fetch(
-          import.meta.env.VITE_API_BASE_URL + '/users/logIn',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: this.email,
-              password: this.password,
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-
+        const data = await logInUser(this.email, this.password);
         if (data && data.result === 'success' && data.data.id) {
           alert('로그인이 완료되었습니다.');
-
           this.$store.commit('setUserId', data.data.id);
           this.$store.commit('setFirstName', data.data.firstName);
           this.$store.commit('setLastName', data.data.lastName);
           this.$store.commit('setEmail', this.email);
           this.$store.commit('setPassword', this.password);
           this.$store.commit('setColor', data.data.color);
-
           this.$router.push({ path: 'main' });
         } else {
           console.log(data);
-          console.log(data.data.id);
           alert('이메일 또는 비밀번호가 올바르지 않습니다.');
         }
       } catch (error) {
-        console.error('Fetch 작업에 문제가 발생했습니다:', error);
+        console.error('로그인 작업에 문제가 발생했습니다:', error);
         alert('로그인 실패');
       }
-    },
-
-    async fetchData() {
-      const urls = [`${BASE_URL}/users`];
-
-      const requests = urls.map(async (url) => {
-        const res = await fetch(url);
-        return res.json();
-      });
-
-      this.dataList = await Promise.all(requests);
-      console.log(this.dataList);
     },
   },
 };
