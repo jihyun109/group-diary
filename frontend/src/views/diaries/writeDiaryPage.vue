@@ -5,7 +5,7 @@ import { mapState } from 'vuex';
 import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
-import { createDiary, updateDiary } from '@/api/diary.js';
+import { createDiary, updateDiary, fetchDiaryDetail } from '@/api/diary.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -13,7 +13,7 @@ export default {
   async mounted() {
     this.updateNeedUpdate();
     if (this.needUpdate) {
-      this.fetchDiaryDetail(this.$route.query.diaryId);
+      this.loadDiaryDetail(this.$route.query.diaryId);
       this.requestSharedTeams();
     }
 
@@ -103,14 +103,16 @@ export default {
       }
     },
 
-    async fetchDiaryDetail(id) {
-      this.diary = null;
-      const res = await fetch(`${BASE_URL}/diaries/details/${id}`);
-      const resBody = await res.json();
-      this.diaryModel = resBody.data;
-      this.editedTeamList = this.deepCopyAndRename(
-        this.diaryModel.sharedTeamList
-      );
+    async loadDiaryDetail() {
+      try {
+        this.diaryModel = await fetchDiaryDetail(this.diaryId);
+        this.editedTeamList = this.deepCopyAndRename(
+          this.diaryModel.sharedTeamList
+        );
+      } catch (error) {
+        console.error('일기 상세 정보 로드 실패:', error);
+        alert(`일기 정보를 불러오지 못했습니다: ${error.message}`);
+      }
     },
 
     formattedDate(diary) {
