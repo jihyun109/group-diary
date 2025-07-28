@@ -15,8 +15,7 @@ export default {
     this.$store.dispatch('fetchStoreData');
     this.fetchData();
 
-    this.teamData = await fetchUserTeams(this.userId);
-    this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
+    await this.initializeData();
   },
   watch: {
     '$route.query.team': async function (newTeam) {
@@ -110,6 +109,15 @@ export default {
         this.currentPage = page;
         this.teamData = await fetchUserTeams(this.userId);
       }
+    },
+
+    async initializeData() {
+      this.isLoading = true;
+
+      this.teamData = await fetchUserTeams(this.userId);
+      this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
+
+      this.isLoading = false;
     },
 
     async fetchData() {
