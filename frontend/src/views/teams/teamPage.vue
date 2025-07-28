@@ -40,7 +40,7 @@ export default {
       selectedTeam: '',
       dataList: null,
       dataTypeMap: new Map(),
-      diaryData: null,
+      diaryData: [],
       teamData: null,
       membersData: null,
       usersData: null,
@@ -63,6 +63,7 @@ export default {
       clickedUserFirstName: '',
       currentPage: 1,
       itemsPerPage: 7,
+      isLoading: false,
     };
   },
 
@@ -83,6 +84,7 @@ export default {
     },
 
     sortedDiaryData() {
+      if (!this.diaryData) return [];
       return this.diaryData
         .slice()
         .sort((a, b) => new Date(b.written_date) - new Date(a.written_date));
@@ -95,6 +97,7 @@ export default {
     },
 
     totalPages() {
+      if (!this.diaryData) return 0;
       return Math.ceil(this.diaryData.length / this.itemsPerPage);
     },
   },
@@ -110,12 +113,9 @@ export default {
     },
 
     async fetchData() {
+      this.isLoading = true;
       const teamId = this.$route.query.team;
       const menuList = await Promise.all([
-        // {
-        //   type: 'diaries',
-        //   url: `${BASE_URL}/teamDiaries/diaryList/${this.$route.query.team}`,
-        // },
         { type: 'teamMembers', url: `${BASE_URL}/members/${teamId}` },
         { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
@@ -130,8 +130,6 @@ export default {
       this.dataTypeMap = new Map(
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
       );
-      // this.diaryData = this.dataTypeMap.get('diaries');
-      // console.log('diaryData: ', this.diaryData);
 
       this.teamMembersData = this.dataTypeMap.get('teamMembers');
       console.log('teamMembersData: ', this.teamMembersData);
@@ -141,6 +139,7 @@ export default {
       this.selectedTeam = this.teamData
         .filter((t) => t.team_id == this.$route.query.team)
         .at(0);
+      this.isLoading = false;
     },
 
     // 일기 리스트 보기 방식 변경
