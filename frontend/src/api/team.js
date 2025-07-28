@@ -15,12 +15,13 @@ export async function createTeam(userId, groupNameToCreate) {
 
     if (response.ok) {
       const responseData = await response.json();
+      return responseData.data;
     } else {
       const errorData = await response.json();
-      alert(`오류가 발생했습니다: ${errorData.message}`);
+      throw new Error(errorData.message || '팀 생성 오류');
     }
   } catch (error) {
-    alert(`네트워크 오류가 발생했습니다: ${error.message}`);
+    throw error;
   }
 }
 
@@ -38,15 +39,12 @@ export async function fetchTeamId(teamName, creatorId) {
 
     if (response.ok) {
       const resjson = await response.json();
-      const teamId = resjson.data;
-      return teamId;
+      return resjson.data;
     } else {
       const errorData = await response.json();
-      console.log(`team not founded: ${errorData.message}`);
+      throw new Error(errorData.message || '팀 조회 오류');
     }
   } catch (error) {
-    console.log(
-      `team not founded. 네트워크 오류가 발생했습니다: ${error.message}`
-    );
+    throw error;
   }
 }
