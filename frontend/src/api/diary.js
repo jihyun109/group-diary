@@ -110,3 +110,21 @@ export async function findDiaryId(diaryTitle, writtenDate, writerId) {
     throw error;
   }
 }
+
+export async function deleteDiary(diaryId) {
+  try {
+    const response = await fetch(`${BASE_URL}/diaries/${diaryId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || '일기 삭제에 실패했습니다.');
+    }
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}

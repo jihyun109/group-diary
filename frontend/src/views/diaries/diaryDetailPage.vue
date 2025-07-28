@@ -92,6 +92,7 @@
 <script>
 import { mapState } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
+import { fetchDiaryDetail, deleteDiary } from '@/api/diary.js';
 import '../../assets/styles.css?v=1.0';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -101,7 +102,6 @@ export default {
   },
   mounted() {
     this.fetchData();
-    this.$store.dispatch('fetchData');
   },
   computed: {
     ...mapState(['userId']),
@@ -114,12 +114,12 @@ export default {
   methods: {
     async fetchData() {
       this.diary = null;
-      const res = await fetch(
-        `${BASE_URL}/diaries/details/${this.$route.query.diary}`
-      );
-      const resBody = await res.json();
-      this.diary = resBody.data;
-      console.log(this.diary);
+      try {
+        this.diary = await fetchDiaryDetail(this.$route.query.diary);
+        console.log(this.diary);
+      } catch (error) {
+        console.error(error.message);
+      }
     },
     formattedDate(diary) {
       if (diary.writtenDate) {
@@ -135,25 +135,14 @@ export default {
         query: { diaryId: this.diary.id },
       });
     },
+
     async requestDeleteDiary() {
       try {
-        const response = await fetch(
-          `${BASE_URL}/diaries/${this.$route.query.diary}`,
-          {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        if (response.ok) {
-          alert('삭제되었습니다.');
-          window.history.back();
-        } else {
-          console.error('Error deleting diary');
-        }
+        await deleteDiary(this.diary.id);
+        alert('삭제되었습니다.');
+        window.history.back();  
       } catch (error) {
-        console.error('Error:', error);
+        console.error(error.message);
       }
     },
   },
