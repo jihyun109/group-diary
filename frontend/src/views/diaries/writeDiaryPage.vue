@@ -6,7 +6,7 @@ import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
 import { createDiary, updateDiary, fetchDiaryDetail, findDiaryId } from '@/api/diary.js';
-import { shareDiary, fetchSharedTeams } from '@/api/teamDiary.js';
+import { shareDiary, fetchSharedTeams, cancelShareDiary } from '@/api/teamDiary.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -191,40 +191,7 @@ export default {
 
       // 삭제된 팀 delete 요청 보내기
       for (let i = 0; i < this.deletedTeamList.length; i++) {
-        await this.requestCancelShareDiary(this.deletedTeamList[i].id);
-      }
-    },
-
-    async requestCancelShareDiary(teamId) {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/teamDiaries?diaryId=${this.diaryId}&teamId=${teamId}`,
-          {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (response.ok) {
-          const resjson = await response.json();
-          console.log(
-            '공유 취소 성공. diaryId: ',
-            this.diaryId,
-            ', teamId:',
-            teamId
-          );
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          console.log(`공유 취소 실패: ${errorData.message}`);
-        }
-      } catch (error) {
-        // 네트워크 오류 처리
-        console.log(
-          `공유 취소 실패. 네트워크 오류가 발생했습니다: ${error.message}`
-        );
+        await cancelShareDiary(this.diaryId, this.deletedTeamList[i].id);
       }
     },
 
