@@ -21,3 +21,45 @@ export async function fetchAllDiaries(userId) {
     throw error;
   }
 }
+
+export async function createDiary(diaryData) {
+  try {
+    const response = await fetch(`${BASE_URL}/diaries`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(diaryData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || '일기 작성에 실패했습니다.');
+    }
+
+    return await response.json().data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateDiary(diaryId, diaryData) {
+  try {
+    const response = await fetch(`${BASE_URL}/diaries/edit/${diaryId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(diaryData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || '일기 수정에 실패했습니다.');
+    }
+
+    return await response.json().data;
+  } catch (error) {
+    throw error;
+  }
+}

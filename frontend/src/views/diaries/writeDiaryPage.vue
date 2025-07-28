@@ -5,6 +5,7 @@ import { mapState } from 'vuex';
 import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
+import { createDiary, updateDiary } from '@/api/diary.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -68,6 +69,7 @@ export default {
     updateNeedUpdate() {
       this.needUpdate = !!this.$route.query.diaryId;
     },
+    
     async writeOrUpdateDiary() {
       await this.requestPostOrUpdateDiary();
 
@@ -92,33 +94,12 @@ export default {
     },
 
     async requestPostOrUpdateDiary() {
-      // 일기 post or put
-      var requestUrl = `${BASE_URL}/diaries`;
-      var method = '';
-      if (this.needUpdate) {
-        requestUrl += `/edit/${this.diaryModel.id}`;
-        method = 'PUT';
-      } else {
-        method = 'POST';
-      }
-
       this.diaryModel.writerId = this.userId;
 
-      const response = await fetch(requestUrl, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.diaryModel),
-      });
-
-      if (response.ok) {
-        // 요청이 성공하면 성공 메시지 표시
-        console.log(`${this.needUpdate ? '수정' : '작성'} 성공 `);
+      if (this.needUpdate) {
+        await updateDiary(this.diaryModel.id, this.diaryModel);
       } else {
-        // 요청이 실패하면 오류 메시지 표시
-        const errorData = await response.json();
-        console.log(`오류가 발생했습니다: ${errorData.message}`);
+        await createDiary(this.diaryModel);
       }
     },
 
@@ -134,7 +115,7 @@ export default {
 
     formattedDate(diary) {
       if (diary.writtenDate) {
-        const date = diary.writtenDwrate;
+        const date = diary.writtenDate;
         return `Written Date: ${date.slice(0, 2)}-${date.slice(
           2,
           4
@@ -165,6 +146,7 @@ export default {
         }
       }
     },
+    
     // 작성한 일기의 아이디 요청
     async requestThisDiaryId() {
       try {
