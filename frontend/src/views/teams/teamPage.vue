@@ -118,14 +118,16 @@ export default {
       this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
       this.teamMembersData = await fetchTeamMembers(this.$route.query.team);
 
+      this.selectedTeam = this.teamData
+        .filter((t) => t.team_id == this.$route.query.team)
+        .at(0);
+
       this.isLoading = false;
     },
 
     async fetchData() {
       this.isLoading = true;
-      const teamId = this.$route.query.team;
       const menuList = await Promise.all([
-        { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
       ]);
 
@@ -139,12 +141,8 @@ export default {
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
       );
 
-      this.usersData = this.dataTypeMap.get('users');
       this.inviteData = this.dataTypeMap.get('invites');
 
-      this.selectedTeam = this.teamData
-        .filter((t) => t.team_id == this.$route.query.team)
-        .at(0);
       this.isLoading = false;
     },
 
