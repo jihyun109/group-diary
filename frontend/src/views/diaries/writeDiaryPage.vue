@@ -4,18 +4,19 @@
 import { mapState } from 'vuex';
 import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
+import { fetchUserTeams } from '@/api/member.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   beforeMount() {},
-  mounted() {
+  async mounted() {
     this.updateNeedUpdate();
     if (this.needUpdate) {
       this.fetchDiaryDetail(this.$route.query.diaryId);
       this.requestSharedTeams();
     }
 
-    this.fetchTeamData();
+    this.teamData = await fetchUserTeams(this.userId);
   },
   components: {
     cancelModal,
@@ -38,7 +39,6 @@ export default {
 
       teamListToShare: [], // 일기를 공유할 팀들의 id 저장 리스트
       teamData: [],
-      sharedTeamId: [], // 일기가 공유된 team id
       editedTeamList: [], // 수정된 팀 리스트
       addedTeamList: [],
       deletedTeamList: [],
@@ -81,7 +81,6 @@ export default {
           await this.requestShareDiary(diaryId, teamId);
         }
 
-        // this.$router.push({ name: "main" })
         this.$router.go(-1);
         alert('일기 작성 완료');
       } else {
@@ -89,18 +88,6 @@ export default {
         await this.requestEditedTeamList();
         this.$router.go(-1);
         alert('일기 수정 완료');
-      }
-    },
-
-    async requestPostOrUpdateDiary() {
-      // 일기 post or put
-      var requestUrl = `${BASE_URL}/diaries`;
-      var method = '';
-      if (this.needUpdate) {
-        requestUrl += `/edit/${this.diaryModel.id}`;
-        method = 'PUT';
-      } else {
-        method = 'POST';
       }
     },
 
@@ -154,30 +141,6 @@ export default {
         )}-${date.slice(4)}`;
       }
       return '';
-    },
-
-    // 사용자가 멤버인 팀들의 데이터(team id, team name) fetch
-    async fetchTeamData() {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/members/userTeamList/${this.userId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        if (response.ok) {
-          const resjson = await response.json();
-          this.teamData = resjson.data;
-          console.log('fetchTeamData success.', this.teamData);
-        } else {
-          console.log('team data를 불러오지 못했습니다.');
-        }
-      } catch (error) {
-        console.error('fail fetchTeamData. Error:', error);
-      }
     },
 
     // 공유할 팀 리스트에 추가
