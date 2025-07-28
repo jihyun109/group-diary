@@ -84,3 +84,29 @@ export async function fetchDiaryDetail(diaryId) {
     throw error;
   }
 }
+
+export async function findDiaryId(diaryTitle, writtenDate, writerId) {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/diaries/findDiaryId?diaryTitle=${encodeURIComponent(
+        diaryTitle
+      )}&writtenDate=${writtenDate}&writerId=${writerId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || '일기 ID를 찾을 수 없습니다.');
+    }
+
+    const data = await response.json();
+    return data.data[0].id;
+  } catch (error) {
+    throw error;
+  }
+}

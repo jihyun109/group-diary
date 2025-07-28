@@ -5,7 +5,7 @@ import { mapState } from 'vuex';
 import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
-import { createDiary, updateDiary, fetchDiaryDetail } from '@/api/diary.js';
+import { createDiary, updateDiary, fetchDiaryDetail, findDiaryId } from '@/api/diary.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -75,7 +75,11 @@ export default {
 
       // 일기 작성 페이지이면
       if (!this.needUpdate) {
-        const diaryId = await this.requestThisDiaryId();
+        const diaryId = await findDiaryId(
+          this.diaryModel.diaryTitle,
+          this.diaryModel.writtenDate,
+          this.userId
+        );
 
         // 선택한 팀들에 일기 공유
         for (let i = 0; i < this.teamListToShare.length; i++) {
@@ -146,41 +150,6 @@ export default {
             (team) => team.id != teamId
           );
         }
-      }
-    },
-    
-    // 작성한 일기의 아이디 요청
-    async requestThisDiaryId() {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/diaries/findDiaryId?diaryTitle=${encodeURIComponent(
-            this.diaryModel.diaryTitle
-          )}&writtenDate=${this.diaryModel.writtenDate}&writerId=${
-            this.userId
-          }`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (response.ok) {
-          const resjson = await response.json();
-
-          const diaryId = resjson.data[0].id;
-          return diaryId;
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          console.log(`diary not founded: ${errorData.message}`);
-        }
-      } catch (error) {
-        // 네트워크 오류 처리
-        console.log(
-          `diary not founded. 네트워크 오류가 발생했습니다: ${error.message}`
-        );
       }
     },
 
