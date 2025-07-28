@@ -2,6 +2,7 @@
 import { mapState, mapActions } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
 import { fetchUserTeams } from '@/api/member.js';
+import { fetchTeamDiaryList } from '@/api/teamDiary.js';
 import '../../assets/styles.css';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -12,12 +13,15 @@ export default {
 
   async mounted() {
     this.$store.dispatch('fetchStoreData');
-    this.teamData = await fetchUserTeams(this.userId);
     this.fetchData();
+
+    this.teamData = await fetchUserTeams(this.userId);
+    this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
   },
   watch: {
-    '$route.query.team': function (newTeam) {
+    '$route.query.team': async function (newTeam) {
       this.fetchData();
+      this.diaryData = await fetchTeamDiaryList(this.$route.query.team);
     },
     teamList(newTeamList) {
       this.teamData = newTeamList;
@@ -108,10 +112,10 @@ export default {
     async fetchData() {
       const teamId = this.$route.query.team;
       const menuList = await Promise.all([
-        {
-          type: 'diaries',
-          url: `${BASE_URL}/teamDiaries/diaryList/${this.$route.query.team}`,
-        },
+        // {
+        //   type: 'diaries',
+        //   url: `${BASE_URL}/teamDiaries/diaryList/${this.$route.query.team}`,
+        // },
         { type: 'teamMembers', url: `${BASE_URL}/members/${teamId}` },
         { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
@@ -126,8 +130,8 @@ export default {
       this.dataTypeMap = new Map(
         this.dataList.map((data, idx) => [menuList[idx].type, data.data])
       );
-      this.diaryData = this.dataTypeMap.get('diaries');
-      console.log('diaryData: ', this.diaryData);
+      // this.diaryData = this.dataTypeMap.get('diaries');
+      // console.log('diaryData: ', this.diaryData);
 
       this.teamMembersData = this.dataTypeMap.get('teamMembers');
       console.log('teamMembersData: ', this.teamMembersData);
@@ -223,9 +227,10 @@ export default {
       const modalElement = document.getElementById('createGroup-form');
       const modal = bootstrap.Modal.getInstance(modalElement);
       modal.hide();
-      this.fetchData();
 
       this.teamData = await fetchUserTeams(this.userId);
+      this.fetchData();
+
     },
 
     async inviteToTeam() {

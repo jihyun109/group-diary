@@ -10,7 +10,8 @@ export async function fetchTeamDiaryList(teamId) {
         });
 
         if (response.ok) {
-            return response.json();
+            const data = await response.json();
+            return data.data;
         }
     } catch (error) {
         console.error('팀 일기 목록 조회 오류:', error);
