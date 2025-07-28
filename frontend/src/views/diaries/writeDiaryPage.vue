@@ -6,7 +6,7 @@ import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
 import { createDiary, updateDiary, fetchDiaryDetail, findDiaryId } from '@/api/diary.js';
-import { shareDiary } from '@/api/teamDiary.js';
+import { shareDiary, fetchSharedTeams } from '@/api/teamDiary.js';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
@@ -15,7 +15,7 @@ export default {
     this.updateNeedUpdate();
     if (this.needUpdate) {
       this.loadDiaryDetail(this.$route.query.diaryId);
-      this.requestSharedTeams();
+      this.loadSharedTeams();
     }
 
     this.teamData = await fetchUserTeams(this.userId);
@@ -152,35 +152,13 @@ export default {
         }
       }
     },
-
-    async requestSharedTeams() {
+    
+    async loadSharedTeams() {
       try {
-        const diaryId = this.diaryModel.id;
-        const response = await fetch(
-          `${BASE_URL}/teamDiaries/sharedTeams/${diaryId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (response.ok) {
-          const resjson = await response.json();
-
-          const diaryId = resjson.data[0].id;
-          return diaryId;
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          console.log(`diary not founded: ${errorData.message}`);
-        }
+        this.sharedTeams = await fetchSharedTeams(this.diaryId);
       } catch (error) {
-        // 네트워크 오류 처리
-        console.log(
-          `diary not founded. 네트워크 오류가 발생했습니다: ${error.message}`
-        );
+        console.error('공유된 팀 목록 로드 실패:', error);
+        alert(`공유된 팀 목록을 불러오지 못했습니다: ${error.message}`);
       }
     },
 
