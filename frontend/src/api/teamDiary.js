@@ -73,3 +73,26 @@ export async function fetchSharedTeams(diaryId) {
     throw error;
   }
 }
+
+export async function cancelShareDiary(diaryId, teamId) {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/teamDiaries?diaryId=${diaryId}&teamId=${teamId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || '일기 공유 취소에 실패했습니다.');
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+}
