@@ -135,9 +135,6 @@ import { fetchUserSearch } from '@/api/user.js';
 import { createTeam, fetchTeamId } from '@/api/team.js';
 import { inviteUser } from '@/api/member.js';
 
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 export default {
   name: 'CreateTeamModal',
   
@@ -174,11 +171,6 @@ export default {
 
   methods: {
     ...mapActions(['updateTeamList']),
-
-    async notifyParent() {
-      // 부모 컴포넌트의 updateTeamList 메서드 호출
-      this.$emit('team-created');
-    },
 
     async searchUser() {
       this.userSearchData = await fetchUserSearch(this.searchWord);
@@ -219,11 +211,6 @@ export default {
       await this.updateTeamList();
 
       // 부모 컴포넌트에 이벤트 발생
-      this.$emit('team-created');
-    },
-
-    async fetchData() {
-      // 부모 컴포넌트의 fetchData 메서드 호출
       this.$emit('team-created');
     },
 
