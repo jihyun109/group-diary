@@ -56,3 +56,15 @@ export async function inviteUser(inviteeId, teamId, inviterId) {
     throw error;
   }
 }
+
+export async function fetchTeamMembers(teamId) {
+  try {
+    const response = await fetch(`${BASE_URL}/members/${teamId}`);
+    if (!response.ok) {
+      throw new Error('팀 멤버 목록을 불러오지 못했습니다.');
+    }
+  } catch (error) {
+    console.error('팀 멤버 목록 조회 오류:', error);
+    throw error;
+  }
+}
