@@ -1,6 +1,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import UserProfile from '@/components/UserProfile.vue';
+import { fetchUserTeams } from '@/api/member.js';
 import '../../assets/styles.css';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -9,10 +10,10 @@ export default {
     UserProfile,
   },
 
-  mounted() {
+  async mounted() {
     this.$store.dispatch('fetchStoreData');
+    this.teamData = await fetchUserTeams(this.userId);
     this.fetchData();
-    // console.log(this.diaryData);
   },
   watch: {
     '$route.query.team': function (newTeam) {
@@ -29,7 +30,6 @@ export default {
 
   data() {
     return {
-      // userId: 0,
       color: '',
       searchWord: '',
       groupNameToCreate: '',
@@ -98,28 +98,21 @@ export default {
   methods: {
     ...mapActions(['updateTeamList']),
 
-    changePage(page) {
+    async changePage(page) {
       if (page > 0 && page <= this.totalPages) {
         this.currentPage = page;
-        this.fetchData();
+        this.teamData = await fetchUserTeams(this.userId);
       }
     },
-    async fetchData() {
-      console.log(this.firstName);
 
-      console.log('team: ', this.$route.query.team);
+    async fetchData() {
       const teamId = this.$route.query.team;
       const menuList = await Promise.all([
         {
           type: 'diaries',
           url: `${BASE_URL}/teamDiaries/diaryList/${this.$route.query.team}`,
         },
-        {
-          type: 'teams',
-          url: `${BASE_URL}/members/userTeamList/${this.userId}`,
-        },
         { type: 'teamMembers', url: `${BASE_URL}/members/${teamId}` },
-        // { type: 'members', url: `${BASE_URL}/members` },
         { type: 'users', url: `${BASE_URL}/users` },
         { type: 'invites', url: `${BASE_URL}/members/invited/${this.userId}` },
       ]);
@@ -136,10 +129,8 @@ export default {
       this.diaryData = this.dataTypeMap.get('diaries');
       console.log('diaryData: ', this.diaryData);
 
-      this.teamData = this.dataTypeMap.get('teams');
       this.teamMembersData = this.dataTypeMap.get('teamMembers');
       console.log('teamMembersData: ', this.teamMembersData);
-      // this.membersData = this.dataTypeMap.get('members')
       this.usersData = this.dataTypeMap.get('users');
       this.inviteData = this.dataTypeMap.get('invites');
 
@@ -233,6 +224,8 @@ export default {
       const modal = bootstrap.Modal.getInstance(modalElement);
       modal.hide();
       this.fetchData();
+
+      this.teamData = await fetchUserTeams(this.userId);
     },
 
     async inviteToTeam() {
