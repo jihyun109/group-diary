@@ -63,3 +63,24 @@ export async function updateDiary(diaryId, diaryData) {
     throw error;
   }
 }
+
+export async function fetchDiaryDetail(diaryId) {
+  try {
+    const response = await fetch(`${BASE_URL}/diaries/details/${diaryId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || '일기 상세 정보를 불러오지 못했습니다.');
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
+}
