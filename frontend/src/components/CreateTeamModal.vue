@@ -191,7 +191,6 @@ export default {
       this.groupNameToCreate = '';
       this.searchWord = '';
       this.userSearchData = [];
-      this.usersToInvite = [];
     },
 
     async createTeam() {
