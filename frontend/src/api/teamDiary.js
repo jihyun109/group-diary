@@ -47,3 +47,29 @@ export async function shareDiary(diaryId, teamId) {
     throw error;
   }
 }
+
+export async function fetchSharedTeams(diaryId) {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/teamDiaries/sharedTeams/${diaryId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || '공유된 팀 목록을 불러오지 못했습니다.'
+      );
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
+}
