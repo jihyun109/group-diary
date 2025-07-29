@@ -16,7 +16,6 @@ const router = createRouter({
       name: 'editDiary',
       component: () => import('../views/diaries/writeDiaryPage.vue'),
       props: true,
-      // props: route => ({ diaryData: route.params.diaryData })
     },
     {
       path: '/main',
@@ -27,11 +26,6 @@ const router = createRouter({
       path: '/writeDiary',
       name: 'writeDiary',
       component: () => import('../views/diaries/writeDiaryPage.vue'),
-    },
-    {
-      path: '/createTeam',
-      name: 'createTeam',
-      component: () => import('../views/teams/createTeamPage.vue'),
     },
     {
       path: '/teamPage',
