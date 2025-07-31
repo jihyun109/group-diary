@@ -274,7 +274,7 @@ export default {
                       "
                       class="dropdown-item"
                       v-for="(team, idx) in filteredTeamData"
-                      href="javacsript:void(0);"
+                      href="javascript:void(0);"
                     >
                       {{ team.team_name }}
                     </a>
@@ -293,7 +293,7 @@ export default {
                   <span style="margin-left: 10px">{{ team.team_name }}</span>
                   <span class="vr mx-2"></span>
                   <a
-                    href="javacsript:void(0);"
+                    href="javascript:void(0);"
                     @click="removeFromTeamListToShare(team.id)"
                   >
                     <span class="material-icons opacity-6 me-2 text-md"
