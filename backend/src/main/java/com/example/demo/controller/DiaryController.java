@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.*;
 import com.example.demo.service.DiaryService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,15 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
+    @Operation(summary = "일기 생성")
     @PostMapping("/diaries")    // 일기 생성
     public ResponseEntity<String> insertDiary(@RequestBody DiaryWriteRequestDTO diary) {
         diaryService.insertDiary(diary);
         return ResponseEntity.ok("일기 작성 완료");
     }
 
-    @PutMapping("/diaries/edit/{id}")    // 일기 수정
+    @Operation(summary = "일기 수정")
+    @PutMapping("/diaries/edit/{id}")
     public ResponseEntity<String> updateDiary(@PathVariable(required = true) long id, @RequestBody DiaryEditRequestDTO diaryData) {
 
         diaryService.updateDiary(id, diaryData);
@@ -29,7 +32,8 @@ public class DiaryController {
         return ResponseEntity.ok("diary edited.");
     }
 
-    @DeleteMapping("/diaries/{id}") // 일기 삭제
+    @Operation(summary = "일기 삭제")
+    @DeleteMapping("/diaries/{id}")
     public HashMap<String, String> deleteDiary(@PathVariable(required = true) long id, @RequestParam(defaultValue = "succ") String succMsg) {
 
         diaryService.deleteDiary(id);
@@ -39,7 +43,8 @@ public class DiaryController {
         return result;
     }
 
-    @GetMapping("/diaries/all/{userId}")    // 사용자가 속해있는 모든 그룹의 일기 조회
+    @Operation(summary = "사용자가 속해있는 모든 그룹의 일기 조회")
+    @GetMapping("/diaries/all/{userId}")
     public HashMap<String, Object> requestAllTeamDiaries(@PathVariable(required = true) long userId) {
         List<TeamDiariesResponseDTO> data = diaryService.requestAllTeamDiaries(userId);
 
@@ -49,7 +54,8 @@ public class DiaryController {
         return result;
     }
 
-    @GetMapping("/diaries/details/{diaryId}")   // 일기 상세 내용 요청
+    @Operation(summary = "일기 상세 내용 요청")
+    @GetMapping("/diaries/details/{diaryId}")
     public HashMap<String, Object> requestDiaryDetails(@PathVariable(required = true) long diaryId) {
         DiaryDetailResponseDTO data = diaryService.requestDiaryDetails(diaryId);
 

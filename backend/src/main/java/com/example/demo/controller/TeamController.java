@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.TeamCreateRequestDTO;
 import com.example.demo.dto.TeamSearchIdResponseDTO;
 import com.example.demo.service.TeamService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class TeamController {
 
     private final TeamService teamService;
 
-    // 팀 생성
+    @Operation(summary = "팀 생성")
     @PostMapping("/teams")
     public HashMap<String, String> insertTeam(@RequestBody TeamCreateRequestDTO team) {
         teamService.insertTeam(team);
@@ -24,7 +25,7 @@ public class TeamController {
         return result;
     }
 
-    // 팀 id 조회
+    @Operation(summary = "팀 id 조회")
     @GetMapping("/teams/findId")
     public HashMap<String, Object> findTeamId(@RequestParam(defaultValue = "succ") String teamName, long creatorId) {
         List<TeamSearchIdResponseDTO> data = teamService.findTeamId(teamName, creatorId);
