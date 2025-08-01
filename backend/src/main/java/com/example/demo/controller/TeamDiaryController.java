@@ -4,6 +4,7 @@ import com.example.demo.dto.TeamDiaryPostRequestDTO;
 import com.example.demo.response.SharedTeamsResponse;
 import com.example.demo.response.TeamDiaryListResponse;
 import com.example.demo.service.TeamDiaryService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class TeamDiaryController {
 
     private final TeamDiaryService teamDiaryService;
 
-    // 팁 일기 생성
+    @Operation(summary = "팁 일기 생성")
     @PostMapping("/teamDiaries")
     public HashMap<String, String> insertTeamDiary(@RequestBody TeamDiaryPostRequestDTO teamDiary) {
         teamDiaryService.insertTeamDiary(teamDiary);
@@ -26,7 +27,7 @@ public class TeamDiaryController {
         return result;
     }
 
-    // 팀 일기 삭제 (공유 해제)
+    @Operation(summary = "팀 일기 삭제 (공유 해제)")
     @DeleteMapping("/teamDiaries")
     public HashMap<String, String> deleteTeamDiary(@RequestParam(defaultValue = "succ") long diaryId, long teamId) {
 
@@ -36,7 +37,7 @@ public class TeamDiaryController {
         return result;
     }
 
-    // 현재 팀에 공유된 일기 리스트 요청
+    @Operation(summary = "현재 팀에 공유된 일기 리스트 요청")
     @GetMapping("/teamDiaries/diaryList/{teamId}")
     public HashMap<String, Object> requestTeamDiaryList(@PathVariable(required = true) long teamId) {
         List<TeamDiaryListResponse> data = teamDiaryService.requestTeamDiaryList(teamId);
@@ -47,7 +48,7 @@ public class TeamDiaryController {
         return result;
     }
 
-    // 선택한 일기가 공유된 팀들의 id, 이름 요청
+    @Operation(summary = "선택한 일기가 공유된 팀들의 id, 이름 요청")
     @GetMapping("/teamDiaries/sharedTeams/{diaryId}")
     public HashMap<String, Object> requestSharedTeams(@PathVariable(required = true) long diaryId) {
         List<SharedTeamsResponse> data = teamDiaryService.requestSharedTeams(diaryId);
