@@ -28,11 +28,6 @@ describe('일기 공유 시나리오', () => {
     // 드롭다운 항목 중 첫 번째 클릭 (filteredTeamData의 첫 팀)
     cy.get('.dropdown-menu .dropdown-item').first().click()
 
-    // // recipient_input_list에 해당 팀 이름이 나타났는지 확인
-    // cy.get('#recipient_input_list')
-    //   .find('.badge') // 추가된 팀 표시 뱃지
-    //   .should('have.length.at.least', 1)
-
     cy.contains('button', 'write diary').click()
 
     cy.intercept('POST', '/api/diary').as('createDiary')
