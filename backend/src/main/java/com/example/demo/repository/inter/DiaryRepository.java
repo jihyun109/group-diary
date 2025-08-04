@@ -11,6 +11,8 @@ public interface DiaryRepository {
 
     void updateDiary(DiaryEditRequestDTO diaryEditRequestDTO);
 
+    void updateDiaryV2(DiaryEditRequestDTOv2 diaryEditRequestDTOv2);
+
     DiaryDetailResponseDTO requestDiaryDetails(long diaryId);
 
     void deleteDiary(long diaryId);

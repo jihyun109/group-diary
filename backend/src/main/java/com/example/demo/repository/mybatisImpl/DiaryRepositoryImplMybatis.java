@@ -37,6 +37,11 @@ public class DiaryRepositoryImplMybatis implements DiaryRepository {
     }
 
     @Override
+    public void updateDiaryV2(DiaryEditRequestDTOv2 diaryEditRequestDTOv2) {
+        diaryMapper.updateDiaryV2(diaryEditRequestDTOv2);
+    }
+
+    @Override
     public DiaryDetailResponseDTO requestDiaryDetails(long diaryId) {
         DiaryModel diaryModel = diaryMapper.requestDiaryDetails(diaryId);
         return DiaryDetailResponseDTO.from(diaryModel);

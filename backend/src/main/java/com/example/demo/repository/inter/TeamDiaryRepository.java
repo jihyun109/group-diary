@@ -13,6 +13,8 @@ public interface TeamDiaryRepository {
 
     void deleteTeamDiary(long diaryId, long teamId);
 
+    void deleteTeamDiaryV2(Long diaryId, List<Long> teamIds);
+
     List<TeamDiaryListResponse> requestTeamDiaryList(long teamId);
 
     List<SharedTeamsResponse> requestSharedTeams(long diaryId);
