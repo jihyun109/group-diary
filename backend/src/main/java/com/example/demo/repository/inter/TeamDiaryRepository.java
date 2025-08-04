@@ -15,6 +15,8 @@ public interface TeamDiaryRepository {
 
     void deleteTeamDiaryV2(Long diaryId, List<Long> teamIds);
 
+    void deleteByDiaryId(Long diaryId);
+
     List<TeamDiaryListResponse> requestTeamDiaryList(long teamId);
 
     List<SharedTeamsResponse> requestSharedTeams(long diaryId);
