@@ -30,12 +30,11 @@ public class TeamDiaryRepositoryImplMyBatis implements TeamDiaryRepository {
     @Override
     public void deleteTeamDiary(long diaryId, long teamId) {
         teamDiaryMapper.deleteTeamDiary(diaryId, teamId);
-
     }
 
     @Override
     public void deleteTeamDiaryV2(Long diaryId, List<Long> teamIds) {
-        teamDiaryMapper.deleteTeamDiary(diaryId, teamIds);
+        teamDiaryMapper.deleteTeamDiaryV2(diaryId, teamIds);
     }
 
     @Override

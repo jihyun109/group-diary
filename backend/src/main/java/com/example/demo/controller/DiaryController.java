@@ -40,7 +40,7 @@ public class DiaryController {
     }
 
     @Operation(summary = "일기 수정")
-    @PutMapping("/v2/diaries/edit/{id}")
+    @PutMapping("/v2/diaries/edit")
     public ResponseEntity<String> updateDiary(@RequestBody DiaryEditRequestDTOv2 diaryEditRequestDTOv2) {
         diaryService.updateDiary(diaryEditRequestDTOv2);
 
