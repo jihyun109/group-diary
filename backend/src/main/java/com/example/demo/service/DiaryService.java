@@ -7,6 +7,8 @@ import java.util.List;
 public interface DiaryService {
     void insertDiary(DiaryWriteRequestDTO diaryWriteRequestDTO);
 
+    void writeDiary(DiaryWriteRequestDTOv2 diaryWriteRequestDTOv2);
+
     void updateDiary(long id, DiaryEditRequestDTO diaryData);
 
     DiaryDetailResponseDTO requestDiaryDetails(long diaryId);
