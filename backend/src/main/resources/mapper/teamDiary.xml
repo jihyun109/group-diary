@@ -31,6 +31,12 @@
         </foreach>
     </delete>
 
+    <delete id="deleteByDiaryId">
+        DELETE
+        FROM team_diary
+        WHERE id = #{diaryId};
+    </delete>
+
     <select id="requestTeamDiaryList" resultType="com.example.demo.response.TeamDiaryListResponse">
         SELECT d.id, u.first_name, u.last_name, u.initial, u.color, d.written_date, d.diary_title
         FROM team_diary td
