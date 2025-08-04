@@ -20,6 +20,14 @@
         WHERE id = #{id};
     </update>
 
+    <update id="updateDiaryV2" parameterType="com.example.demo.dto.DiaryEditRequestDTOv2">
+        UPDATE diaries
+        SET written_date = #{writtenDate},
+            diary_title  = #{diaryTitle},
+            details      = #{details}
+        WHERE id = #{id};
+    </update>
+
     <select id="requestDiaryDetails" resultType="com.example.demo.model.DiaryModel">
         SELECT d.id,
                d.written_date AS writtenDate,
