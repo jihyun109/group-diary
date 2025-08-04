@@ -22,6 +22,9 @@ public interface TeamDiaryMapper {
 
     void deleteTeamDiaryV2(Long diaryId, List<Long> teamIds);
 
+    // 일기 id에 따라 teamDiary 삭제
+    void deleteByDiaryId(Long diaryId);
+
     // 현재 팀에 공유된 일기 리스트 요청
     List<TeamDiaryListResponse> requestTeamDiaryList(long teamId);
 
