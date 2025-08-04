@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DiaryMapper">
     <insert id="createDiary" parameterType="com.example.demo.model.Diary">
-        INSERT INTO posts (written_date, writer_id, diary_title, details)
+        INSERT INTO diaries (written_date, writer_id, diary_title, details)
         VALUES (#{writtenDate}, #{writerId}, #{diaryTitle}, #{details})
     </insert>
     
