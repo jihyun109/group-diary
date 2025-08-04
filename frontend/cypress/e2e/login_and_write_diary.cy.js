@@ -31,5 +31,21 @@ describe('일기 공유 시나리오', () => {
     cy.contains('button', 'write diary').click()
 
     cy.intercept('POST', '/api/diary').as('createDiary')
+
+    // 일기 작성 완료 후 메인 페이지로 돌아가기
+    cy.url().should('include', '/main')
+
+    // 작성된 일기 클릭하여 상세 페이지로 이동
+    cy.contains('test').click()
+
+    // 일기 상세 페이지에서 삭제 버튼 클릭
+    cy.contains('button', '삭제').click()
+
+    // 삭제 확인 모달에서 확인 버튼 클릭
+    cy.contains('Yes').click()
+
+    // 삭제 후 메인 페이지로 돌아가서 일기가 삭제되었는지 확인
+    cy.url().should('include', '/main')
+    cy.contains('test').should('not.exist')
   })
 })
