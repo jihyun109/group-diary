@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DiaryMapper">
+    <insert id="createDiary" parameterType="com.example.demo.model.Diary">
+        INSERT INTO diaries (written_date, writer_id, diary_title, details)
+        VALUES (#{writtenDate}, #{writerId}, #{diaryTitle}, #{details})
+    </insert>
+    
     <insert id="insertDiary" parameterType="com.example.demo.dto.DiaryWriteRequestDTO">
         INSERT INTO diaries (id, written_date, writer_id, diary_title, details)
         VALUES (#{id}, #{writtenDate}, #{writerId}, #{diaryTitle}, #{details});
