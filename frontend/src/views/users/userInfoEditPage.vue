@@ -1,6 +1,5 @@
 <script>
-import { fetchUserInfo } from '../../api/user';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { fetchUserInfo, updateUserInfo } from '../../api/user';
 
 export default {
   async mounted() {
@@ -53,14 +52,12 @@ export default {
       }
     },
 
-    //
     async requestEditeUserInfo() {
       // 오류 상태 초기화
       this.errors.firstName = !this.firstName;
       this.errors.lastName = !this.lastName;
       this.errors.emailAddress = !this.emailAddress;
       this.errors.password = !this.password;
-      // this.errors.initial = !this.initial;
 
       // 오류가 있는 경우 경고 메시지 표시
       if (
@@ -82,33 +79,15 @@ export default {
         color: this.color,
       };
 
-      try {
-        // 서버로 POST 요청 보내기
-        const response = await fetch(`${BASE_URL}/users/${this.userId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
-        });
-
-        if (response.ok) {
-          // 요청이 성공하면 성공 메시지 표시
-          alert('회원 정보가 수정되었습니다.');
-          window.history.back();
-          this.$store.commit('setFirstName', this.firstName);
-          this.$store.commit('setLastName', this.lastName);
-          this.$store.commit('setEmail', this.emailAddress);
-          this.$store.commit('setPassword', this.password);
-          this.$store.commit('setColor', this.color);
-        } else {
-          // 요청이 실패하면 오류 메시지 표시
-          const errorData = await response.json();
-          alert(`오류가 발생했습니다: ${errorData.message}`);
-        }
-      } catch (error) {
-        // 네트워크 오류 처리
-        alert(`네트워크 오류가 발생했습니다: ${error.message}`);
+      const success = await updateUserInfo(this.userId, userData);
+      
+      if (success) {
+        // store 업데이트
+        this.$store.commit('setFirstName', this.firstName);
+        this.$store.commit('setLastName', this.lastName);
+        this.$store.commit('setEmail', this.emailAddress);
+        this.$store.commit('setPassword', this.password);
+        this.$store.commit('setColor', this.color);
       }
     },
   },
@@ -214,15 +193,6 @@ export default {
                     </div>
                   </div>
                 </div>
-
-                <!-- <div class="row">
-                  <div class="input-group input-group-outline mb-4" :class="{ 'is-invalid': errors.firstName }">
-                    <div style="display: flex; flex-direction: column; width: 100%;">
-                      <label>Initial</label>
-                      <input v-model="initial" class="form-control" placeholder="eg. JH" type="text">
-                    </div>
-                  </div>
-                </div> -->
 
                 <div class="row">
                   <div class="col-md-12">

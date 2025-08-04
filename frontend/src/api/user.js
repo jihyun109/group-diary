@@ -71,3 +71,32 @@ export async function signUpUser({ firstName, lastName, email, password, color }
     throw error;
   }
 }
+
+export async function updateUserInfo(userId, userData) {
+  try {
+    // 서버로 PUT 요청 보내기
+    const response = await fetch(`${BASE_URL}/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (response.ok) {
+      // 요청이 성공하면 성공 메시지 표시
+      alert('회원 정보가 수정되었습니다.');
+      window.history.back();
+      return true;
+    } else {
+      // 요청이 실패하면 오류 메시지 표시
+      const errorData = await response.json();
+      alert(`오류가 발생했습니다: ${errorData.message}`);
+      return false;
+    }
+  } catch (error) {
+    // 네트워크 오류 처리
+    alert(`네트워크 오류가 발생했습니다: ${error}`);
+    return false;
+  }
+}
