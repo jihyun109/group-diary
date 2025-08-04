@@ -37,6 +37,15 @@ public class DiaryServiceImpl implements DiaryService {
         diaryRepository.updateDiary(diaryData);
     }
 
+    @Override
+    public void updateDiary(DiaryEditRequestDTOv2 diaryEditRequestDTOv2) {
+        diaryRepository.updateDiaryV2(diaryEditRequestDTOv2);
+
+        Long diaryId = diaryEditRequestDTOv2.getId();
+        teamDiaryRepository.insertTeamDiaryV2(diaryId, diaryEditRequestDTOv2.getAddedTeamIds());
+        teamDiaryRepository.deleteTeamDiaryV2(diaryId, diaryEditRequestDTOv2.getRemovedTeamIds());
+    }
+
     // 선택한 다이어리 상세 정보 요청
     @Override
     public DiaryDetailResponseDTO requestDiaryDetails(long diaryId) {
