@@ -2,6 +2,7 @@ package com.example.demo.repository.mybatisImpl;
 
 import com.example.demo.dto.*;
 import com.example.demo.mapper.DiaryMapper;
+import com.example.demo.model.Diary;
 import com.example.demo.model.DiaryModel;
 import com.example.demo.repository.inter.DiaryRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,16 @@ public class DiaryRepositoryImplMybatis implements DiaryRepository {
     @Override
     public void insertDiary(DiaryWriteRequestDTO diaryWriteRequestDTO) {
         diaryMapper.insertDiary(diaryWriteRequestDTO);
+    }
+
+    @Override
+    public long createDiary(DiaryWriteRequestDTOv2 diaryWriteRequestDTOv2) {
+        Diary diary = diaryWriteRequestDTOv2ToModel(diaryWriteRequestDTOv2);
+        diaryMapper.createDiary(diary);
+
+        long diaryId = diary.getId();
+
+        return 0;
     }
 
     @Override
@@ -59,5 +70,14 @@ public class DiaryRepositoryImplMybatis implements DiaryRepository {
                         .sharedTeamList(model.getSharedTeamList())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    private Diary diaryWriteRequestDTOv2ToModel(DiaryWriteRequestDTOv2 dto) {
+        return Diary.builder()
+                .writerId(dto.getWriterId())
+                .diaryTitle(dto.getTitle())
+                .details(dto.getDetails())
+                .writtenDate(dto.getWrittenDate())
+                .build();
     }
 }

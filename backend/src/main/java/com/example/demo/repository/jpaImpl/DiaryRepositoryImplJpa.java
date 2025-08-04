@@ -12,6 +12,11 @@ public class DiaryRepositoryImplJpa implements DiaryRepository {
     }
 
     @Override
+    public long createDiary(DiaryWriteRequestDTOv2 diaryWriteRequestDTOv2) {
+        return 0;
+    }
+
+    @Override
     public void updateDiary(DiaryEditRequestDTO diaryEditRequestDTO) {
 
     }
