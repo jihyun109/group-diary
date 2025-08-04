@@ -23,7 +23,7 @@
     <update id="updateDiaryV2" parameterType="com.example.demo.dto.DiaryEditRequestDTOv2">
         UPDATE diaries
         SET written_date = #{writtenDate},
-            diary_title  = #{diaryTitle},
+            diary_title  = #{title},
             details      = #{details}
         WHERE id = #{id};
     </update>
