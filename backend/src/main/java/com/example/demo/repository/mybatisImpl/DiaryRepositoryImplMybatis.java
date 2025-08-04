@@ -28,9 +28,7 @@ public class DiaryRepositoryImplMybatis implements DiaryRepository {
         Diary diary = diaryWriteRequestDTOv2ToModel(diaryWriteRequestDTOv2);
         diaryMapper.createDiary(diary);
 
-        long diaryId = diary.getId();
-
-        return 0;
+        return diary.getId();
     }
 
     @Override

@@ -11,5 +11,5 @@ public class DiaryWriteRequestDTOv2 {
     private String writtenDate;
     private String title;
     private String details;
-    private List<Integer> sharedTeamList = new ArrayList<>();
+    private List<Long> sharedTeamList = new ArrayList<>();
 }

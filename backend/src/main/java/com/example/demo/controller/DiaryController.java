@@ -23,6 +23,13 @@ public class DiaryController {
         return ResponseEntity.ok("일기 작성 완료");
     }
 
+    @Operation(summary = "일기 작성")
+    @PostMapping("/v2/diaries")
+    public ResponseEntity<String> writeDiary(@RequestBody DiaryWriteRequestDTOv2 diary) {
+        diaryService.writeDiary(diary);
+        return ResponseEntity.ok("일기 작성 완료");
+    }
+
     @Operation(summary = "일기 수정")
     @PutMapping("/diaries/edit/{id}")
     public ResponseEntity<String> updateDiary(@PathVariable(required = true) long id, @RequestBody DiaryEditRequestDTO diaryData) {

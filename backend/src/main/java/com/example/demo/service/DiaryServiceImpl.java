@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.*;
 import com.example.demo.repository.inter.DiaryRepository;
+import com.example.demo.repository.inter.TeamDiaryRepository;
 import com.example.demo.repository.inter.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,20 @@ import java.util.List;
 public class DiaryServiceImpl implements DiaryService {
     private final DiaryRepository diaryRepository;
     private final TeamRepository teamRepository;
+    private final TeamDiaryRepository teamDiaryRepository;
 
     // 일기 생성(일기 작성)
     @Override
     public void insertDiary(DiaryWriteRequestDTO diaryWriteRequestDTO) {
         diaryRepository.insertDiary(diaryWriteRequestDTO);
+    }
+
+    @Override
+    public void writeDiary(DiaryWriteRequestDTOv2 diaryWriteRequestDTOv2) {
+        long diaryId = diaryRepository.createDiary(diaryWriteRequestDTOv2);
+
+        // 선택된 팀에 일기 공유
+        teamDiaryRepository.insertTeamDiaryV2(diaryId, diaryWriteRequestDTOv2.getSharedTeamList());
     }
 
     // 일기 수정
