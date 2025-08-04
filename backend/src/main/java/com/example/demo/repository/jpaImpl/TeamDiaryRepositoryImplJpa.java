@@ -14,6 +14,11 @@ public class TeamDiaryRepositoryImplJpa implements TeamDiaryRepository {
     }
 
     @Override
+    public void insertTeamDiaryV2(Long diaryId, List<Long> teamIds) {
+
+    }
+
+    @Override
     public void deleteTeamDiary(long diaryId, long teamId) {
 
     }
