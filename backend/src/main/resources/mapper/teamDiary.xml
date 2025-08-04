@@ -9,7 +9,7 @@
     <insert id="insertTeamDiaryV2" parameterType="map">
         INSERT INTO team_diary (diary_id, team_id)
         VALUES 
-            <foreach collection="teamIds" item="diaryId" separator=",">
+            <foreach collection="teamIds" item="teamId" separator=",">
                 (#{diaryId}, #{teamId})
             </foreach>
     </insert>
