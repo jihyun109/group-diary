@@ -11,6 +11,8 @@ public interface DiaryService {
 
     void updateDiary(long id, DiaryEditRequestDTO diaryData);
 
+    void updateDiary(DiaryEditRequestDTOv2 diaryEditRequestDTOv2);
+
     DiaryDetailResponseDTO requestDiaryDetails(long diaryId);
 
     void deleteDiary(long diaryId);
