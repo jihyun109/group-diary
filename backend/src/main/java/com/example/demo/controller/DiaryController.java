@@ -39,6 +39,14 @@ public class DiaryController {
         return ResponseEntity.ok("diary edited.");
     }
 
+    @Operation(summary = "일기 수정")
+    @PutMapping("/v2/diaries/edit/{id}")
+    public ResponseEntity<String> updateDiary(@RequestBody DiaryEditRequestDTOv2 diaryEditRequestDTOv2) {
+        diaryService.updateDiary(diaryEditRequestDTOv2);
+
+        return ResponseEntity.ok("diary edited.");
+    }
+
     @Operation(summary = "일기 삭제")
     @DeleteMapping("/diaries/{id}")
     public HashMap<String, String> deleteDiary(@PathVariable(required = true) long id, @RequestParam(defaultValue = "succ") String succMsg) {
