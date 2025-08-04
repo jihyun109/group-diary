@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.model.Diary;
 import com.example.demo.model.DiaryModel;
 import com.example.demo.dto.DiaryEditRequestDTO;
 import com.example.demo.dto.DiaryWriteRequestDTO;
@@ -13,6 +14,8 @@ import java.util.List;
 @Repository
 public interface DiaryMapper {
     void insertDiary(DiaryWriteRequestDTO diary); // 일기 생성
+
+    void createDiary(Diary diary);
 
     void updateDiary(DiaryEditRequestDTO diary); // 일기 수정
 
