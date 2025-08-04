@@ -11,9 +11,11 @@ import java.util.List;
 @Mapper
 @Repository
 public interface TeamDiaryMapper {
-
     // 팁 일기 생성
     void insertTeamDiary(TeamDiaryPostRequestDTO teamDiary);
+
+    // diary 를 팀들에 공유
+    void insertTeamDiaryV2(Long diaryId, List<Long> teamIds);
 
     // 팀 일기 삭제 (공유 해제)
     void deleteTeamDiary(long diaryId, long teamId);
