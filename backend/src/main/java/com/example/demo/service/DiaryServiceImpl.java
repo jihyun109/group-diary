@@ -59,6 +59,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public void deleteDiary(long diaryId) {
         diaryRepository.deleteDiary(diaryId);
+        teamDiaryRepository.deleteByDiaryId(diaryId);
     }
 
     // 사용자가 포함된 모든 그룹의 일기 정보 요청
