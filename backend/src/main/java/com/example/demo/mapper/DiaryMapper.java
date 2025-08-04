@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.dto.DiaryEditRequestDTOv2;
 import com.example.demo.model.Diary;
 import com.example.demo.model.DiaryModel;
 import com.example.demo.dto.DiaryEditRequestDTO;
@@ -18,6 +19,8 @@ public interface DiaryMapper {
     void createDiary(Diary diary);
 
     void updateDiary(DiaryEditRequestDTO diary); // 일기 수정
+
+    void updateDiaryV2(DiaryEditRequestDTOv2 diary);
 
     void deleteDiary(long diaryId);  // 일기 삭제
 
