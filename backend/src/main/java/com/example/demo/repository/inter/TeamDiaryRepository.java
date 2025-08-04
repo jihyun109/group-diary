@@ -9,6 +9,8 @@ import java.util.List;
 public interface TeamDiaryRepository {
     void insertTeamDiary(TeamDiaryPostRequestDTO teamDiary);
 
+    void insertTeamDiaryV2(Long diaryId, List<Long> teamIds);
+
     void deleteTeamDiary(long diaryId, long teamId);
 
     List<TeamDiaryListResponse> requestTeamDiaryList(long teamId);
