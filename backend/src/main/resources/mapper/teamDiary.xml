@@ -21,6 +21,16 @@
           AND team_id = #{teamId};
     </delete>
 
+    <delete id="deleteTeamDiaryV2" parameterType="map">
+        DELETE
+        FROM team_diary
+        WHERE diary_id = #{diaryId}
+        AND team_id IN
+        <foreach collection="teamIds" item="teamId" open="(" separator="," close=")">
+            #{teamId}
+        </foreach>
+    </delete>
+
     <select id="requestTeamDiaryList" resultType="com.example.demo.response.TeamDiaryListResponse">
         SELECT d.id, u.first_name, u.last_name, u.initial, u.color, d.written_date, d.diary_title
         FROM team_diary td
