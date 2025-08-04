@@ -1,30 +1,26 @@
 package com.example.demo.repository.jpaImpl;
 
-import com.example.demo.dto.TeamDiaryPostRequestDTO;
-import com.example.demo.repository.inter.TeamDiaryRepository;
-import com.example.demo.response.SharedTeamsResponse;
-import com.example.demo.response.TeamDiaryListResponse;
+import com.example.demo.dto.TeamCreateRequestDTO;
+import com.example.demo.dto.TeamSearchIdResponseDTO;
+import com.example.demo.model.TeamModel;
+import com.example.demo.repository.inter.TeamRepository;
 
 import java.util.List;
 
-public class TeamRepositoryImplJpa implements TeamDiaryRepository {
-    @Override
-    public void insertTeamDiary(TeamDiaryPostRequestDTO teamDiary) {
-
-    }
+public class TeamRepositoryImplJpa implements TeamRepository {
 
     @Override
-    public void deleteTeamDiary(long diaryId, long teamId) {
-
-    }
-
-    @Override
-    public List<TeamDiaryListResponse> requestTeamDiaryList(long teamId) {
+    public List<TeamModel> searchTeamByDiaryId(long diaryId) {
         return null;
     }
 
     @Override
-    public List<SharedTeamsResponse> requestSharedTeams(long diaryId) {
+    public void insertTeam(TeamCreateRequestDTO team) {
+
+    }
+
+    @Override
+    public List<TeamSearchIdResponseDTO> findTeamId(String teamName, long creatorId) {
         return null;
     }
 }
