@@ -29,6 +29,11 @@ public class TeamDiaryRepositoryImplJpa implements TeamDiaryRepository {
     }
 
     @Override
+    public void deleteByDiaryId(Long diaryId) {
+
+    }
+
+    @Override
     public List<TeamDiaryListResponse> requestTeamDiaryList(long teamId) {
         return null;
     }
