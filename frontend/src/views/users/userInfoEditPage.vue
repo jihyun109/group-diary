@@ -80,7 +80,7 @@ export default {
       };
 
       const success = await updateUserInfo(this.userId, userData);
-      
+
       if (success) {
         // store 업데이트
         this.$store.commit('setFirstName', this.firstName);

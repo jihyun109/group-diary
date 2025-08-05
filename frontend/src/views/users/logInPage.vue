@@ -1,7 +1,6 @@
 <script>
 import { logInUser } from '../../api/user.js';
 export default {
-
   data() {
     return {
       dataList: [],

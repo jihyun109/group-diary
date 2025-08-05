@@ -88,11 +88,7 @@
                     v-for="(user, idx) in filteredUserSearchData"
                     :key="idx"
                     @click="
-                      addToInviteGroup(
-                        user.id,
-                        user.lastName,
-                        user.firstName
-                      )
+                      addToInviteGroup(user.id, user.lastName, user.firstName)
                     "
                     href="javascript:void(0);"
                     class="list-group-item list-group-item-action"
@@ -137,7 +133,7 @@ import { inviteUser } from '@/api/member.js';
 
 export default {
   name: 'CreateTeamModal',
-  
+
   props: {
     // 부모로부터 받을 props
   },
@@ -220,7 +216,7 @@ export default {
         alert('그룹 이름을 입력해 주세요');
         return;
       }
-      console.log("groupNameToCreate: ", this.groupNameToCreate);
+      console.log('groupNameToCreate: ', this.groupNameToCreate);
 
       await createTeam(this.userId, this.groupNameToCreate);
     },
@@ -240,7 +236,6 @@ export default {
     async requestInviteUser(userId, teamId) {
       await inviteUser(userId, teamId, this.userId);
     },
-
   },
 };
-</script> 
+</script>
