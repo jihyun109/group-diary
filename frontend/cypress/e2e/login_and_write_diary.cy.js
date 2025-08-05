@@ -14,9 +14,7 @@ describe('일기 작성 시나리오', () => {
 
   it('일기 작성', () => {
     // 일기 작성 API 인터셉트 설정
-    cy.intercept('POST', '/diaries').as('createDiary');
-    cy.intercept('POST', '/teamDiaries').as('shareDiary');
-    cy.intercept('GET', '/diaries/findDiaryId*').as('findDiaryId');
+    cy.intercept('POST', '/v2/diaries').as('createDiary');
 
     // 일기 작성 버튼 클릭
     cy.contains('Write diary').click();
