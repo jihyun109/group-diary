@@ -3,8 +3,8 @@ import { mapState } from 'vuex';
 import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
-import { writeDiary, updateDiary, fetchDiaryDetail } from '@/api/diary.js';
-import { shareDiary, fetchSharedTeams, cancelShareDiary } from '@/api/teamDiary.js';
+import { writeDiary, fetchDiaryDetail, editDiary } from '@/api/diary.js';
+import { fetchSharedTeams } from '@/api/teamDiary.js';
 
 export default {
   async mounted() {
@@ -74,7 +74,6 @@ export default {
         alert('일기 작성 완료');
       } else {
         // 일기 수정 페이지
-        await this.requestEditedTeamList();
         this.$router.go(-1);
         alert('일기 수정 완료');
       }
@@ -84,7 +83,18 @@ export default {
       this.diaryModel.writerId = this.userId;
 
       if (this.needUpdate) {
-        await updateDiary(this.diaryModel.id, this.diaryModel);
+        this.findEditedTeamList();
+        const requestData = {
+          id: this.diaryModel.id,
+          title: this.diaryModel.diaryTitle,
+          details: this.diaryModel.details,
+          writtenDate: this.diaryModel.writtenDate,
+          addedTeamIds: this.addedTeamList.map((team) => team.id),
+          removedTeamIds: this.deletedTeamList.map((team) => team.id)
+        };
+
+        console.log(requestData);
+        await editDiary(requestData);
       } else {
         const sharedTeamList = this.teamListToShare.map((team) => team.id);
 
@@ -104,6 +114,27 @@ export default {
       }
     },
 
+    async findEditedTeamList() {
+      const findAddedTeam = (arr1, arr2) => {
+        const arr1Ids = arr1.map((obj) => obj.id);
+        return arr2.filter((obj) => !arr1Ids.includes(obj.id));
+      };
+
+      const findDeletedTeamList = (arr1, arr2) => {
+        const arr2Ids = arr2.map((obj) => obj.id);
+        return arr1.filter((obj) => !arr2Ids.includes(obj.id));
+      };
+
+      this.addedTeamList = findAddedTeam(
+        this.diaryModel.sharedTeamList,
+        this.editedTeamList
+      );
+      this.deletedTeamList = findDeletedTeamList(
+        this.diaryModel.sharedTeamList,
+        this.editedTeamList
+      );
+    },
+
     async loadDiaryDetail() {
       try {
         this.diaryModel = await fetchDiaryDetail(this.diaryId);
@@ -114,17 +145,6 @@ export default {
         console.error('일기 상세 정보 로드 실패:', error);
         alert(`일기 정보를 불러오지 못했습니다: ${error.message}`);
       }
-    },
-
-    formattedDate(diary) {
-      if (diary.writtenDate) {
-        const date = diary.writtenDate;
-        return `Written Date: ${date.slice(0, 2)}-${date.slice(
-          2,
-          4
-        )}-${date.slice(4)}`;
-      }
-      return '';
     },
 
     // 공유할 팀 리스트에 추가
@@ -156,39 +176,6 @@ export default {
       } catch (error) {
         console.error('공유된 팀 목록 로드 실패:', error);
         alert(`공유된 팀 목록을 불러오지 못했습니다: ${error.message}`);
-      }
-    },
-
-    // 수정된 팀 리스트 요청 보내기 (post/delete)
-    async requestEditedTeamList() {
-      // 추가되거나 삭제된 team 찾기.
-      const findAddedTeam = (arr1, arr2) => {
-        const arr1Ids = arr1.map((obj) => obj.id);
-        return arr2.filter((obj) => !arr1Ids.includes(obj.id));
-      };
-
-      const findDeletedTeamList = (arr1, arr2) => {
-        const arr2Ids = arr2.map((obj) => obj.id);
-        return arr1.filter((obj) => !arr2Ids.includes(obj.id));
-      };
-
-      this.addedTeamList = findAddedTeam(
-        this.diaryModel.sharedTeamList,
-        this.editedTeamList
-      );
-      this.deletedTeamList = findDeletedTeamList(
-        this.diaryModel.sharedTeamList,
-        this.editedTeamList
-      );
-
-      // 추가된 팀 공유 요청 보내기
-      for (const team of this.addedTeamList) {
-        await shareDiary(this.diaryId, team.id);
-      }
-
-      // 삭제된 팀 delete 요청 보내기
-      for (let i = 0; i < this.deletedTeamList.length; i++) {
-        await cancelShareDiary(this.diaryId, this.deletedTeamList[i].id);
       }
     },
 
