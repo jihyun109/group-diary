@@ -12,9 +12,7 @@
       <div class="modal-content">
         <!-- 헤더 -->
         <div class="modal-header">
-          <h5 class="modal-title" id="modal-title-notification">
-            멤버 추가
-          </h5>
+          <h5 class="modal-title" id="modal-title-notification">멤버 추가</h5>
         </div>
         <!-- body -->
         <div class="modal-body p-0">
@@ -125,12 +123,12 @@ import { inviteUser } from '@/api/member.js';
 
 export default {
   name: 'InviteUserModal',
-  
+
   props: {
     teamId: {
       type: [String, Number],
-      required: true
-    }
+      required: true,
+    },
   },
 
   emits: ['users-invited'],
@@ -183,7 +181,7 @@ export default {
         await this.requestInviteUser(userId, this.teamId);
       }
       alert('팀에 초대되었습니다.');
-      
+
       // 모달 닫기
       const modalElement = document.getElementById('inviteUser-form');
       const modal = bootstrap.Modal.getInstance(modalElement);
@@ -192,7 +190,7 @@ export default {
       }
 
       this.resetUsersToInvite();
-      
+
       // 부모 컴포넌트에 이벤트 발생
       this.$emit('users-invited');
     },
@@ -202,4 +200,4 @@ export default {
     },
   },
 };
-</script> 
+</script>

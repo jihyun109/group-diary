@@ -410,7 +410,10 @@ export default {
       <CreateTeamModal @team-created="handleTeamCreated" />
 
       <!--inviteUser modal -->
-      <InviteUserModal :teamId="$route.query.team" @users-invited="handleUsersInvited" />
+      <InviteUserModal
+        :teamId="$route.query.team"
+        @users-invited="handleUsersInvited"
+      />
     </div>
   </div>
 </template>

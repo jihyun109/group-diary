@@ -14,16 +14,21 @@ export async function fetchUserInfo(userId) {
 
 export async function fetchUserSearch(searchWord) {
   try {
-    const res = await fetch(`${BASE_URL}/users/search/?searchWord=${searchWord}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const res = await fetch(
+      `${BASE_URL}/users/search/?searchWord=${searchWord}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || '유저 검색 결과를 불러오지 못했습니다.');
+      throw new Error(
+        errorData.message || '유저 검색 결과를 불러오지 못했습니다.'
+      );
     }
     const data = await res.json();
 
@@ -52,7 +57,13 @@ export async function logInUser(email, password) {
   }
 }
 
-export async function signUpUser({ firstName, lastName, email, password, color }) {
+export async function signUpUser({
+  firstName,
+  lastName,
+  email,
+  password,
+  color,
+}) {
   try {
     const response = await fetch(`${BASE_URL}/users`, {
       method: 'POST',

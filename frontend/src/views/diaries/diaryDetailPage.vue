@@ -140,7 +140,7 @@ export default {
       try {
         await deleteDiary(this.diary.id);
         alert('삭제되었습니다.');
-        window.history.back();  
+        window.history.back();
       } catch (error) {
         console.error(error.message);
       }

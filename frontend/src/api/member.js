@@ -34,7 +34,7 @@ export async function inviteUser(inviteeId, teamId, inviterId) {
     teamId: teamId,
     status: inviteeId === inviterId ? 0 : 1,
     inviterId: inviterId,
-  }
+  };
 
   try {
     const response = await fetch(`${BASE_URL}/members`, {
@@ -42,7 +42,7 @@ export async function inviteUser(inviteeId, teamId, inviterId) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify( inviteData),
+      body: JSON.stringify(inviteData),
     });
 
     if (response.ok) {

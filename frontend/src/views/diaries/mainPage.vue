@@ -184,8 +184,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import UserProfile from '@/components/UserProfile.vue'
-import CreateTeamModal from '@/components/CreateTeamModal.vue'
+import UserProfile from '@/components/UserProfile.vue';
+import CreateTeamModal from '@/components/CreateTeamModal.vue';
 import '../../assets/styles.css';
 
 import { fetchAllDiaries } from '@/api/diary.js';
