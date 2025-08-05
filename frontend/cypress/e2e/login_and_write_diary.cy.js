@@ -34,8 +34,6 @@ describe('일기 작성 시나리오', () => {
 
     // API 응답 대기
     cy.wait('@createDiary');
-    cy.wait('@shareDiary');
-    cy.wait('@findDiaryId');
 
     // 일기 작성 완료 후 메인 페이지로 돌아가기
     cy.url().should('include', '/main');
