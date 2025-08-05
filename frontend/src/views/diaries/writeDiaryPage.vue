@@ -1,23 +1,18 @@
-<!-- tag 사용 -->
-
 <script>
 import { mapState } from 'vuex';
 import cancelModal from '@/components/cancelModal.vue';
 import '../../assets/styles.css?v=1.0';
 import { fetchUserTeams } from '@/api/member.js';
-import { createDiary, updateDiary, fetchDiaryDetail, findDiaryId } from '@/api/diary.js';
+import { writeDiary, updateDiary, fetchDiaryDetail } from '@/api/diary.js';
 import { shareDiary, fetchSharedTeams, cancelShareDiary } from '@/api/teamDiary.js';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
-  beforeMount() {},
   async mounted() {
     this.updateNeedUpdate();
     if (this.needUpdate) {
       this.loadDiaryDetail(this.$route.query.diaryId);
       this.loadSharedTeams();
     }
-
     this.teamData = await fetchUserTeams(this.userId);
   },
   components: {
@@ -34,7 +29,6 @@ export default {
         diaryTitle: '',
         details: '',
       },
-
       diaryId: this.$route.query.diaryId,
 
       cancelMessage: '일기 작성',
@@ -70,23 +64,12 @@ export default {
     updateNeedUpdate() {
       this.needUpdate = !!this.$route.query.diaryId;
     },
-    
+
     async writeOrUpdateDiary() {
       await this.requestPostOrUpdateDiary();
 
       // 일기 작성 페이지이면
       if (!this.needUpdate) {
-        const diaryId = await findDiaryId(
-          this.diaryModel.diaryTitle,
-          this.diaryModel.writtenDate,
-          this.userId
-        );
-
-        // 선택한 팀들에 일기 공유
-        for (const team of this.teamListToShare) {
-          await shareDiary(diaryId, team.id);
-        }
-
         this.$router.go(-1);
         alert('일기 작성 완료');
       } else {
@@ -103,7 +86,21 @@ export default {
       if (this.needUpdate) {
         await updateDiary(this.diaryModel.id, this.diaryModel);
       } else {
-        await createDiary(this.diaryModel);
+        const sharedTeamList = this.teamListToShare.map((team) => team.id);
+
+        try {
+          const requestData = {
+            writerId: this.userId,
+            writtenDate: this.diaryModel.writtenDate,
+            title: this.diaryModel.diaryTitle,
+            details: this.diaryModel.details,
+            sharedTeamList: sharedTeamList,
+          };
+
+          await writeDiary(requestData);
+        } catch (error) {
+          console.error('일기 작성 실패:', error);
+        }
       }
     },
 

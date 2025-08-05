@@ -11,10 +11,12 @@ export async function fetchAllDiaries(userId) {
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || '전체 일기 목록을 불러오지 못했습니다.');
+      throw new Error(
+        errorData.message || '전체 일기 목록을 불러오지 못했습니다.'
+      );
     }
     const data = await res.json();
-    console.log("data: ", data);
+    console.log('data: ', data);
 
     return data.data;
   } catch (error) {
@@ -75,7 +77,9 @@ export async function fetchDiaryDetail(diaryId) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || '일기 상세 정보를 불러오지 못했습니다.');
+      throw new Error(
+        errorData.message || '일기 상세 정보를 불러오지 못했습니다.'
+      );
     }
 
     const data = await response.json();
@@ -124,6 +128,25 @@ export async function deleteDiary(diaryId) {
       throw new Error(errorData.message || '일기 삭제에 실패했습니다.');
     }
     return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function writeDiary(diaryData) {
+  try {
+    const response = await fetch(`${BASE_URL}/v2/diaries`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(diaryData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || '일기 작성에 실패했습니다.');
+    }
   } catch (error) {
     throw error;
   }
