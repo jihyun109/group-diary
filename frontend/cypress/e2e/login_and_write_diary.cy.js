@@ -1,15 +1,8 @@
+import '../support/commands';
+
 describe('일기 작성 시나리오', () => {
   beforeEach(() => {
-    // BaseURL을 사용하여 로그인 페이지 방문
-    cy.visit('/');
-    cy.url().should('include', '/logIn');
-
-    cy.get('input[type="email"]').type(Cypress.env('TEST_EMAIL'));
-    cy.get('input[type="password"]').type(Cypress.env('TEST_PASSWORD'));
-
-    cy.get('button[type="button"]').click();
-
-    cy.url().should('include', '/main');
+    cy.login();
   });
 
   it('일기 작성', () => {
