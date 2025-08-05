@@ -151,3 +151,22 @@ export async function writeDiary(diaryData) {
     throw error;
   }
 }
+
+export async function editDiary(diaryData) {
+  try {
+    const response = await fetch(`${BASE_URL}/v2/diaries/edit`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(diaryData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || '일기 수정에 실패했습니다.');
+    }
+  } catch (error) {
+    throw error;
+  }
+}
