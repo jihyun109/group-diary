@@ -31,7 +31,7 @@ describe('일기 작성 시나리오', () => {
     // 일기 작성 완료 후 메인 페이지로 돌아가기
     cy.url().should('include', '/main');
 
-    // 작성된 일기 확인 및 클릭
+    // 작성된 일기 확인
     cy.contains('test').should('be.visible');
   });
 
