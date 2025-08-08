@@ -112,24 +112,6 @@ export default {
                   </div>
                 </div>
 
-                <!-- <div class="row">
-                  <div class="input-group input-group-outline mb-4">
-                    <div style="display: flex; flex-direction: column; width: 100%;">
-                      <label>Password</label>
-                      <input v-model="password" class="form-control" placeholder="Password" type="password">
-                    </div>
-                  </div>
-                </div> -->
-
-                <!-- <div class="row">
-                  <div class="input-group input-group-outline mb-4">
-                    <div style="display: flex; flex-direction: column; width: 100%;">
-                      <label>Initial</label>
-                      <input v-model="initial" class="form-control" placeholder="eg. JH" type="text">
-                    </div>
-                  </div>
-                </div> -->
-
                 <div class="row">
                   <div class="col-md-12">
                     <div class="input-group input-group-static mb-2">

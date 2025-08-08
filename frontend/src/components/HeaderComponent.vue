@@ -129,6 +129,7 @@ export default {
     UserProfile,
   },
   methods: {
+    // TODO: api 분리
     ...mapActions(['fetchStoreData']),
     async fetchData() {
       const inviteDataResponse = await fetch(
