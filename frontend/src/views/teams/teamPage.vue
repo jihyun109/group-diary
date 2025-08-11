@@ -117,18 +117,15 @@ export default {
     logOut() {
       this.$store.commit('logOut');
       this.$router.push({ path: 'logIn' });
-      console.log(this.userId);
     },
 
     // diary detail 페이지로 이동
     moveToDetails(diaryId) {
-      console.log(diaryId);
       this.$router.push({ path: 'diaryDetail', query: { diary: diaryId } });
     },
 
     // 해당 team 페이지로 이동
     moveToTeamPage(teamId) {
-      console.log(teamId);
       this.$router.push({ path: 'teamPage', query: { team: teamId } });
     },
 
@@ -199,10 +196,10 @@ export default {
             <div class="list-group team-list-scroll" v-if="teamData">
               <a
                 @click="moveToTeamPage(team.team_id)"
-                href="javacsript:void(0);"
                 :class="`list-group-item list-group-item-action ${teamActiveStyle(team.team_id)}`"
                 v-for="(team, idx) in teamData"
                 :key="idx"
+                style="cursor: pointer;"
               >
                 {{ team.team_name }}
               </a>
@@ -332,8 +329,8 @@ export default {
                           <td>
                             <h6 class="mb-0">
                               <a
-                                href="javacsript:void(0);"
                                 @click="moveToDetails(diary.id)"
+                                style="cursor: pointer; text-decoration: none; color: inherit;"
                                 >{{ diary.diary_title }}</a
                               >
                             </h6>
@@ -359,9 +356,9 @@ export default {
                         >
                           <a
                             class="page-link"
-                            href="javascript:;"
                             @click="changePage(currentPage - 1)"
                             tabindex="-1"
+                            style="cursor: pointer;"
                           >
                             <i class="fa fa-angle-left"></i>
                             <span class="sr-only">Previous</span>
@@ -377,8 +374,8 @@ export default {
                         >
                           <a
                             class="page-link"
-                            href="javascript:;"
                             @click="changePage(page)"
+                            style="cursor: pointer;"
                             >{{ page }}</a
                           >
                         </li>
@@ -390,8 +387,8 @@ export default {
                         >
                           <a
                             class="page-link"
-                            href="javascript:;"
                             @click="changePage(currentPage + 1)"
+                            style="cursor: pointer;"
                           >
                             <i class="fa fa-angle-right"></i>
                             <span class="sr-only">Next</span>

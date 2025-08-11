@@ -116,7 +116,6 @@ export default {
       this.diary = null;
       try {
         this.diary = await fetchDiaryDetail(this.$route.query.diary);
-        console.log(this.diary);
       } catch (error) {
         console.error(error.message);
       }
@@ -129,7 +128,6 @@ export default {
       return '';
     },
     editDiary() {
-      console.log(this.diary, 'detail');
       this.$router.push({
         name: 'editDiary',
         query: { diaryId: this.diary.id },

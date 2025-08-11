@@ -10,3 +10,35 @@ body {
   margin-top: 50px;
   /* 카드 위에 공백 추가 */
 }
+
+/* Popper.js 경고 해결을 위한 CSS */
+.dropdown-menu,
+.tooltip,
+.popover {
+  transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out !important;
+}
+
+/* transform, top, right, bottom, left transition 제거 */
+.dropdown-menu.show,
+.tooltip.show,
+.popover.show {
+  transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out !important;
+}
+
+/* Bootstrap 드롭다운 애니메이션 최적화 */
+.dropdown-menu {
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+/* 드롭다운 토글 시 부드러운 애니메이션 */
+.dropdown-menu.fade {
+  transition: opacity 0.15s ease-in-out !important;
+}
+
+.dropdown-menu.fade.show {
+  opacity: 1 !important;
+}

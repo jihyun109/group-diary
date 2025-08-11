@@ -22,10 +22,10 @@
             <ul class="list-group team-list-scroll" v-if="teamData">
               <a
                 @click="moveToTeamPage(team.team_id)"
-                href="javascript:void(0);"
                 class="list-group-item list-group-item-action"
                 v-for="(team, idx) in teamData"
                 :key="idx"
+                style="cursor: pointer;"
               >
                 {{ team.team_name }}
               </a>
@@ -102,8 +102,8 @@
                           <td>
                             <h6 class="mb-0 title-column">
                               <a
-                                href="javascript:void(0);"
                                 @click="moveToDetails(diary.id)"
+                                style="cursor: pointer; text-decoration: none; color: inherit;"
                                 >{{ diary.diaryTitle }}</a
                               >
                             </h6>
@@ -191,8 +191,6 @@ import '../../assets/styles.css';
 import { fetchAllDiaries } from '@/api/diary.js';
 import { fetchUserTeams } from '@/api/member.js';
 import { fetchUserInvites } from '@/api/member.js';
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default {
   components: {

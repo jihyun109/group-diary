@@ -46,7 +46,6 @@ export async function inviteUser(inviteeId, teamId, inviterId) {
     });
 
     if (response.ok) {
-      console.log('초대 성공: ', inviteData);
     } else {
       const errorData = await response.json();
       console.log(`오류가 발생했습니다: ${JSON.stringify(errorData)}`);

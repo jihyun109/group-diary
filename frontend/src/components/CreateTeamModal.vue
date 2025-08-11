@@ -45,8 +45,8 @@
                     >
                     <span class="vr mx-2"></span>
                     <a
-                      href="javacsript:void(0);"
                       @click="removeFromInviteGroup(user.userId)"
+                      style="cursor: pointer;"
                     >
                       <span class="material-icons opacity-6 me-2 text-md"
                         >cancel</span
@@ -90,8 +90,8 @@
                     @click="
                       addToInviteGroup(user.id, user.lastName, user.firstName)
                     "
-                    href="javascript:void(0);"
                     class="list-group-item list-group-item-action"
+                    style="cursor: pointer;"
                   >
                     {{ user.lastName }} {{ user.firstName }}
                   </a>
@@ -216,7 +216,6 @@ export default {
         alert('그룹 이름을 입력해 주세요');
         return;
       }
-      console.log('groupNameToCreate: ', this.groupNameToCreate);
 
       await createTeam(this.userId, this.groupNameToCreate);
     },

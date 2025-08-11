@@ -93,7 +93,6 @@ export default {
           removedTeamIds: this.deletedTeamList.map((team) => team.id)
         };
 
-        console.log(requestData);
         await editDiary(requestData);
       } else {
         const sharedTeamList = this.teamListToShare.map((team) => team.id);
@@ -258,7 +257,7 @@ export default {
                       "
                       class="dropdown-item"
                       v-for="(team, idx) in filteredTeamData"
-                      href="javascript:void(0);"
+                      style="cursor: pointer;"
                     >
                       {{ team.team_name }}
                     </a>
@@ -277,8 +276,8 @@ export default {
                   <span style="margin-left: 10px">{{ team.team_name }}</span>
                   <span class="vr mx-2"></span>
                   <a
-                    href="javascript:void(0);"
                     @click="removeFromTeamListToShare(team.id)"
+                    style="cursor: pointer;"
                   >
                     <span class="material-icons opacity-6 me-2 text-md"
                       >cancel</span
