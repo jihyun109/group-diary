@@ -23,4 +23,9 @@ public class UserRepositoryImplJpa implements UserRepository {
     public void insertUser(SignupRequestDTO signupRequestDTO) {
 
     }
+
+    @Override
+    public Long findUserIdByEmail(String email) {
+        return null;
+    }
 }

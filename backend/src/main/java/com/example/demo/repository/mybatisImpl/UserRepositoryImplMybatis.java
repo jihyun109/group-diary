@@ -36,4 +36,9 @@ public class UserRepositoryImplMybatis implements UserRepository {
     public void insertUser(SignupRequestDTO signupRequestDTO) {
         userMapper.insertUser(signupRequestDTO);
     }
+
+    @Override
+    public Long findUserIdByEmail(String email) {
+        return userMapper.findUserIdByEmail(email);
+    }
 }

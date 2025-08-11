@@ -30,4 +30,6 @@ public interface UserMapper {
     UserModel logIn(LogInRequestDTO user);
 
     UserModel getUser(@Param("userId") long userId);
+
+    Long findUserIdByEmail(String email);
 }

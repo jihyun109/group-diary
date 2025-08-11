@@ -17,4 +17,6 @@ public interface UserService {
     List<UserModel> userEmailSearchModel(String searchWord);
 
     LoginResponseDTO logIn(LogInRequestDTO user);
+
+    Long findUserIdByEmail(String email);
 }

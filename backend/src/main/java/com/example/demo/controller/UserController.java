@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
+    // todo: 구현체 참조 수정
     private final UserServiceImpl userServiceImpl;
     private final UserService userService;
 
@@ -77,5 +78,12 @@ public class UserController {
         result.put("result", "success");
         result.put("data", data);
         return result;
+    }
+
+    @Operation(summary = "사용자 이메일로 id 겁색")
+    @GetMapping("/users/{email}")
+    public ResponseEntity<Long> findUserIdByEmail(@PathVariable String email) {
+        Long userId = userService.findUserIdByEmail(email);
+        return ResponseEntity.ok(userId);
     }
 }
