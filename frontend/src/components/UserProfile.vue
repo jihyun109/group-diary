@@ -1,8 +1,6 @@
 <script>
 export default {
   props: {
-    // userData: Object,
-
     color: {
       type: String,
       default: 'blue',
@@ -17,15 +15,15 @@ export default {
     },
     width: {
       type: Number,
-      default: '50',
+      default: 50,
     },
     height: {
       type: Number,
-      default: '50',
+      default: 50,
     },
     fontSize: {
       type: Number,
-      default: '20',
+      default: 20,
     },
   },
 

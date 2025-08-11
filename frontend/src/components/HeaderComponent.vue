@@ -139,13 +139,11 @@ export default {
       const inviteDataJson = await inviteDataResponse.json();
       this.inviteData = inviteDataJson.data;
       this.alarmN = this.inviteData.length;
-      console.log(this.inviteData);
     },
 
     logOut() {
       this.$store.commit('logOut');
       this.$router.push({ path: 'logIn' });
-      console.log(this.userId);
     },
 
     async requestAcceptInvite(invite) {

@@ -52,8 +52,8 @@
                     {{ user.lastName }} {{ user.firstName }}
                     <span class="vr mx-2"></span>
                     <a
-                      href="javascript:void(0);"
                       @click="removeFromInviteGroup(user.userId)"
+                      style="cursor: pointer;"
                     >
                       <span class="material-icons opacity-6 me-2 text-md"
                         >cancel</span
@@ -79,8 +79,8 @@
                         user.firstName
                       )
                     "
-                    href="javascript:void(0);"
                     class="list-group-item list-group-item-action"
+                    style="cursor: pointer;"
                   >
                     {{ user.lastName }} {{ user.firstName }}
                   </a>
