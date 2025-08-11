@@ -10,4 +10,6 @@ public interface UserRepository {
     UserResponseDTO getUser(long userId);
 
     void insertUser(SignupRequestDTO signupRequestDTO);
+
+    Long findUserIdByEmail(String email);
 }

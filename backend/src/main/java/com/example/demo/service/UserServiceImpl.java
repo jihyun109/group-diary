@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
     public LoginResponseDTO logIn(LogInRequestDTO user) {
         return userRepository.login(user);
     }
+
+    @Override
+    public Long findUserIdByEmail(String email) {
+        return userMapper.findUserIdByEmail(email);
+    }
 }
