@@ -140,8 +140,6 @@ describe('사용자 관련 시나리오', () => {
               cy.log(`사용자 ID ${createdUserId} 삭제 실패: ${response.status}`);
             }
           });
-        } else if (!createdUserId) {
-          cy.log('사용자 ID를 추출할 수 없어 삭제를 건너뜁니다.');
         }
       }
     });
