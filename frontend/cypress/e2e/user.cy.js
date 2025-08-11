@@ -39,7 +39,7 @@ describe('사용자 관련 시나리오', () => {
     cy.url().should('include', '/userInfoEdit');
 
     // 데이터 변경
-    cy.get('input[placeholder="First Name"]').clear().type('FistName(edited)');
+    cy.get('input[placeholder="First Name"]').clear().type('FirstName(edited)');
     cy.get('input[placeholder="Last Name"]').clear().type('LastName(edited)');
     cy.get('input[placeholder="Email Address"]')
       .clear()
@@ -50,8 +50,15 @@ describe('사용자 관련 시나리오', () => {
       .trigger('input') // v-model이 반응하도록 input 이벤트 발생
       .should('have.value', '#ff0000');
 
+    // 회원정보 수정 API 인터셉트 설정
+    cy.intercept('PUT', /\/users\/\d+/).as('updateUser');
+
     // 저장 버튼 클릭
     cy.contains('button', 'Save').click();
+    
+    // API 응답 대기
+    cy.wait('@updateUser');
+
     cy.url().should('include', '/userInfo');
 
     // 데이터 복원
@@ -59,7 +66,7 @@ describe('사용자 관련 시나리오', () => {
     cy.url().should('include', '/userInfoEdit');
 
     cy.get('input');
-    cy.get('input[placeholder="First Name"]').clear().type('FistName');
+    cy.get('input[placeholder="First Name"]').clear().type('FirstName');
     cy.get('input[placeholder="Last Name"]').clear().type('LastName');
     cy.get('input[placeholder="Email Address"]').clear().type('test');
     cy.get('input[placeholder="Password"]').clear().type('test');
