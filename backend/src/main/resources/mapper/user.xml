@@ -41,4 +41,16 @@
         ;
     </select>
 
+    <select id="findUserIdByEmail" resultType="long" >
+        SELECT id
+        FROM users
+        WHERE email = #{email};
+    </select>
+
+    <delete id="deleteUser">
+        DELETE
+        FROM users
+        WHERE id = #{userId};
+    </delete>
+
 </mapper>
