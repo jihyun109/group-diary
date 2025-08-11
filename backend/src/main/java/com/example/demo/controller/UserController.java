@@ -81,8 +81,8 @@ public class UserController {
     }
 
     @Operation(summary = "사용자 이메일로 id 겁색")
-    @GetMapping("/users/{email}")
-    public ResponseEntity<Long> findUserIdByEmail(@PathVariable String email) {
+    @GetMapping("/users/search")
+    public ResponseEntity<Long> findUserIdByEmail(@RequestParam String email) {
         Long userId = userService.findUserIdByEmail(email);
         return ResponseEntity.ok(userId);
     }
