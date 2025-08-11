@@ -188,8 +188,8 @@ describe('사용자 관련 시나리오', () => {
     cy.url().should('include', '/userInfoEdit');
 
     cy.get('input');
-    cy.get('input[placeholder="First Name"]').clear().type('FirstName');
-    cy.get('input[placeholder="Last Name"]').clear().type('LastName');
+    cy.get('input[placeholder="First Name"]').clear().type('test1');
+    cy.get('input[placeholder="Last Name"]').clear().type('test1');
     cy.get('input[placeholder="Email Address"]').clear().type('test');
     cy.get('input[placeholder="Password"]').clear().type('test');
     cy.get('input#favcolor')
