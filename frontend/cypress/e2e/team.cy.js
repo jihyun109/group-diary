@@ -31,7 +31,9 @@ describe('팀 생성', () => {
           .should('be.visible');
       });
   });
+});
 
+describe('사용자 초대', () => {
   it('기존 팀에 사용자를 초대할 수 있어야 한다 (초대 알림 확인 포함)', () => {
     cy.login();
 
@@ -83,7 +85,9 @@ describe('팀 생성', () => {
         .should('have.length.at.least', 1);
     });
   });
+});
 
+describe('초대 수락/거절', () => {
   it('받은 초대를 수락할 수 있어야 한다', () => {
     cy.loginWith('test2', 'test2');
 
