@@ -1,0 +1,81 @@
+name: FE AutoTag on main
+
+on:
+  push:
+    branches: ["main"]             
+    paths:
+      - "frontend/**"               # frontend 디렉터리에 변경이 있을 때만 실행
+
+permissions:
+  contents: write                   # 새 태그를 만들고 푸시해야 하므로 필요
+
+jobs:
+  fe-autotag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }    # 태그/로그 조회 위해 히스토리 확보
+
+      # 기존 프론트 태그(fe-v*) 중 최신 하나 조회
+      - name: Find last FE tag
+        id: last
+        run: |
+          LAST_TAG=$(git tag --list "fe-v*" --sort=-v:refname | head -n1 || true)
+          echo "last=$LAST_TAG" >> $GITHUB_OUTPUT
+
+      # 마지막 프론트 태그 이후의 커밋 범위를 계산
+      - name: Commit range since last FE tag
+        id: range
+        run: |
+          if [ -z "${{ steps.last.outputs.last }}" ]; then
+            RANGE="$(git rev-list --max-parents=0 HEAD | tail -n1)..HEAD"
+          else
+            RANGE="${{ steps.last.outputs.last }}..HEAD"
+          fi
+          echo "range=$RANGE" >> $GITHUB_OUTPUT
+
+      # 범위 내에서 frontend 관련 커밋 메시지만 추출
+      # 기본: 승급 없음 → feat / fix / BREAKING CHANGE 여부로 결정
+      # 승급 트리거가 없으면 태깅 생략
+      # 기준 버전(없으면 0.0.0)
+      - name: Decide bump by Conventional Commits
+        id: bump
+        run: |
+          
+          RANGE="${{ steps.range.outputs.range }}"
+          COMMITS=$(git log --pretty=format:"%s%n%b" $RANGE -- frontend || true)
+
+          MAJOR=0; MINOR=0; PATCH=0
+          echo "$COMMITS" | grep -qiE "(BREAKING CHANGE|!:)" && MAJOR=1
+          [ $MAJOR -eq 0 ] && echo "$COMMITS" | grep -qiE "(^|[^a-z])feat(\(.+\))?: " && MINOR=1
+          [ $MAJOR -eq 0 ] && [ $MINOR -eq 0 ] && echo "$COMMITS" | grep -qiE "(^|[^a-z])(fix|perf|refactor)(\(.+\))?: " && PATCH=1
+
+          if [ $MAJOR -eq 0 ] && [ $MINOR -eq 0 ] && [ $PATCH -eq 0 ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          LAST="${{ steps.last.outputs.last }}"
+          [ -z "$LAST" ] && BASE="0.0.0" || BASE="${LAST#fe-v}"
+
+          IFS='.' read -r MA MI PA <<< "$BASE"
+          if [ $MAJOR -eq 1 ]; then
+            MA=$((MA+1)); MI=0; PA=0
+          elif [ $MINOR -eq 1 ]; then
+            MI=$((MI+1)); PA=0
+          else
+            PA=$((PA+1))
+          fi
+
+          NEW="fe-v${MA}.${MI}.${PA}"
+          echo "new=$NEW" >> $GITHUB_OUTPUT
+
+      # 새 프론트 버전 태그를 만들고 푸시
+      - name: Create FE tag
+        if: steps.bump.outputs.skip != 'true'
+        run: |
+          NEW="${{ steps.bump.outputs.new }}"
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git tag "$NEW"
+          git push origin "$NEW"
