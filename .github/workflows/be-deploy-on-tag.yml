@@ -68,3 +68,9 @@ jobs:
             docker pull ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
             IMAGE=${{ env.IMAGE_NAME }}:${{ env.VERSION }} docker compose -f /home/ubuntu/group-diary/docker-compose.yml up -d backend
           "
+      
+      - name: Docker clean after deploy
+        run: |
+          docker image prune -af
+          docker container prune -f
+          docker builder prune -af
