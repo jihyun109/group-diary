@@ -1,0 +1,70 @@
+name: BE Deploy on Tag
+
+on:
+  push:
+    tags: ["be-v*"]                        # 백엔드 버전 태그가 푸시되면 실행
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/group-diary-backend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    concurrency:
+      group: backend-deploy                # 백엔드 배포는 직렬로 처리
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV  # be-vX.Y.Z
+
+      # ----------- DOCKER -----------
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub           
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push BE image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            ${{ env.IMAGE_NAME }}:latest-be
+          no-cache: true
+
+      - name: Set up SSH                   # 배포 서버 접속 준비
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Create deploy directory on EC2
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+          "mkdir -p /home/ubuntu/group-diary"
+
+      - name: Upload docker-compose.yml    # 서버에 compose 파일 동기화
+        run: |
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            ./docker-compose.yml ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/group-diary/
+
+      - name: Deploy backend via SSH
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
+            set -e
+            docker pull ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            IMAGE=${{ env.IMAGE_NAME }}:${{ env.VERSION }} docker compose -f /home/ubuntu/group-diary/docker-compose.yml up -d backend
+          "
