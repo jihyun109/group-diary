@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: jihyun923/group-diary-frontend:latest
+    image: ${IMAGE:-${DOCKER_USER:-jihyun923}/group-diary-frontend:latest-fe}
     container_name: frontend
     ports:
       - "80:80"
@@ -9,7 +9,7 @@ services:
       - backend
 
   backend:
-    image: jihyun923/group-diary-backend:latest
+    image: ${IMAGE:-${DOCKER_USER:-jihyun923}/group-diary-backend:latest-be}
     container_name: backend
     ports:
       - "8080:8080"
