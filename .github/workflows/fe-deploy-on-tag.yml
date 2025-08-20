@@ -1,0 +1,77 @@
+name: FE Deploy on Tag
+
+on:
+  push:
+    tags: ["fe-v*"]                        # 프론트 버전 태그가 푸시되면 실행
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/group-diary-frontend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    concurrency:
+      group: frontend-deploy               # 프론트 배포는 직렬로 처리
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4          # 빌드 컨텍스트용 체크아웃
+
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV  # fe-vX.Y.Z
+
+      # ----------- DOCKER -----------
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub           # DockerHub 로그인
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push FE image        # 버전 태그 및 latest-fe 보조 태그 푸시
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            ${{ env.IMAGE_NAME }}:latest-fe
+          no-cache: true
+
+      # ----------- DEPLOY -----------
+      - name: Set up SSH                   # 배포 서버 접속 준비
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      
+      - name: Create deploy directory on EC2
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+          "mkdir -p /home/ubuntu/group-diary"
+
+      - name: Upload docker-compose.yml    # 서버에 compose 파일 동기화
+        run: |
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            ./docker-compose.yml ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/group-diary/
+
+      - name: Deploy frontend via SSH
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
+            set -e
+            docker pull ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            IMAGE=${{ env.IMAGE_NAME }}:${{ env.VERSION }} docker compose -f /home/ubuntu/group-diary/docker-compose.yml up -d frontend
+          "
+
+      - name: Docker clean after deploy
+        run: |
+          docker image prune -af
+          docker container prune -f
+          docker builder prune -af
