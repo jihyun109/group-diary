@@ -6,6 +6,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/group-diary-frontend
+  DRY_RUN: ${{ vars.DRY_RUN }}   # 리포지토리 Variables에 DRY_RUN=true로 넣으면 배포 스킵
 
 jobs:
   deploy:
@@ -62,6 +63,7 @@ jobs:
             ./docker-compose.yml ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/ubuntu/group-diary/
 
       - name: Deploy frontend via SSH
+        if: env.DRY_RUN != 'true'   # DRY_RUN이면 배포 단계 건너뜀
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
           ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
