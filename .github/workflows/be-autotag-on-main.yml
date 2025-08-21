@@ -63,11 +63,23 @@ jobs:
           NEW="be-v${MA}.${MI}.${PA}"
           echo "new=$NEW" >> $GITHUB_OUTPUT
 
-      - name: Create BE tag
+#      - name: Create BE tag
+#        if: steps.bump.outputs.skip != 'true'
+#        run: |
+#          NEW="${{ steps.bump.outputs.new }}"
+#          git config user.name "github-actions"
+#          git config user.email "github-actions@users.noreply.github.com"
+#          git tag "$NEW"
+#          git push origin "$NEW"
+
+      - name: Create BE tag (with PAT to trigger downstream workflows)
         if: steps.bump.outputs.skip != 'true'
+        env:
+          PAT: ${{ secrets.ACTIONS_PAT }}
+          REPO: ${{ github.repository }}
         run: |
           NEW="${{ steps.bump.outputs.new }}"
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
+          git config user.name "ci-bot"
+          git config user.email "ci-bot@users.noreply.github.com"
           git tag "$NEW"
-          git push origin "$NEW"
+          git push https://$PAT@github.com/$REPO "$NEW"
