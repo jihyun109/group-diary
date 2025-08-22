@@ -5,6 +5,10 @@ on:
     tags:
       - "fe-v*"                       # 프론트 버전 태그가 푸시되면 실행
 
+  create:
+    tags:
+      - "fe-v*"
+
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/group-diary-frontend
   DRY_RUN: ${{ vars.DRY_RUN }}   # 리포지토리 Variables에 DRY_RUN=true로 넣으면 배포 스킵
