@@ -6,8 +6,7 @@ on:
     paths:
       - "frontend/**"               # frontend 디렉터리에 변경이 있을 때만 실행
 
-permissions:
-  contents: write                   # 새 태그를 만들고 푸시해야 하므로 필요
+permissions: write-all
 
 jobs:
   fe-autotag:
