@@ -92,4 +92,4 @@ jobs:
           git config user.name "jihyun109"
           git config user.email "jihyun109@users.noreply.github.com"
           git tag "$NEW"
-          git push https://$PAT@github.com/$REPO "$NEW"
+          git push https://x-access-token:$PAT@github.com/$REPO "$NEW"
