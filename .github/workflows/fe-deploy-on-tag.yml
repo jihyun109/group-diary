@@ -3,7 +3,7 @@ name: FE Deploy on Tag
 on:
   push:
     tags:
-      - 'fe-v^fc-v([0-9.]+)$'                       # 프론트 버전 태그가 푸시되면 실행
+      - '^fe-v([0-9.]+)$'                       # 프론트 버전 태그가 푸시되면 실행
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/group-diary-frontend
