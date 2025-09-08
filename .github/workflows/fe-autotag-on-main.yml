@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0, token: ${{ secrets.ACTIONS_PAT }} }    # 태그/로그 조회 위해 히스토리 확보
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTIONS_PAT }} }    # 태그/로그 조회 위해 히스토리 확보
 
       # 기존 프론트 태그(fe-v*) 중 최신 하나 조회
       - name: Find last FE tag
