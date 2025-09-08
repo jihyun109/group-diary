@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }    # 태그/로그 조회 위해 히스토리 확보
+        with: { fetch-depth: 0, token: ${{ secrets.ACTIONS_PAT }} }    # 태그/로그 조회 위해 히스토리 확보
 
       # 기존 프론트 태그(fe-v*) 중 최신 하나 조회
       - name: Find last FE tag
@@ -82,8 +82,6 @@ jobs:
 
       # GITHUB_TOKEN 대신 PAT로 태그 푸시 → on:push(tags) 트리거 가능
       - name: Create FE tag (with PAT to trigger downstream workflows)
-        with:
-          token: ${{ secrets.ACTIONS_PAT }}
         if: steps.bump.outputs.skip != 'true'
         env:
           PAT: ${{ secrets.ACTIONS_PAT }}
