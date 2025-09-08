@@ -82,6 +82,8 @@ jobs:
 
       # GITHUB_TOKEN 대신 PAT로 태그 푸시 → on:push(tags) 트리거 가능
       - name: Create FE tag (with PAT to trigger downstream workflows)
+        with:
+          token: ${{ secrets.ACTIONS_PAT }}
         if: steps.bump.outputs.skip != 'true'
         env:
           PAT: ${{ secrets.ACTIONS_PAT }}
