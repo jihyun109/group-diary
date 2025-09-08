@@ -71,11 +71,24 @@ jobs:
           echo "new=$NEW" >> $GITHUB_OUTPUT
 
       # 새 프론트 버전 태그를 만들고 푸시
-      - name: Create FE tag
+#      - name: Create FE tag
+#        if: steps.bump.outputs.skip != 'true'
+#        run: |
+#          NEW="${{ steps.bump.outputs.new }}"
+#          git config user.name "github-actions"
+#          git config user.email "github-actions@users.noreply.github.com"
+#          git tag "$NEW"
+#          git push origin "$NEW"
+
+      # GITHUB_TOKEN 대신 PAT로 태그 푸시 → on:push(tags) 트리거 가능
+      - name: Create FE tag (with PAT to trigger downstream workflows)
         if: steps.bump.outputs.skip != 'true'
+        env:
+          PAT: ${{ secrets.ACTIONS_PAT }}
+          REPO: ${{ github.repository }}
         run: |
           NEW="${{ steps.bump.outputs.new }}"
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
+          git config user.name "ci-bot"
+          git config user.email "ci-bot@users.noreply.github.com"
           git tag "$NEW"
-          git push origin "$NEW"
+          git push https://$PAT@github.com/$REPO "$NEW"

@@ -49,3 +49,5 @@ out/
 /out/
 
 /application-secret.yml
+
+local.env
