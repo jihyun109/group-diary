@@ -3,7 +3,7 @@ name: FE Deploy on Tag
 on:
   push:
     tags:
-      - "fe-v*"                      # 프론트 버전 태그가 푸시되면 실행
+      - 'fe-v[0-9]+.[0-9]+.[0-9]+'                      # 프론트 버전 태그가 푸시되면 실행
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/group-diary-frontend
@@ -51,7 +51,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-      
+
       - name: Create deploy directory on EC2
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
