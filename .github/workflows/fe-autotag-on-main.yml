@@ -88,7 +88,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           NEW="${{ steps.bump.outputs.new }}"
-          git config user.name "ci-bot"
-          git config user.email "ci-bot@users.noreply.github.com"
+          git config user.name "jihyun109"
+          git config user.email "jihyun109@users.noreply.github.com"
           git tag "$NEW"
           git push https://$PAT@github.com/$REPO "$NEW"
