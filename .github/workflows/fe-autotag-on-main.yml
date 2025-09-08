@@ -95,7 +95,10 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           NEW="${{ steps.bump.outputs.new }}"
+          AUTH_URL="https://jihyun109:${PAT}@github.com/${REPO}.git"
+          
           git config user.name "jihyun109"
           git config user.email "jihyun109@users.noreply.github.com"
           git tag "$NEW"
-          git push https://x-access-token:$PAT@github.com/$REPO "$NEW"
+          git ls-remote "$AUTH_URL" > /dev/null
+          git push "$AUTH_URL" "$NEW"
