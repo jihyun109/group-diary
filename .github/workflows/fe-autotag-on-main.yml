@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.ACTIONS_PAT }} }    # 태그/로그 조회 위해 히스토리 확보
+          token: ${{ secrets.GITHUB_TOKEN }}    # 태그/로그 조회 위해 히스토리 확보
 
       - name: Force auth header (debug)
         run: |
