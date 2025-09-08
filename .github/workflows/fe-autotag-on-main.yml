@@ -18,6 +18,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ACTIONS_PAT }} }    # 태그/로그 조회 위해 히스토리 확보
 
+      - name: Force auth header (debug)
+        run: |
+          git config --global http.https://github.com/.extraheader \
+            "AUTHORIZATION: basic $(echo -n x-access-token:${{ secrets.ACTIONS_PAT }} | base64)"
+
       # 기존 프론트 태그(fe-v*) 중 최신 하나 조회
       - name: Find last FE tag
         id: last
